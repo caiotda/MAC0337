@@ -1,0 +1,20 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 160 cnv 15 14 14 empty empty Licença_deste_material 0 0
+0 34 -262144 -147457 0;
+#X text 100 195 Esse material está protegido pela licença Creative
+Commons (CC) Atribuição-NãoComercial-CompartilhaIgual 4 Internacional
+(CC BY-NC-SA 4.0) https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR
+, f 77;
+#X text 100 295 Você tem o direito de: (1) Compartilhar: copiar e
+redistribuir o material em qualquer suporte ou formato \; (2) Adaptar:
+remixar \, transformar \, e criar a partir do material., f 77;
+#X text 100 395 De acordo com os termos seguintes: (1) Atribuição:
+Você deve dar o crédito apropriado \, prover um link para a licença
+e indicar se mudanças foram feitas. Você deve fazê-lo em qualquer
+circunstância razoável \, mas de nenhuma maneira que sugira que o
+licenciante apoia você ou o seu uso \; (2) NãoComercial: Você não
+pode usar o material para fins comerciais \; (3) CompartilhaIgual:
+Se você remixar \, transformar \, ou criar a partir do material \,
+tem de distribuir as suas contribuições sob a mesma licença que
+o original., f 77;

@@ -1,0 +1,7 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 2_-_Modelos_de_Síntese_e_Instrumentos_Digitais 0 0 0 34 -262144 -1601 0;
+#X obj 100 280 icsm_topico icsm21.pd 2.1_Síntese_Aditiva;
+#X obj 100 360 icsm_topico icsm22.pd 2.2_Síntese_Subtrativa;
+#X obj 100 440 icsm_topico icsm23.pd 2.3_Síntese_Não-Linear;
+#X obj 100 520 icsm_topico icsm24.pd 2.4_Instrumentos_Digitais;

@@ -1,0 +1,20 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 170 cnv 15 14 14 empty empty Antes_de_Começar 0 0 0 34
+-262144 -147457 0;
+#X text 100 205 O conteúdo que você está acessando é um material
+didático de suporte a uma disciplina introdutória de computação
+sonora e musical (ou SMC = Sound and Music Computing). Ele está escrito
+na forma de uma série de patches em Pd., f 75;
+#X text 100 305 É importante destacar que esse material NÃO É um
+curso da linguagem Pd. Ela aparece tão somente como uma (excelente)
+coadjuvante na discussão de conceitos e técnicas utilizadas em SMC.
+Além da rica documentação interna da linguagem (menu Ajuda->Navegador->Pure
+Data) você poderá encontrar ótimos tutoriais online (procure o DESIGNING
+SOUND do Andy Farnell)., f 75;
+#X text 100 465 Existem também muitos livros excelentes sobre o assunto
+\, que podem servir de material de consulta adicional. Entre eles destaco
+o ELEMENTS OF COMPUTER MUSIC do F. Richard Moore \, o THEORY AND TECHNIQUE
+OF ELECTRONIC MUSIC do autor do Pd Miller Puckette (pdf disponível
+gratuitamente) e o INTRODUCTION TO COMPUTER MUSIC do Nick Collins.
+, f 75;

@@ -1,0 +1,173 @@
+#N canvas 0 0 1280 700 16;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 1.1.2_Amostragem_e_quantização
+0 0 0 34 -262144 -38 0;
+#N canvas 0 0 1280 700 icsm112A 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm112A vis 1;
+#N canvas 0 0 1280 700 icsm112B 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm112B vis 1;
+#X obj 100 100 cnv 15 14 14 empty empty Quantização 0 0 0 34 -262144
+-38 0;
+#N canvas 0 0 573 424 icsm112Bfig 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_sinal_amostrado_e_quantizado 8000 float 2;
+#X coords 0 1 8000 -1 500 220 1 0 0;
+#X restore 24 104 graph;
+#X obj 565 4 loadbang;
+#X floatatom 320 17 7 1 48000 1 Hz #0_112B_sr_r #0_112B_sr_s;
+#X text 21 16 Escolha a taxa de amostragem:;
+#X floatatom 360 342 7 0 0 1 ms #0_112B_per_r -;
+#X text 21 341 Período de amostragem resultante:;
+#X floatatom 320 47 7 1 32 1 bits #0_112B_bits_r #0_112B_bits_s;
+#X text 21 46 Escolha o número de bits:;
+#X floatatom 360 372 7 0 0 1 - #0_112B_res_amp_r -;
+#X text 21 371 Resolução de amplitude:;
+#X obj 837 199 expr 2/pow(2 \, $f1);
+#X obj 565 316 pack f f;
+#X obj 565 285 f;
+#X obj 642 285 f;
+#X obj 565 33 t b b;
+#X obj 770 170 t b f f;
+#X obj 565 169 t f b f;
+#X obj 632 199 expr 1000/$f1;
+#X text 982 143 Recebe valores de R e B;
+#X text 1084 195 Calcula período de amostragem e resolução de amplitude.
+, f 15;
+#X text 663 318 Preenche a tabela com a função sen(2πfn/R) com f=2
+;
+#X text 654 3 inicializa R=128 e B=8;
+#X msg 565 63 128;
+#X msg 770 63 8;
+#X obj 565 91 s \$0_112B_sr_r;
+#X obj 565 140 r \$0_112B_sr_s;
+#X obj 770 141 r \$0_112B_bits_s;
+#X obj 770 91 s \$0_112B_bits_r;
+#X obj 632 228 s \$0_112B_per_r;
+#X obj 837 228 s \$0_112B_res_amp_r;
+#X obj 565 350 ofelia f \; local x = ofArray("\$0_sinal_amostrado_e_quantizado")
+\; x:setSize(a[1]) \; for i = 0 \, a[1]-1 do \; --[[ calcula senoide
+com frequência de 2Hz e quantiza valores]] \; x[i] = math.sin(2*math.pi*2*i/a[1])
+\; x[i] = -1+2^(-a[2])+2*math.floor((2^a[2]-1e-8)*(0.5+0.5*x[i]))/(2^a[2])
+\; end \;;
+#X f 76;
+#X connect 1 0 14 0;
+#X connect 10 0 29 0;
+#X connect 11 0 30 0;
+#X connect 12 0 11 0;
+#X connect 13 0 11 1;
+#X connect 14 0 22 0;
+#X connect 14 1 23 0;
+#X connect 15 0 12 0;
+#X connect 15 1 13 0;
+#X connect 15 2 10 0;
+#X connect 16 0 12 0;
+#X connect 16 1 13 0;
+#X connect 16 2 17 0;
+#X connect 17 0 28 0;
+#X connect 22 0 24 0;
+#X connect 23 0 27 0;
+#X connect 25 0 16 0;
+#X connect 26 0 15 0;
+#X coords 0 -1 1 1 550 400 2 0 0;
+#X restore 576 140 pd icsm112Bfig;
+#X text 100 140 A QUANTIZAÇÃO é o processo de aproximação dos
+valores de amplitude do sinal analógico usando um certo NÚMERO DE
+BITS POR AMOSTRA e um certo FORMATO DE REPRESENTAÇÃO NUMÉRICA. Os
+valores de amplitude do sinal analógico podem ser números reais arbitrários
+ocupando faixas de valores diversas (a depender do atributo físico
+representado: pressão do ar \, tensão elétrica \, posição espacial).
+Com B bits para cada amostra teremos 2^B CÓDIGOS possíveis \, que
+representam AMPLITUDES dentro de uma faixa de representação arbitrária
+e adimensional: por exemplo \, amostras inteiras de 16 bits sem sinal
+utilizam a faixa de 0 a 65535 \, amostras inteiras de 8 bits com sinal
+utilizam a faixa entre -128 a +127 \, e valores em ponto flutuante
+de 32 bits no formato IEEE 754 (como no Puredata) possuem 23 dígitos
+binários significativos (entre 9 e 10 dígitos decimais significativos)
+e expoentes entre -126 e +127 (na base binária) \, sendo que a faixa
+convencional de representação dos sinais de áudio nesse caso é
+o intervalo [-1 \, +1]., f 46;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm112B;
+#X obj 100 120 cnv 15 14 14 empty empty Amostragem 0 0 0 34 -262144
+-38 0;
+#N canvas 0 0 584 374 icsm112Afig 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_sinal_amostrado 131 float 2;
+#X coords 0 1 131 -1 500 220 1 0 0;
+#X restore 24 64 graph;
+#X obj 574 14 loadbang;
+#X obj 574 233 f \$0;
+#X floatatom 320 17 7 1 48000 1 Hz #0_112A_sr_r #0_112A_sr_s;
+#X obj 574 262 pack f f;
+#X obj 574 43 t b b;
+#X msg 574 292 \; \$1_sinal_amostrado sinesum \$2 0 1;
+#X text 21 16 Escolha a taxa de amostragem:;
+#X floatatom 360 302 7 0 0 1 ms #0_112A_per_r -;
+#X text 21 301 Período de amostragem resultante:;
+#X obj 618 104 t b f f;
+#X obj 685 138 expr 1000/$f1;
+#X obj 685 232 s \$0_112A_sr_r;
+#X obj 685 167 s \$0_112A_per_r;
+#X obj 618 75 r \$0_112A_sr_s;
+#X msg 685 204 128;
+#X text 771 76 Atualiza valor de R;
+#X text 827 138 Calcula período;
+#X text 732 205 Inicializa R;
+#X text 667 13 Inicializa o gráfico;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 4 0 6 0;
+#X connect 5 0 2 0;
+#X connect 5 1 15 0;
+#X connect 10 0 2 0;
+#X connect 10 1 4 1;
+#X connect 10 2 11 0;
+#X connect 11 0 13 0;
+#X connect 14 0 10 0;
+#X connect 15 0 4 1;
+#X connect 15 0 12 0;
+#X coords 0 -1 1 1 550 350 2 0 0;
+#X restore 631 182 pd icsm112Afig;
+#X text 100 180 A TAXA DE AMOSTRAGEM (em inglês SAMPLE RATE \, frequentemente
+denotada por SR ou R) é igual à quantidade de amostras do sinal digital
+que correspondem à duração de 1 segundo. No caso dos sinais obtidos
+pelo processo ADC \, esse é o número de "fotografias" do sinal analógico
+que são obtidas por segundo. O PERÍODO DE AMOSTRAGEM corresponde
+ao intervalo de tempo (em segundos) entre amostras sucessivas do sinal
+digital \, e por definição vale 1/R (sendo R a taxa de amostragem).
+O Pd utiliza uma taxa de amostragem default de 44100 Hz \, a mesma
+dos CDs de áudio \, o que corresponde aproximadamente a 1 amostra
+a cada 22.67 μs., f 48;
+#X text 101 497 A figura ao lado ilustra um sinal senoidal de 2 Hz
+amostrado durante 1 segundo. Você pode clicar e digitar outras taxas
+de amostragem \, e observar as formas de onda resultantes., f 48;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm112A;
+#N canvas 0 0 626 324 icsm112fig 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_sinal 67 float 2;
+#X coords 0 1 67 -1 500 220 1 0 0;
+#X restore 94 24 graph;
+#X obj 33 318 loadbang;
+#X obj 33 347 f \$0;
+#X msg 33 376 \; \$1_sinal sinesum 64 0 1;
+#X text 18 28 QUANTIZAÇÃO, f 1;
+#X text 50 12 discretização, f 1;
+#X text 122 257 AMOSTRAGEM = discretização do eixo do tempo;
+#X text 70 17 da| amplitude, f 1;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X coords 0 -1 1 1 600 300 2 0 0;
+#X restore 312 338 pd icsm112fig;
+#X text 100 250 Esses dois conceitos são indubitavelmente os mais
+importantes na representação de sinais digitais \, estando associados
+respectivamente à DISCRETIZAÇÃO DO EIXO DO TEMPO (horizontal) e
+à DISCRETIZAÇÃO DO EIXO DA AMPLITUDE (vertical)., f 107;

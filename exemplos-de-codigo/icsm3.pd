@@ -1,0 +1,7 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 3_-_Métodos_de_Análise_e_Classificação_de_Sinais_de_Áudio 0 0 0 34 -262144 -1601 0;
+#X obj 100 280 icsm_topico icsm31.pd 3.1_Espectrogramas;
+#X obj 100 360 icsm_topico icsm32.pd 3.2_Características_Sonoras;
+#X obj 100 440 icsm_topico icsm33.pd 3.3_Detecção_de_Eventos;
+#X obj 100 520 icsm_topico icsm34.pd 3.4_Classificação_e_Separação;

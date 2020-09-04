@@ -1,0 +1,20 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 170 cnv 15 14 14 empty empty Conhecimentos_Prévios 0 0
+0 34 -262144 -147457 0;
+#X text 100 205 Esse curso não pressupõe nenhum conhecimento técnico/teórico
+prévio sobre MÚSICA \, ainda que qualquer conhecimento existente
+certamente será muito bem aproveitado na exploração dos conceitos
+abordados., f 75;
+#X text 100 305 Muito do que faremos depende de alguma familiaridade
+com PROGRAMAÇÃO \, como por exemplo aquela adquirida em uma disciplina
+de Introdução à Computação usando linguagens como Python \, C
+\, Java \, etc. Por outro lado \, iremos usar nos exemplos uma linguagem
+bastante diferente daquelas \, o Puredata (Pd) \, sem pressupor qualquer
+familiaridade com ela., f 75;
+#X text 100 465 Certamente a MATEMÁTICA é uma das ferramentas mais
+importantes em SMC \, mas tentaremos construir a maior parte do ferramental
+necessário a partir de matemática elementar. Algumas seções avançadas
+\, indicadas com astericos \, podem depender de conhecimentos adicionais
+\, mas sua leitura é considerada opcional em um curso introdutório.
+, f 75;

@@ -1,0 +1,7 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 0_-_Preâmbulo 0 0 0 34 -262144 -1601 0;
+#X obj 100 280 icsm_topico icsm00.pd Antes_de_começar;
+#X obj 100 360 icsm_topico icsm01.pd Requisitos_técnicos;
+#X obj 100 440 icsm_topico icsm02.pd Conhecimentos_prévios;
+#X obj 100 520 icsm_topico icsm03.pd Licença_deste_material;

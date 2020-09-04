@@ -1,0 +1,205 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty Requisitos_Técnicos 0 0 0
+34 -262144 -147457 0;
+#N canvas 0 0 421 498 dependencias 0;
+#X obj 539 616 textfile;
+#X obj 71 93 bng 30 250 50 0 \$0_linux empty Linux 40 15 0 24 -262130
+-1 -1;
+#X obj 702 778 symbol;
+#X obj 539 484 t a a;
+#X obj 444 396 symbol;
+#X obj 461 307 v \$0_linha;
+#X obj 647 696 v \$0_linha;
+#X obj 648 658 t b b;
+#X obj 739 818 + 40;
+#X obj 647 856 pack f s f f;
+#X obj 810 818 f \$0;
+#X obj 647 733 t f f b;
+#X msg 611 266 0;
+#X obj 611 307 v \$0_falta;
+#X obj 444 440 sel fim;
+#X obj 444 669 s \$0_fim;
+#X obj 17 671 r \$0_fim;
+#X obj 17 710 v \$0_falta;
+#X obj 17 749 sel 1;
+#X msg 444 351 cyclone \, ggee \, ofelia \, windowing \, zexy \, fim
+;
+#X obj 71 133 bng 30 250 50 0 \$0_macosx empty OSX 40 15 0 24 -262130
+-1 -1;
+#X obj 71 173 bng 30 250 50 0 \$0_windows empty Windows 40 15 0 24
+-262130 -1 -1;
+#X text 20 10 Clique no SO para checar as bibliotecas faltantes:,
+f 25;
+#X obj 1087 188 r \$0_linux;
+#X msg 1182 275 symbol /LICENSE.txt;
+#X obj 539 523 pack s s s;
+#X msg 1134 357 symbol ~/.local/lib/pd/extra/;
+#X obj 1134 396 s \$0_prefixo;
+#X obj 1182 314 s \$0_arquivo;
+#X obj 676 481 r \$0_arquivo;
+#X obj 676 442 r \$0_prefixo;
+#X msg 539 573 clear \, read \$2\$1\$3 \, rewind \, bang;
+#X obj 1087 446 s \$0_processa;
+#X obj 444 183 r \$0_processa;
+#X obj 1087 227 t b b b;
+#X msg 1182 585 symbol /LICENSE.txt;
+#X obj 1134 706 s \$0_prefixo;
+#X obj 1182 624 s \$0_arquivo;
+#X obj 1087 756 s \$0_processa;
+#X obj 1087 537 t b b b;
+#X obj 1134 1021 s \$0_prefixo;
+#X obj 1182 939 s \$0_arquivo;
+#X obj 1087 1071 s \$0_processa;
+#X obj 1087 852 t b b b;
+#X msg 1134 667 symbol ~/Library/Pd/deken-plugin/;
+#X obj 1087 813 r \$0_windows;
+#X obj 1087 498 r \$0_macosx;
+#N canvas 0 0 450 272 resultados 0;
+#X coords 0 -1 1 1 400 260 2 0 0;
+#X restore 0 220 pd resultados;
+#X msg 647 898 \; pd-resultados obj 70 \$1 cnv 15 15 15 empty empty
+\$2 0 0 0 24 -262144 -258113 0 \; \$4_linha \$3 \; \$4_falta 1 \;,
+f 23;
+#X obj 444 222 t b b b b;
+#X msg 771 268 \; pd-resultados clear;
+#X msg 17 1082 \; pd-resultados obj 20 30 cnv 15 15 15 empty empty
+Por_favor_instale: 0 0 0 24 -262144 -258113 0 \;, f 31;
+#X msg 461 266 70;
+#X msg 84 791 \; pd-resultados obj 20 50 cnv 15 15 15 empty empty Todas_as_dependências
+0 0 0 24 -262144 -4160 0 \; pd-resultados obj 20 90 cnv 15 15 15 empty
+empty já_foram_instaladas! 0 0 0 24 -262144 -4160 0 \;, f 31;
+#X msg 1182 900 symbol /LICENSE.txt;
+#X msg 1134 982 symbol %AppData/%Pd/deken-plugin/;
+#X text 442 12 Entre aqui por sua conta e risco... Os detalhes desse
+patch não fazem parte do conteúdo a ser discutido.;
+#X text 441 90 Para cada biblioteca necessária \, verifica sua existência
+tentando abrir o arquivo LICENSE.txt no diretório de instalação.
+;
+#X text 1248 142 Define os locais de instalação para cada sistema
+operacional:, f 18;
+#X text 489 1119 Essas mensagens geram os textos informativos sobre
+a falta de bibliotecas \, quando for o caso., f 31;
+#X connect 0 1 7 0;
+#X connect 2 0 9 1;
+#X connect 3 0 25 0;
+#X connect 3 1 2 1;
+#X connect 4 0 14 0;
+#X connect 6 0 11 0;
+#X connect 7 0 6 0;
+#X connect 7 1 2 0;
+#X connect 8 0 9 2;
+#X connect 9 0 48 0;
+#X connect 10 0 9 3;
+#X connect 11 0 9 0;
+#X connect 11 1 8 0;
+#X connect 11 2 10 0;
+#X connect 12 0 13 0;
+#X connect 14 0 15 0;
+#X connect 14 1 3 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 51 0;
+#X connect 18 1 53 0;
+#X connect 19 0 4 0;
+#X connect 23 0 34 0;
+#X connect 24 0 28 0;
+#X connect 25 0 31 0;
+#X connect 26 0 27 0;
+#X connect 29 0 25 2;
+#X connect 30 0 25 1;
+#X connect 31 0 0 0;
+#X connect 33 0 49 0;
+#X connect 34 0 32 0;
+#X connect 34 1 26 0;
+#X connect 34 2 24 0;
+#X connect 35 0 37 0;
+#X connect 39 0 38 0;
+#X connect 39 1 44 0;
+#X connect 39 2 35 0;
+#X connect 43 0 42 0;
+#X connect 43 1 55 0;
+#X connect 43 2 54 0;
+#X connect 44 0 36 0;
+#X connect 45 0 43 0;
+#X connect 46 0 39 0;
+#X connect 49 0 19 0;
+#X connect 49 1 52 0;
+#X connect 49 2 12 0;
+#X connect 49 3 50 0;
+#X connect 52 0 5 0;
+#X connect 54 0 41 0;
+#X connect 55 0 40 0;
+#X coords 0 -1 1 1 400 480 2 0 0;
+#X restore 793 185 pd dependencias;
+#X text 100 275 Esse material depende de algumas bibliotecas do Pd
+\, que devem ser instaladas pelo deken. Para isso \, acesse o menu
+"Ajuda" \, depois "Procurar por externals" \, e instale as bibliotecas
+a seguir \, dando preferência às versões mais novas:, f 45;
+#X text 140 480 cyclone ggee ofelia windowing zexy, f 10;
+#N canvas 0 0 1280 700 detalhes_ofelia 0;
+#X text 100 120 Clique aqui para testar a criação de um objeto ofelia:
+;
+#N canvas 0 0 572 295 teste_ofelia 0;
+#X obj 1 1 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130 -1 -1
+;
+#X obj 3 136 r \$0_abrir_detalhes_ofelia;
+#X msg 3 175 \; pd-detalhes_ofelia vis 1;
+#X msg 1 53 \; pd-detalhes_ofelia obj 910 120 ofelia;
+#X connect 0 0 3 0;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 32 32 2 0 0;
+#X restore 858 121 pd teste_ofelia;
+#X text 100 174 O objeto deve aparecer dentro de um retângulo inteiriço
+(não-tracejado) \, com duas marquinhas nos cantos superior e inferior
+esquerdos., f 77;
+#X obj 112 808 bng 20 250 50 0 \$0_abrir_detalhes_ofelia empty empty
+17 7 0 10 -262130 -1 -1;
+#X text 0 801 (clique;
+#X text 138 801 para + detalhes);
+#X obj 100 70 cnv 15 14 14 empty empty Instalação_e_teste_do_objeto_[ofelia]
+0 0 0 34 -262144 -147457 0;
+#N canvas 0 0 1243 470 dicas_linux 0;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-dicas_linux vis 1;
+#X text 40 208 Se ainda assim aparecerem mensagens sobre bibliotecas
+não encontradas \, faça:, f 77;
+#X text 40 120 cd ~/.local/lib/pd/extra/ofelia/scripts/nome_da_sua_distribuição
+sudo ./install_dependencies.sh, f 65;
+#X text 40 32 No Linux/Raspbian \, se acontecer da biblioteca ofelia
+não carregar \, rode os seguintes comandos no terminal:, f 77;
+#X text 40 267 wget https://packages.ubuntu.com/bionic/amd64/libglew2.0/download
+, f 81;
+#X text 40 297 wget https://packages.ubuntu.com/bionic/amd64/libboost-filesystem1.65.1/download
+, f 81;
+#X text 40 327 wget https://packages.ubuntu.com/bionic/amd64/libboost-system1.65.1/download
+, f 81;
+#X text 40 357 sudo dpkg -i libboost-filesystem1.65.1_1.65.1+dfsg-0ubuntu5_amd64.deb
+libboost-system1.65.1_1.65.1+dfsg-0ubuntu5_amd64.deb libglew2.0_2.0.0-5_amd64.deb
+, f 81;
+#X text 6 801 Linux:;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 261 351 pd dicas_linux;
+#N canvas 0 0 1224 310 dicas_windows 0;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-dicas_windows vis 1;
+#X text 51 32 No Windows \, se acontecer do objeto [ofelia] não carregar
+\, abra o executável vc_redist no diretório do ofelia para instalar
+os Microsoft Visual C++ Redistributable packages (https://support.microsoft.com/en-us/help/2977003/
+the-latest-supported-visual-c-downloads)., f 77;
+#X text 51 182 Se os exemplos em vídeo não funcionarem \, tente instalar
+o K-Lite Codec Pack (https://www.codecguide.com/download_kl.htm).,
+f 77;
+#X text 6 801 Windows:;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 261 431 pd dicas_windows;
+#X text 100 603 Para mais informações \, acesse: https://github.com/cuinjune/Ofelia/
+, f 77;
+#X text 100 254 Se isso não funcionar \, veja as dicas abaixo para
+o seu sistema operacional:, f 77;
+#X coords 0 -1 1 1 368 34 2 0 800;
+#X restore 239 537 pd detalhes_ofelia;

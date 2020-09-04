@@ -1,0 +1,9 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 1_-_Representações_de_Áudio_Digital
+0 0 0 34 -262144 -1601 0;
+#X obj 100 280 icsm_topico icsm11.pd 1.1_Representação_Temporal;
+#X obj 100 360 icsm_topico icsm12.pd 1.2_Representação_Espectral
+;
+#X obj 100 440 icsm_topico icsm13.pd 1.3_Operações_Elementares_sobre_Sinais
+;
