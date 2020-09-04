@@ -67,3 +67,4 @@ A amostragem (SR ou R) é a quantidade de amostras de sinal digital que guardamo
 ### Quantização
 
 Da mesma forma que quantizamos a quantidade de amostras por quantidade de tempo, podemos também limitar o número de valores que uma amostra pode obter em frquência: se o número de bits do nosso sinal digital é de, por exemplo, 2 então o nosso sinal digital pode assumir 2² = 4 valores diferentes. Quanto maior a quantização, mais suave é o sinal. Quanto menor, maior um aspecto de "degrau". 
+
