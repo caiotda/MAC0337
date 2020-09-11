@@ -1,0 +1,69 @@
+#N canvas 1187 725 959 984 12;
+#X text 37 23 Nome: Caio Túlio de Deus Andrade NUSP: 9.79723e+06;
+#N canvas 961 56 959 984 exercício 1;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array sinal1 88200 float 2;
+#X coords 0 1 1000 -1 400 140 1 0 0;
+#X restore 683 29 graph;
+#X obj 40 28 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 39 117 dac~;
+#X obj 40 53 tabplay~ sinal1;
+#X obj 252 28 hradio 15 1 0 25 empty empty empty 0 -8 0 10 -262144
+-1 -1 2;
+#X obj 252 68 ofelia f \; local x = ofArray("sinal1") \; local f =
+200*2^(a/12) \; for n = 0 \, x:getSize()-1 do \; x[n] = math.sin(2*math.pi*f*n/44100)
+\; end;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array sinal2 88200 float 2;
+#X coords 0 1 1000 -1 400 140 1 0 0;
+#X restore 668 280 graph;
+#X obj 21 249 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 20 338 dac~;
+#X obj 233 249 hradio 15 1 0 25 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 21 274 tabplay~ sinal2;
+#X obj 232 282 ofelia f \; local sinal1 = ofArray("sinal1") \; local
+x = ofArray("sinal2") \; local f = 200*2^(a/12) \; for n = 0 \, x:getSize()-1
+do \; x[n] = 0.5*(sinal1[n] + math.sin(2*math.pi*f*n/44100)) \; end
+;
+#X text 34 521 Notei que se combinarmos sons de frequencia igual \,
+o som sai identico ao do sinal 1 (imagino que aconteça um fenômeno
+de interferência construtiva devido à igualdade da frequência dos
+dois sinais). Mas conforme aumentamos a diferença de frequencia entre
+os dois sinais \, começa a surgir uma espécie de som "ondulado".
+Quanto maior a diferença de frequência \, mais agressiva é a vibração:
+ela passa de uma vibração bem discernível para um som quase "elétrico".
+Outra coisa interessante é que \, se aumentarmos mais ainda a diferença
+\, a vibração ainda está presente mas também notamos um som agudo
+acompanhando a vibração. Acho que da pra notar isso na onda mostrada
+no sinal 2 \, onde temos varias oscilações intermediarias intercaladas
+com picos, f 145;
+#X obj 18 730 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 18 755 ofelia f \; local x = ofArray("sinal1") \; local y =
+ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = x[n]^2
+\; end \;;
+#X obj 257 728 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 257 753 ofelia f \; local x = ofArray("sinal1") \; local y =
+ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = 4*x[n]^3
+- 3*x[n] \; end \;;
+#X obj 491 728 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 492 754 ofelia f \; local x = ofArray("sinal1") \; local y =
+ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = x[n]^15
+\; end \;;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 3 0 2 1;
+#X connect 4 0 5 0;
+#X connect 7 0 10 0;
+#X connect 9 0 11 0;
+#X connect 10 0 8 0;
+#X connect 10 0 8 1;
+#X connect 13 0 14 0;
+#X connect 15 0 16 0;
+#X connect 17 0 18 0;
+#X restore 72 137 pd exercício 1;
