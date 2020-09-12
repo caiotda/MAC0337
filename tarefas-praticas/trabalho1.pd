@@ -1,16 +1,16 @@
-#N canvas 1187 725 959 984 12;
+#N canvas 961 57 959 984 12;
 #X text 37 23 Nome: Caio Túlio de Deus Andrade NUSP: 9.79723e+06;
-#N canvas 961 56 959 984 exercício 1;
+#N canvas 0 55 1920 985 exercício 1;
 #N canvas 0 50 450 250 (subpatch) 0;
 #X array sinal1 88200 float 2;
 #X coords 0 1 1000 -1 400 140 1 0 0;
 #X restore 683 29 graph;
-#X obj 40 28 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 40 27 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 39 117 dac~;
 #X obj 40 53 tabplay~ sinal1;
-#X obj 252 28 hradio 15 1 0 25 empty empty empty 0 -8 0 10 -262144
--1 -1 2;
+#X obj 252 29 hradio 15 1 0 25 empty empty empty 0 -8 0 10 -262144
+-1 -1 12;
 #X obj 252 68 ofelia f \; local x = ofArray("sinal1") \; local f =
 200*2^(a/12) \; for n = 0 \, x:getSize()-1 do \; x[n] = math.sin(2*math.pi*f*n/44100)
 \; end;
@@ -18,7 +18,7 @@
 #X array sinal2 88200 float 2;
 #X coords 0 1 1000 -1 400 140 1 0 0;
 #X restore 668 280 graph;
-#X obj 21 249 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 23 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 20 338 dac~;
 #X obj 233 249 hradio 15 1 0 25 empty empty empty 0 -8 0 10 -262144
@@ -28,7 +28,7 @@
 x = ofArray("sinal2") \; local f = 200*2^(a/12) \; for n = 0 \, x:getSize()-1
 do \; x[n] = 0.5*(sinal1[n] + math.sin(2*math.pi*f*n/44100)) \; end
 ;
-#X text 34 521 Notei que se combinarmos sons de frequencia igual \,
+#X text 94 491 Notei que se combinarmos sons de frequencia igual \,
 o som sai identico ao do sinal 1 (imagino que aconteça um fenômeno
 de interferência construtiva devido à igualdade da frequência dos
 dois sinais). Mas conforme aumentamos a diferença de frequencia entre
@@ -40,21 +40,75 @@ Outra coisa interessante é que \, se aumentarmos mais ainda a diferença
 acompanhando a vibração. Acho que da pra notar isso na onda mostrada
 no sinal 2 \, onde temos varias oscilações intermediarias intercaladas
 com picos, f 145;
-#X obj 18 730 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 36 627 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X obj 18 755 ofelia f \; local x = ofArray("sinal1") \; local y =
+#X obj 36 657 ofelia f \; local x = ofArray("sinal1") \; local y =
 ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = x[n]^2
 \; end \;;
-#X obj 257 728 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 295 626 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 257 753 ofelia f \; local x = ofArray("sinal1") \; local y =
+#X obj 295 651 ofelia f \; local x = ofArray("sinal1") \; local y =
 ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = 4*x[n]^3
 - 3*x[n] \; end \;;
-#X obj 491 728 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 529 626 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 492 754 ofelia f \; local x = ofArray("sinal1") \; local y =
+#X obj 530 652 ofelia f \; local x = ofArray("sinal1") \; local y =
 ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = x[n]^15
 \; end \;;
+#X text 307 781 Já esse som me parece ser mais intenso e agudo que
+o o som 1;
+#X text 534 777 Aqui me parece que todas características musicais
+exceto o timbre são mantidas \, ou seja \, a amplitude e a frequência
+aparentemente são mantidas.;
+#X text 30 755 Essa implementação gera um som muito parecido com
+o sinal 1 entretanto \, mais agudo e com menor intensidade sonora.
+Inclusive \, se tomarmos a = 0 no sinal 1 e gerarmos o sinal2 \, então
+mudarmos a = 12 e gerarmos um novo sinal 1 \, vamos obter um som com
+quase a mesma frequência se tocarmos o som resultante de cada sinal
+;
+#X obj 834 626 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 835 652 ofelia f \; local x = ofArray("sinal1") \; local y =
+ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = 2*math.max(math.min(x[n]
+\, 0.5) \, -0.5) \; end \;;
+#X text 847 779 Vemos aqui nesse sinal uma transformação de um sinal
+senoidal em algo "trapezoidal" \, o som se assemelha um pouco ao de
+uma onda quadrada. O sinal gera um som mais intenso do que o som gerado
+pelo sinal 1 \, mas aparentemente possui frequencia igual. Acho que
+a diferença de intensidade sonora se dá pelo alargamento dos intervalos
+de maxima e minima amplitude \, gerando assim uma amplitude media maior.
+;
+#X obj 1282 644 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1283 670 ofelia f \; local x = ofArray("sinal1") \; local y
+= ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = x[n]
+* math.sin(2*math.pi*n/44100) \; end \;;
+#X text 1288 795 O som gerado parece ter a mesma altura que o som gerado
+pelo sinal1 \, mas apresenta uma certa oscilação na amplitude gerada
+\, o que faz sentido \, ja que estamos multiplicando um x[n] por um
+valor oscilatorio \, assim a amplitude oscila.;
+#X obj 1669 649 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1670 675 ofelia f \; local x = ofArray("sinal1") \; local y
+= ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = x[n]
+* math.sin(2*math.pi*100*n/44100) \; end \;;
+#X text 1675 800 Aqui temos o mesmo mecanismo de oscilação na amplitude
+do sinal que foi abordada no exemplo anterior \, mas nesse caso \,
+a frequência da oscilação da amplitude foi aumentada em 100 vezes
+\, gerando um som bem diferente. A oscilação é tamanha que a minha
+impressão foi de que existem dois sons sendo tocados simultaneamente
+;
+#X obj 2108 642 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 2108 668 ofelia f \; local x = ofArray("sinal1") \; local y
+= ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = math.sin(2*math.pi*(100+x[n])*n/44100)
+\; end \;;
+#X text 2113 795 Aqui foi gerado um som que \, aparentemente \, tem
+uma frequencia variavel. É como se o som fosse ficando mais "aberto"
+- como se alguem fizesse um som constante com a boca e fosse abrindo-a
+cada vez mais-. Brincando com a frequência do sinal 1 \, se colocarmos
+como entrada um número a que não é multiplo de 12 \, o som sai bem
+vibrado. Mas se a = 12 \, ou a = 0 \, ele é bem mais limpo.;
 #X connect 1 0 3 0;
 #X connect 3 0 2 0;
 #X connect 3 0 2 1;
@@ -66,4 +120,8 @@ ofArray("sinal2") \; for n = 0 \, x:getSize()-1 do \; y[n] = x[n]^15
 #X connect 13 0 14 0;
 #X connect 15 0 16 0;
 #X connect 17 0 18 0;
+#X connect 22 0 23 0;
+#X connect 25 0 26 0;
+#X connect 28 0 29 0;
+#X connect 31 0 32 0;
 #X restore 72 137 pd exercício 1;
