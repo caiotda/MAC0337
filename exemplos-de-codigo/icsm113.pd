@@ -26,9 +26,6 @@
 #X obj 929 160 dac~;
 #X obj 929 84 bng 24 250 50 0 empty empty toca 28 12 0 16 -262130 -1
 -1;
-#X obj 100 181 tgl 24 0 \$0_113_dsp \$0_113_dsp_r DSP 28 12 0 18 -262130
--1 -1 1 1;
-#X msg 100 210 \; pd dsp \$1;
 #X obj 100 80 cnv 15 14 14 empty empty Geração_de_Senoides 0 0 0
 28 -262144 -38 0;
 #X floatatom 501 108 8 20 20000 1 Hz - -;
@@ -40,9 +37,6 @@
 #X obj 942 267 dac~;
 #X obj 942 191 bng 24 250 50 0 empty empty toca 28 12 0 16 -262130
 -1 -1;
-#X obj 103 191 tgl 24 0 \$0_113_dsp \$0_113_dsp_r DSP 28 12 0 18 -262130
--1 -1 1 1;
-#X msg 103 220 \; pd dsp \$1;
 #X obj 100 80 cnv 15 14 14 empty empty Sinais_do_tipo_Dente-de-Serra
 0 0 0 28 -262144 -38 0;
 #X floatatom 401 220 8 0 0 1 Hz - -;
@@ -54,9 +48,6 @@
 #X obj 940 257 dac~;
 #X obj 940 181 bng 24 250 50 0 empty empty toca 28 12 0 16 -262130
 -1 -1;
-#X obj 102 181 tgl 24 0 \$0_113_dsp \$0_113_dsp_r DSP 28 12 0 18 -262130
--1 -1 1 1;
-#X msg 102 210 \; pd dsp \$1;
 #X obj 100 80 cnv 15 14 14 empty empty Forma_de_onda_Quadrada 0 0 0
 28 -262144 -38 0;
 #X floatatom 403 219 8 0 0 1 Hz - -;
@@ -86,12 +77,12 @@ Em Lua \, por causa de como são definidos os operadores lógicos \,
 -1 periodicamente \, de acordo com a frequência especificada. Como
 a dente-de-serra \, a forma de onda quadrada também pode ser produzida
 de várias maneiras., f 107;
-#X connect 2 0 10 0;
-#X connect 3 0 4 0;
-#X connect 6 0 12 0;
-#X connect 8 0 9 0;
-#X connect 10 0 1 0;
-#X connect 10 0 1 1;
+#X obj 99 178 icsm_dsp;
+#X connect 2 0 8 0;
+#X connect 4 0 10 0;
+#X connect 6 0 7 0;
+#X connect 8 0 1 0;
+#X connect 8 0 1 1;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 1000 600 pd icsm113F;
 #X text 6 801 continua:;
@@ -101,24 +92,26 @@ de várias maneiras., f 107;
 #X obj 942 228 tabplay~ \$0_113E;
 #X text 100 601 obs: esse gráfico mostra 20 milissegundos do sinal
 ;
-#N canvas 0 0 718 470 dente-de-serra 0;
+#N canvas 0 0 976 470 dente-de-serra 0;
 #X obj 51 163 inlet;
-#X text 50 37 Esse é um exemplo de SUBPATCH \, criado com o objeto
-[pd NOME_DO_SUBPATCH]. Você pode abri-lo usando o botão direito do
-mouse. O objetivo de usar subpatches é modularizar a implementação
-\, e ao mesmo tempo despoluir o patch \, permitindo a construção
-de interfaces visualmente mais "leves"., f 62;
-#X text 339 239 A geração do sinal dente-de-serra tem várias similaridades
-com a implementação do sinal senoidal. O passo d=2*a/44100 aqui reflete
-o fato de que cada "dente" percorre 2 unidades de amplitude (-1...+1)
-por período (1 período = 1/a segundos = 44100/a amostras)., f 33
-;
 #X text 115 163 o objeto [inlet] recebe informações do patch principal
-\, no caso a frequência do sinal., f 55;
+\, no caso a frequência do sinal., f 56;
 #X obj 51 237 ofelia f \; local x=ofArray("\$0_113E") \; local amp=0
 \; local delta=2*a/44100 \; for i=0 \, x:getSize()-1 do \; x[i]=amp
 \; amp=amp+delta \; if amp>1 then amp=amp-2 end \; end;
-#X connect 0 0 4 0;
+#X text 50 37 Esse é um exemplo de SUBPATCH \, criado com o objeto
+[pd NOME_DO_SUBPATCH]. O objetivo de usar subpatches é modularizar
+a implementação \, e ao mesmo tempo despoluir o patch \, permitindo
+a construção de interfaces visualmente mais "leves"., f 63;
+#X text 339 239 A geração do sinal dente-de-serra tem várias similaridades
+com a implementação do sinal senoidal. O passo d=2*a/44100 aqui reflete
+o fato de que cada "dente" percorre 2 unidades de amplitude (-1...+1)
+por período (onde 1 período = 1/a segundos = 44100/a amostras). Já
+a correção de amplitude amp=amp-2 garante que o sinal preserva a
+frequência correta mesmo no caso de períodos fracionários (onde
+qualquer "resíduo" de amplitude acima de 1 na verdade já pertence
+ao próximo período do sinal)., f 57;
+#X connect 0 0 2 0;
 #X restore 401 249 pd dente-de-serra;
 #X text 397 191 Escolha uma frequência para o sinal:;
 #X text 100 110 Um sinal do tipo DENTE-DE-SERRA nada mais é do que
@@ -127,12 +120,12 @@ de produzir esse sinal. Na implementação abaixo \, ele é computado
 através de uma função linear que é "embrulhada" (wrapped) no intervalo
 [-1 \, +1]., f 107;
 #X text 581 250 <- clique aqui!;
-#X connect 2 0 11 0;
-#X connect 3 0 4 0;
-#X connect 6 0 13 0;
-#X connect 9 0 10 0;
-#X connect 11 0 1 0;
-#X connect 11 0 1 1;
+#X obj 100 188 icsm_dsp;
+#X connect 2 0 9 0;
+#X connect 4 0 11 0;
+#X connect 7 0 8 0;
+#X connect 9 0 1 0;
+#X connect 9 0 1 1;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 1000 600 pd icsm113E;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
@@ -160,18 +153,16 @@ de entrada da função \, nesse caso a frequência da senoide., f
 400 Hz):, f 37;
 #X text 98 601 obs: esse gráfico mostra 20 milissegundos do sinal
 ;
-#X text 99 132 Começe ligando o DSP;
-#X text 97 152 (se não estiver ligado):;
 #X text 927 59 Toque o sinal:;
 #X obj 501 141 ofelia f \; local x=ofArray("\$0_113D") \; local fase=0
 \; local delta=2*math.pi*a/44100 \; for i=0 \, x:getSize()-1 do \;
 fase=fase+delta \; x[i]=math.sin(fase) \; end;
-#X connect 3 0 11 0;
-#X connect 4 0 5 0;
-#X connect 7 0 18 0;
-#X connect 9 0 10 0;
-#X connect 11 0 2 0;
-#X connect 11 0 2 1;
+#X obj 101 138 icsm_dsp;
+#X connect 3 0 9 0;
+#X connect 5 0 14 0;
+#X connect 7 0 8 0;
+#X connect 9 0 2 0;
+#X connect 9 0 2 1;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 1000 600 pd icsm113D;
 #X obj 100 80 cnv 15 14 14 empty empty Sinais_Periódicos_e_Senoides
@@ -213,9 +204,6 @@ satisfaz \, para qualquer t \, a propriedade x(t+τ)=sen(ω(t+2π/ω)+φ°)=sen(
 #X obj 706 254 dac~;
 #X obj 706 174 bng 24 250 50 0 empty empty toca 28 12 0 16 -262130
 -1 -1;
-#X obj 105 174 tgl 24 0 \$0_113_dsp \$0_113_dsp_r DSP 28 12 0 18 -262130
--1 -1 1 1;
-#X msg 105 203 \; pd dsp \$1;
 #X obj 331 174 bng 24 250 50 0 empty empty gera_sinal 28 12 0 16 -262130
 -1 -1;
 #X obj 100 80 cnv 15 14 14 empty empty Experimento_com_Ruído 0 0 0
@@ -260,12 +248,12 @@ visualmente bem organizados em arquivos de texto)., f 54;
 #X restore 920 262 pd icsm113B+;
 #X text 98 601 obs: esse gráfico mostra 20 milissegundos do sinal
 ;
+#X obj 102 171 icsm_dsp;
 #X connect 1 0 2 0;
-#X connect 6 0 13 0;
-#X connect 7 0 8 0;
-#X connect 9 0 12 0;
-#X connect 13 0 5 0;
-#X connect 13 0 5 1;
+#X connect 6 0 11 0;
+#X connect 7 0 10 0;
+#X connect 11 0 5 0;
+#X connect 11 0 5 1;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 997 601 pd icsm113B;
 #X obj 100 80 cnv 15 14 14 empty empty Ruídos 0 0 0 28 -262144 -38
@@ -281,22 +269,25 @@ não são geralmente denominados ruídos \, tais como gongos \, sinos
 \, etc. Ruídos musicais costumam não ser periódicos ou quase-periódicos
 \, mas existem exceções \, como sons de máquinas \, veículos \,
 apitos \, etc., f 107;
+#X text 180 370 o RUÍDO BRANCO (associado a amostradas aleatórias
+independentes \, e que possui energia identicamente distribuída em
+todas as faixas de frequência) \,, f 76;
+#X text 180 430 o RUÍDO VERMELHO (associado ao movimento Browniano
+e com energia decrescente como 1/f² em função da frequência) \,
+, f 76;
+#X text 180 490 o RUÍDO ROSA (que possui distribuição de energia
+1/f \, entre o branco e o vermelho \, e energia constante por oitavas)
+, f 76;
+#X text 180 550 e o RUÍDO CINZA (nível perceptual constante em todas
+as frequências)., f 76;
+#X obj 1118 548 icsm_url https://en.wikipedia.org/wiki/Colors_of_noise
+;
+#X text 994 531 para mais informações:, f 12;
 #X text 100 290 CARACTERIZAÇÕES DE RUÍDOS: ruídos podem ser caracterizados
 de acordo com a faixa de frequência que ocupam (ruídos de banda-larga
 ou banda-estreita) e também através de uma nomenclatura de cores
 associadas à sua distribuição de energia no espectro. Neste sistema
 de classificação encontramos:, f 107;
-#X text 260 370 o RUÍDO BRANCO (associado a amostradas aleatórias
-independentes \, e que possui energia identicamente distribuída em
-todas as faixas de frequência) \,, f 76;
-#X text 260 430 o RUÍDO VERMELHO (associado ao movimento Browniano
-e com energia decrescente como 1/f² em função da frequência) \,
-, f 76;
-#X text 260 490 o RUÍDO ROSA (que possui distribuição de energia
-1/f \, entre o branco e o vermelho \, e energia constante por oitavas)
-, f 76;
-#X text 260 550 e o RUÍDO CINZA (nível perceptual constante em todas
-as frequências)., f 76;
 #X connect 1 0 2 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 1000 600 pd icsm113A;
@@ -308,39 +299,3 @@ SENOIDAIS \, DENTE-DE-SERRA e a FORMA DE ONDA QUADRADA., f 107;
 \, bem como sua construção em Pd. Em outras seções exploraremos
 várias características matemáticas e perceptuais destes sinais.
 , f 107;
-#N canvas 0 0 335 551 mágica 0;
-#X obj 47 243 spigot;
-#X obj 167 228 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
-1;
-#X msg 114 303 0;
-#X obj 167 170 loadbang;
-#X msg 167 199 1;
-#X obj 47 274 t f b;
-#X obj 47 303 pipe 1;
-#X obj 47 361 pipe 1;
-#X obj 48 494 loadbang;
-#X obj 48 553 ofGetDspState;
-#X obj 48 523 del 1;
-#X text 142 492 pega o estado global do DSP ao carregar o patch;
-#X obj 47 332 t b f;
-#X obj 47 117 r \$0_113_dsp;
-#X obj 47 417 s \$0_113_dsp_r;
-#X obj 48 582 s \$0_113_dsp;
-#X text 41 30 Esse subpatch conecta todos os toggles DSP sem criar
-loops infinitos, f 25;
-#X connect 0 0 5 0;
-#X connect 1 0 0 1;
-#X connect 2 0 1 0;
-#X connect 3 0 4 0;
-#X connect 4 0 1 0;
-#X connect 5 0 6 0;
-#X connect 5 1 2 0;
-#X connect 6 0 12 0;
-#X connect 7 0 4 0;
-#X connect 8 0 10 0;
-#X connect 9 0 15 0;
-#X connect 10 0 9 0;
-#X connect 12 0 7 0;
-#X connect 12 1 14 0;
-#X connect 13 0 0 0;
-#X restore 1159 766 pd mágica;

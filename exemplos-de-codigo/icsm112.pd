@@ -16,8 +16,8 @@
 -38 0;
 #N canvas 0 0 573 424 icsm112Bfig 0;
 #N canvas 0 0 450 250 (subpatch) 0;
-#X array \$0_sinal_amostrado_e_quantizado 8000 float 2;
-#X coords 0 1 8000 -1 500 220 1 0 0;
+#X array \$0_sinal_amostrado_e_quantizado 128 float 2;
+#X coords 0 1 128 -1 500 220 1 0 0;
 #X restore 24 104 graph;
 #X obj 565 4 loadbang;
 #X floatatom 320 17 7 1 48000 1 Hz #0_112B_sr_r #0_112B_sr_s;
@@ -166,8 +166,14 @@ de amostragem \, e observar as formas de onda resultantes., f 48;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X coords 0 -1 1 1 600 300 2 0 0;
-#X restore 312 338 pd icsm112fig;
+#X restore 574 250 pd icsm112fig;
 #X text 100 250 Esses dois conceitos são indubitavelmente os mais
 importantes na representação de sinais digitais \, estando associados
 respectivamente à DISCRETIZAÇÃO DO EIXO DO TEMPO (horizontal) e
-à DISCRETIZAÇÃO DO EIXO DA AMPLITUDE (vertical)., f 107;
+à DISCRETIZAÇÃO DO EIXO DA AMPLITUDE (vertical)., f 45;
+#X text 100 380 A escolha dos PARÂMETROS associados a esses dois eixos
+de discretização é crucial na configuração do MODELO DE REPRESENTAÇÃO
+DIGITAL \, e possui impactos tanto no conjunto de sinais representáveis
+quanto nos erros inerentes à representação. Na sequência discutiremos
+esses parâmetros \, e nas seções 1.1.6 e 1.1.7 trataremos das limitações
+e erros de representação associdos a esses parâmetros., f 45;

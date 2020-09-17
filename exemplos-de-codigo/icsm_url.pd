@@ -1,0 +1,9 @@
+#N canvas 0 0 107 142 12;
+#X obj 3 3 bng 24 250 50 0 empty empty URL 4 12 0 10 -1856 -1 -1;
+#X msg 3 57 browse \$1;
+#X obj 3 82 pdcontrol;
+#X obj 3 32 symbol \$1;
+#X connect 0 0 3 0;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X coords 0 -1 1 1 30 30 2 0 0;

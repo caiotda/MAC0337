@@ -1,4 +1,5 @@
 #N canvas 0 0 1280 700 16;
+#X declare -lib zexy;
 #X obj 0 0 icsm_cabecalho;
 #X obj 100 200 cnv 15 14 14 empty empty 1.1.4_Processamento_em_tempo_real
 0 0 0 34 -262144 -38 0;
@@ -49,13 +50,9 @@ e técnicas em SMC., f 107;
 #X obj 365 248 vradio 24 1 1 5 empty empty empty 0 -8 0 10 -262130
 -1 -1 0;
 #X text 397 273 RUÍDO;
-#X obj 575 566 zexy;
 #X obj 415 376 noise~;
 #X obj 464 406 osc~ 400;
 #X obj 365 625 dac~;
-#X obj 186 244 tgl 24 0 \$0_114_dsp \$0_114_dsp_r DSP 28 12 0 18 -262130
--1 -1 1 1;
-#X msg 186 273 \; pd dsp \$1;
 #X text 397 248 SILÊNCIO;
 #X text 397 296 SENOIDE;
 #X text 397 321 DENTE-DE-SERRA;
@@ -69,9 +66,6 @@ e técnicas em SMC., f 107;
 #X msg 189 801 \; pd-icsm114C vis 1;
 #X obj 100 80 cnv 15 14 14 empty empty Produção_de_sinais_com_[ofelia]
 0 0 0 24 -262144 -38 0;
-#X obj 392 265 tgl 24 0 \$0_114_dsp \$0_114_dsp_r DSP 28 12 0 18 -262130
--1 -1 0 1;
-#X msg 392 294 \; pd dsp \$1;
 #X obj 634 336 ofelia function -s11 \; for i=1 \, #a1 do \; a1[i] =
 -1+2*math.random() \; end \; return a1 \;;
 #X obj 536 510 dac~;
@@ -101,18 +95,18 @@ dependendo dos argumentos com os quais o Pd foi chamado)., f 51;
 #X connect 0 0 3 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 727 447 pd icsm114C+;
+#X obj 309 262 icsm_dsp;
 #X connect 1 0 2 0;
-#X connect 4 0 5 0;
-#X connect 6 0 8 1;
-#X connect 8 0 7 0;
-#X connect 8 0 7 1;
-#X connect 9 0 8 0;
+#X connect 4 0 6 1;
+#X connect 6 0 5 0;
+#X connect 6 0 5 1;
+#X connect 7 0 6 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 1000 600 pd icsm114C;
 #X text 100 113 Aproveitando nossa familiaridade com os sinais elementares
 \, podemos discutir aqui os objetos nativos do Pd que realizam o mesmo
 tipo de SÍNTESE em regime de TEMPO REAL:, f 107;
-#N canvas 0 0 813 605 icsm114B+ 0;
+#N canvas 0 0 813 632 icsm114B+ 0;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
 #X msg 189 801 \; pd-icsm114B+ vis 1;
@@ -125,19 +119,20 @@ tipo de SÍNTESE em regime de TEMPO REAL:, f 107;
 #X text 60 213 [+~] \, [*~]: usados para ajustar a escala do fasor
 , f 50;
 #X text 60 243 [sgn~]: sinal (+1 \, 0 \, -1), f 50;
+#X text 6 801 comentários:;
 #X text 60 283 Observe que estes são objetos que sintetizam essas
 formas de onda em fluxo contínuo e de forma ininterrupta \, e por
 isso precisamos de um mecanismo adicional para controlar o direcionamento
 desses fluxos. Na implementação a seguir \, isso é feito através
 do objeto [multiplex~] da biblioteca zexy \, que seleciona 1 dentre
 N fluxos conforme o valor inteiro recebido no primeiro inlet. A biblioteca
-zexy exige uma inicialização \, realizada pelo objeto [zexy] ao lado
-do [multiplex~]., f 68;
+zexy exige uma inicialização \, realizada pelo objeto [declare -lib
+zexy] ao lado do [multiplex~]., f 68;
 #X text 60 463 Note que os vetores contendo os blocos de 64 amostras
 ficam "implícitos" nessa implementação \, trafegando nas conexões
 entre objetos "~". O vetor no patch serve apenas para ilustrar o início
-do sinal gerado a cada troca de forma de onda., f 68;
-#X text 6 801 comentários:;
+do sinal gerado a cada troca de forma de onda \, acionando a interface
+[bng] conectada ao [tabwrite~]., f 68;
 #X connect 0 0 1 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 680 520 pd icsm114B+;
@@ -147,25 +142,26 @@ do sinal gerado a cada troca de forma de onda., f 68;
 #X array \$0_114B_sinal 882 float 0;
 #X coords 0 1.1 881 -1.1 500 280 1 0 0;
 #X restore 680 227 graph;
-#X obj 422 605 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 422 599 bng 20 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 513 465 *~ 2;
 #X obj 513 495 -~ 1;
+#X obj 183 241 icsm_dsp;
+#X obj 575 566 declare -lib zexy;
 #X connect 1 0 2 0;
+#X connect 4 0 18 0;
 #X connect 4 0 21 0;
-#X connect 4 0 24 0;
-#X connect 7 0 21 1;
-#X connect 8 0 21 2;
-#X connect 10 0 11 0;
-#X connect 16 0 25 0;
-#X connect 17 0 21 4;
-#X connect 21 0 9 0;
-#X connect 21 0 9 1;
-#X connect 21 0 22 0;
-#X connect 24 0 22 0;
-#X connect 25 0 26 0;
-#X connect 26 0 17 0;
-#X connect 26 0 21 3;
+#X connect 6 0 18 1;
+#X connect 7 0 18 2;
+#X connect 13 0 22 0;
+#X connect 14 0 18 4;
+#X connect 18 0 8 0;
+#X connect 18 0 8 1;
+#X connect 18 0 19 0;
+#X connect 21 0 19 0;
+#X connect 22 0 23 0;
+#X connect 23 0 14 0;
+#X connect 23 0 18 3;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 1000 600 pd icsm114B;
 #X text 100 289 Por convenção \, os nomes dos objetos DSP em Pd são
@@ -189,39 +185,3 @@ o Puredata implementa um modelo de PROCESSAMENTO DE FLUXOS em TEMPO
 REAL \, onde os sinais de áudio são capturados \, processados e reproduzidos
 em fluxo contínuo e simultaneamente \, ou ao menos assim o aparentam.
 , f 107;
-#N canvas 0 0 335 551 mágica 0;
-#X obj 47 243 spigot;
-#X obj 167 228 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
-1;
-#X msg 114 303 0;
-#X obj 167 170 loadbang;
-#X msg 167 199 1;
-#X obj 47 274 t f b;
-#X obj 47 303 pipe 1;
-#X obj 47 361 pipe 1;
-#X obj 48 494 loadbang;
-#X obj 48 553 ofGetDspState;
-#X obj 48 523 del 1;
-#X text 142 492 pega o estado global do DSP ao carregar o patch;
-#X obj 47 332 t b f;
-#X text 41 30 Esse subpatch conecta todos os toggles DSP sem criar
-loops infinitos, f 25;
-#X obj 47 117 r \$0_114_dsp;
-#X obj 47 417 s \$0_114_dsp_r;
-#X obj 48 582 s \$0_114_dsp;
-#X connect 0 0 5 0;
-#X connect 1 0 0 1;
-#X connect 2 0 1 0;
-#X connect 3 0 4 0;
-#X connect 4 0 1 0;
-#X connect 5 0 6 0;
-#X connect 5 1 2 0;
-#X connect 6 0 12 0;
-#X connect 7 0 4 0;
-#X connect 8 0 10 0;
-#X connect 9 0 16 0;
-#X connect 10 0 9 0;
-#X connect 12 0 7 0;
-#X connect 12 1 15 0;
-#X connect 14 0 0 0;
-#X restore 1159 766 pd mágica;

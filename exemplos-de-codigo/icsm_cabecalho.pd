@@ -5,7 +5,7 @@
 #X restore 1103 17 pd license;
 #X obj 11 36 cnv 15 15 15 empty empty Introdução_à_Computação_Sonora_e_Musical
 0 0 0 45 -262144 -4160 0;
-#X obj 13 80 cnv 15 15 15 empty \$0_autor Marcelo_Queiroz_____Universidade_de_São_Paulo_____Versão_2020.8
+#X obj 13 80 cnv 15 15 15 empty \$0_autor Marcelo_Queiroz_____Universidade_de_São_Paulo_____Versão_2020.9
 0 0 0 28 -262144 -66577 0;
 #X obj 266 91 cnv 15 125 10 empty empty empty 20 12 0 14 -262144 -66577
 0;

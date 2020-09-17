@@ -52,7 +52,6 @@ f 25;
 #X obj 1182 939 s \$0_arquivo;
 #X obj 1087 1071 s \$0_processa;
 #X obj 1087 852 t b b b;
-#X msg 1134 667 symbol ~/Library/Pd/deken-plugin/;
 #X obj 1087 813 r \$0_windows;
 #X obj 1087 498 r \$0_macosx;
 #N canvas 0 0 450 272 resultados 0;
@@ -70,7 +69,6 @@ Por_favor_instale: 0 0 0 24 -262144 -258113 0 \;, f 31;
 0 0 0 24 -262144 -4160 0 \; pd-resultados obj 20 90 cnv 15 15 15 empty
 empty já_foram_instaladas! 0 0 0 24 -262144 -4160 0 \;, f 31;
 #X msg 1182 900 symbol /LICENSE.txt;
-#X msg 1134 982 symbol %AppData/%Pd/deken-plugin/;
 #X text 442 12 Entre aqui por sua conta e risco... Os detalhes desse
 patch não fazem parte do conteúdo a ser discutido.;
 #X text 441 90 Para cada biblioteca necessária \, verifica sua existência
@@ -80,6 +78,8 @@ tentando abrir o arquivo LICENSE.txt no diretório de instalação.
 operacional:, f 18;
 #X text 489 1119 Essas mensagens geram os textos informativos sobre
 a falta de bibliotecas \, quando for o caso., f 31;
+#X msg 1134 667 symbol ~/Documents/Pd/externals/;
+#X msg 1134 982 symbol %AppData/%Pd/;
 #X connect 0 1 7 0;
 #X connect 2 0 9 1;
 #X connect 3 0 25 0;
@@ -89,7 +89,7 @@ a falta de bibliotecas \, quando for o caso., f 31;
 #X connect 7 0 6 0;
 #X connect 7 1 2 0;
 #X connect 8 0 9 2;
-#X connect 9 0 48 0;
+#X connect 9 0 47 0;
 #X connect 10 0 9 3;
 #X connect 11 0 9 0;
 #X connect 11 1 8 0;
@@ -99,8 +99,8 @@ a falta de bibliotecas \, quando for o caso., f 31;
 #X connect 14 1 3 0;
 #X connect 16 0 17 0;
 #X connect 17 0 18 0;
-#X connect 18 0 51 0;
-#X connect 18 1 53 0;
+#X connect 18 0 50 0;
+#X connect 18 1 52 0;
 #X connect 19 0 4 0;
 #X connect 23 0 34 0;
 #X connect 24 0 28 0;
@@ -109,27 +109,27 @@ a falta de bibliotecas \, quando for o caso., f 31;
 #X connect 29 0 25 2;
 #X connect 30 0 25 1;
 #X connect 31 0 0 0;
-#X connect 33 0 49 0;
+#X connect 33 0 48 0;
 #X connect 34 0 32 0;
 #X connect 34 1 26 0;
 #X connect 34 2 24 0;
 #X connect 35 0 37 0;
 #X connect 39 0 38 0;
-#X connect 39 1 44 0;
+#X connect 39 1 58 0;
 #X connect 39 2 35 0;
 #X connect 43 0 42 0;
-#X connect 43 1 55 0;
-#X connect 43 2 54 0;
-#X connect 44 0 36 0;
-#X connect 45 0 43 0;
-#X connect 46 0 39 0;
-#X connect 49 0 19 0;
-#X connect 49 1 52 0;
-#X connect 49 2 12 0;
-#X connect 49 3 50 0;
-#X connect 52 0 5 0;
-#X connect 54 0 41 0;
-#X connect 55 0 40 0;
+#X connect 43 1 59 0;
+#X connect 43 2 53 0;
+#X connect 44 0 43 0;
+#X connect 45 0 39 0;
+#X connect 48 0 19 0;
+#X connect 48 1 51 0;
+#X connect 48 2 12 0;
+#X connect 48 3 49 0;
+#X connect 51 0 5 0;
+#X connect 53 0 41 0;
+#X connect 58 0 36 0;
+#X connect 59 0 40 0;
 #X coords 0 -1 1 1 400 480 2 0 0;
 #X restore 793 185 pd dependencias;
 #X text 100 275 Esse material depende de algumas bibliotecas do Pd
@@ -159,47 +159,54 @@ esquerdos., f 77;
 #X text 138 801 para + detalhes);
 #X obj 100 70 cnv 15 14 14 empty empty Instalação_e_teste_do_objeto_[ofelia]
 0 0 0 34 -262144 -147457 0;
-#N canvas 0 0 1243 470 dicas_linux 0;
+#N canvas 0 0 1243 502 dicas_linux 0;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
 #X msg 189 801 \; pd-dicas_linux vis 1;
-#X text 40 208 Se ainda assim aparecerem mensagens sobre bibliotecas
-não encontradas \, faça:, f 77;
 #X text 40 120 cd ~/.local/lib/pd/extra/ofelia/scripts/nome_da_sua_distribuição
 sudo ./install_dependencies.sh, f 65;
 #X text 40 32 No Linux/Raspbian \, se acontecer da biblioteca ofelia
 não carregar \, rode os seguintes comandos no terminal:, f 77;
-#X text 40 267 wget https://packages.ubuntu.com/bionic/amd64/libglew2.0/download
-, f 81;
-#X text 40 297 wget https://packages.ubuntu.com/bionic/amd64/libboost-filesystem1.65.1/download
-, f 81;
-#X text 40 327 wget https://packages.ubuntu.com/bionic/amd64/libboost-system1.65.1/download
-, f 81;
-#X text 40 357 sudo dpkg -i libboost-filesystem1.65.1_1.65.1+dfsg-0ubuntu5_amd64.deb
+#X text 40 377 sudo dpkg -i libboost-filesystem1.65.1_1.65.1+dfsg-0ubuntu5_amd64.deb
 libboost-system1.65.1_1.65.1+dfsg-0ubuntu5_amd64.deb libglew2.0_2.0.0-5_amd64.deb
 , f 81;
 #X text 6 801 Linux:;
+#X text 40 208 Se ainda assim aparecerem mensagens sobre bibliotecas
+não encontradas \, baixe as três bibliotecas a seguir:, f 77;
+#X text 40 347 e depois faça:, f 81;
+#X obj 94 289 icsm_url http://archive.ubuntu.com/ubuntu/pool/universe/g/glew/libglew2.0_2.0.0-5_amd64.deb
+;
+#X text 95 288 __ libglew2.0;
+#X text 325 288 __ libboost-system1.65.1;
+#X text 705 288 __ libboost-filesystem1.65.1;
+#X obj 705 289 icsm_url http://archive.ubuntu.com/ubuntu/pool/main/b/boost1.65.1/libboost-filesystem1.65.1_1.65.1+dfsg-0ubuntu5_amd64.deb
+;
+#X obj 325 289 icsm_url http://archive.ubuntu.com/ubuntu/pool/main/b/boost1.65.1/libboost-system1.65.1_1.65.1+dfsg-0ubuntu5_amd64.deb
+;
 #X connect 0 0 1 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 261 351 pd dicas_linux;
-#N canvas 0 0 1224 310 dicas_windows 0;
+#N canvas 0 0 1224 304 dicas_windows 0;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
 #X msg 189 801 \; pd-dicas_windows vis 1;
+#X text 6 801 Windows:;
+#X obj 513 91 icsm_url https://support.microsoft.com/en-us/help/2977003/
+the-latest-supported-visual-c-downloads;
 #X text 51 32 No Windows \, se acontecer do objeto [ofelia] não carregar
 \, abra o executável vc_redist no diretório do ofelia para instalar
-os Microsoft Visual C++ Redistributable packages (https://support.microsoft.com/en-us/help/2977003/
-the-latest-supported-visual-c-downloads)., f 77;
+os Microsoft Visual C++ Redistributable packages (clique __ para mais
+informações)., f 77;
 #X text 51 182 Se os exemplos em vídeo não funcionarem \, tente instalar
-o K-Lite Codec Pack (https://www.codecguide.com/download_kl.htm).,
-f 77;
-#X text 6 801 Windows:;
+o K-Lite Codec Pack (clique __ para mais informações)., f 77;
+#X obj 163 212 icsm_url https://www.codecguide.com/download_kl.htm
+;
 #X connect 0 0 1 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 261 431 pd dicas_windows;
-#X text 100 603 Para mais informações \, acesse: https://github.com/cuinjune/Ofelia/
-, f 77;
 #X text 100 254 Se isso não funcionar \, veja as dicas abaixo para
 o seu sistema operacional:, f 77;
+#X obj 597 554 icsm_url https://github.com/cuinjune/Ofelia/;
+#X text 100 553 Para mais informações \, clique aqui:, f 35;
 #X coords 0 -1 1 1 368 34 2 0 800;
 #X restore 239 537 pd detalhes_ofelia;

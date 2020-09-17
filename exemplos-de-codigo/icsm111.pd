@@ -68,8 +68,6 @@ e permite a visualização do sinal digitalizado:, f 107;
 #X array \$0_sinal_adc 88200 float 2;
 #X coords 0 1 88200 -1 1080 140 1 0 0;
 #X restore 102 446 graph;
-#X obj 102 345 tgl 24 0 \$0_dsp_toggle empty Clique_aqui_para_ligar_o_processamento_de_áudio
-26 12 0 14 -262144 -1 -1 0 1;
 #X msg 102 374 \; pd dsp \$1;
 #N canvas 0 0 1280 700 icsm111C 0;
 #X text 6 801 continua:;
@@ -84,7 +82,7 @@ e permite a visualização do sinal digitalizado:, f 107;
 #X array \$0_sinal_dac 88200 float 2;
 #X coords 0 1 88200 -1 1080 140 1 0 0;
 #X restore 102 446 graph;
-#X obj 102 325 tgl 24 0 empty \$0_dsp_toggle DSP 26 12 0 14 -262144
+#X obj 102 325 tgl 24 0 \$0_111_dsp \$0_111_dsp_r DSP 28 12 0 18 -262144
 -1 -1 0 1;
 #X msg 102 354 \; pd dsp \$1;
 #X obj 760 392 dac~;
@@ -98,16 +96,6 @@ e permite a visualização do sinal digitalizado:, f 107;
 0 0 0 24 -262144 -38 0;
 #X text 100 145 A conversão DA também é realizada em uma sequência
 de passos intermediários:, f 107;
-#X text 100 205 1) Módulo DAC: o circuito mais importante dentro do
-processo DAC recebe o mesmo nome do processo todo. Sua responsabilidade
-é produzir um sinal de tempo contínuo que se atualiza a cada 1/R
-segundos de acordo com o valor de amplitude associado aos códigos
-do sinal digital. Esse circuito possui N "portas" \, associadas a cada
-bit da representação binária do valor de amplitude \, e que retêm
-(0) ou deixam fluir (1) correntes exponencialmente proporcionais à
-posição do bit no código (com valores α \, 2α \, 4α \, 8α ...).
-A soma das correntes das portas abertas compõem o sinal entregue à
-etapa seguinte., f 107;
 #X text 100 345 2) "Deglitcher": como é fisicamente impossível garantir
 a simultaneidade da abertura das portas do DAC a cada ciclo de 1/R
 segundos \, o sinal produzido pelo DAC tipicamente possui "transientes"
@@ -123,6 +111,16 @@ contém muitas frequências acima do limite de representação digital
 DAC+Deglitcher \, produzindo um sinal analógico que corresponde o
 mais fielmente possível à representação discreta da entrada do
 DAC., f 107;
+#X text 100 205 1) Módulo DAC: o circuito mais importante dentro do
+processo DAC recebe o mesmo nome do processo todo. Sua responsabilidade
+é produzir um sinal de tempo contínuo que se atualiza a cada 1/R
+segundos de acordo com o valor de amplitude associado aos códigos
+do sinal digital. Esse circuito possui N "portas" \, associadas a cada
+bit da representação binária do valor de amplitude \, e que retêm
+(=0) ou deixam fluir (=1) correntes proporcionais exponencialmente
+à posição do bit no código (com valores α \, 2α \, 4α \, 8α
+...). A soma das correntes das portas abertas compõem o sinal entregue
+à etapa seguinte., f 107;
 #X connect 0 0 1 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 994 189 pd icsm111C+;
@@ -187,9 +185,6 @@ e PAM/PWM (Pulse Amplitude/Width Modulation) \, entre outros., f 107
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 994 234 pd icsm111B++;
 #X obj 710 405 tabwrite~ \$0_sinal_adc;
-#X obj 760 781 adc~;
-#X obj 812 781 r \$0_copia_adc_dac;
-#X obj 760 820 tabwrite~ \$0_sinal_dac;
 #N canvas 0 0 1280 700 icsm111B+ 0;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
@@ -243,8 +238,8 @@ o argumento \$1 na mensagem para o objeto "pd" (núcleo do Pd): "dsp
 1" e "dsp 0" significam respectivamente ligar e desligar o DSP (Digital
 Signal Processing ou Processamento Digital de Sinais). O ponto-e-vírgula
 do início diz que a mensagem será enviada a um objeto nomeado (e
-não através conexões "por cabo"). A caixa identificada por DSP na
-tela principal do Pd faz exatamente a mesma coisa \, mas aqui esse
+não através de conexões "por cabo"). A caixa identificada por DSP
+na tela principal do Pd faz exatamente a mesma coisa \, mas aqui esse
 controle está embutido no nosso próprio patch., f 117;
 #X connect 0 0 1 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
@@ -260,14 +255,60 @@ interesse. Por enquanto \, é suficiente compreender que essa conversão
 produz uma lista de valores numéricos que pode ser armazenada em uma
 estrutura de dados linear e indexada \, ou seja \, da forma x[0] \,
 x[1] \, x[2] \, etc., f 107;
-#X connect 1 0 2 0;
-#X connect 5 0 12 0;
-#X connect 5 1 12 0;
-#X connect 6 0 12 0;
+#X text 173 341 <- Clique aqui para ligar o processamento de áudio
+;
+#X obj 102 341 tgl 24 0 \$0_111_dsp \$0_111_dsp_r DSP 28 12 0 18 -262144
+-1 -1 0 1;
+#N canvas 0 0 741 643 mágica 0;
+#X obj 47 243 spigot;
+#X obj 167 228 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X msg 114 303 0;
+#X obj 167 170 loadbang;
+#X msg 167 199 1;
+#X obj 47 274 t f b;
+#X obj 47 303 pipe 1;
+#X obj 47 361 pipe 1;
+#X obj 48 494 loadbang;
+#X obj 48 523 del 1;
+#X text 142 492 pega o estado global do DSP ao carregar o patch;
+#X obj 47 332 t b f;
+#X text 41 30 Esse subpatch conecta todos os toggles DSP sem criar
+loops infinitos, f 25;
+#X obj 47 117 r \$0_111_dsp;
+#X obj 47 417 s \$0_111_dsp_r;
+#X obj 48 582 s \$0_111_dsp;
+#X obj 190 553 ofelia;
+#X obj 48 553 ofGetDspState;
+#X obj 340 332 adc~;
+#X obj 392 332 r \$0_copia_adc_dac;
+#X obj 340 371 tabwrite~ \$0_sinal_dac;
+#X text 337 278 transfere o conteúdo da tabela do subpatch 111B para
+o 111C, f 30;
+#X connect 0 0 5 0;
+#X connect 1 0 0 1;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X connect 5 0 6 0;
+#X connect 5 1 2 0;
+#X connect 6 0 11 0;
+#X connect 7 0 4 0;
 #X connect 8 0 9 0;
-#X connect 13 0 15 0;
-#X connect 13 1 15 0;
-#X connect 14 0 15 0;
+#X connect 9 0 17 0;
+#X connect 11 0 7 0;
+#X connect 11 1 14 0;
+#X connect 13 0 0 0;
+#X connect 17 0 15 0;
+#X connect 18 0 20 0;
+#X connect 18 1 20 0;
+#X connect 19 0 20 0;
+#X restore 1168 816 pd mágica;
+#X connect 1 0 2 0;
+#X connect 5 0 11 0;
+#X connect 5 1 11 0;
+#X connect 6 0 11 0;
+#X connect 16 0 8 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 998 600 pd icsm111B;
 #N canvas 0 0 1280 700 icsm111A+ 0;
