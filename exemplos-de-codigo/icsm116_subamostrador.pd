@@ -1,0 +1,39 @@
+#N canvas 0 0 754 708 16;
+#X declare -lib iemlib;
+#X obj 157 420 phasor~;
+#X obj 70 459 samphold~;
+#X obj 71 620 hip~ 5;
+#X obj 71 562 iemlib/lp8_butt~;
+#X text 244 420 varredura com frequência R;
+#X text 174 459 "amostra e segura" com frequência R;
+#X text 84 532 passa-baixa com corte R/2;
+#X text 84 590 elimina artefatos próximos de 0 Hz;
+#X obj 240 562 declare -lib iemlib;
+#X obj 70 321 inlet~;
+#X obj 157 347 inlet;
+#X text 70 291 sinal de entrada;
+#X text 220 347 taxa de amostragem (só funciona bem com R=44100/n)
+, f 28;
+#X obj 157 376 t f f;
+#X obj 149 498 / 2;
+#X obj 71 649 outlet~;
+#X text 160 650 sinal com conteúdo "subamostrado";
+#X text 69 40 Essa implementação é uma ABSTRAÇÃO. A principal
+diferença de uma abstração para um subpatch é que ela está armazenada
+em um arquivo separado \, que pode ser reutilizado facilmente em outros
+contextos. Essa abstração implementa um subamostrador bastante simplório
+\, que imita o funcionamento de um circuito DAC: os valores do sinal
+são medidos e sustentados durante intervalos de 1/R segundos (estratégia
+de sample-and-hold) \, e o sinal em forma de "escadinha" é suavizado
+por um filtro passa-baixa com frequência de corte R/2. Não se preocupe
+se não entender essa implementação. Falaremos sobre filtros bem
+mais para a frente.;
+#X connect 0 0 1 1;
+#X connect 1 0 3 0;
+#X connect 2 0 15 0;
+#X connect 3 0 2 0;
+#X connect 9 0 1 0;
+#X connect 10 0 13 0;
+#X connect 13 0 0 0;
+#X connect 13 1 14 0;
+#X connect 14 0 3 1;
