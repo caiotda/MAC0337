@@ -44,7 +44,7 @@ E(db) = 10*log_{10}(\frac{Energia}{E^0})
 $$
 Onde $E^0$ é um patamar referencial de energia. Note como, ao multiplicar a expressão por 10, o argumento do log ganha 1 ponto. E se dividirmos por 10, decrescemos 1 ponto.
 
-Podemos usar a frequência RMS para representar a energia de um sinal de db também. Se tomarmos a energia RMS como o quadrado da frequencia RMS, e E0 como 1, temos:
+Podemos usar a frequência RMS para representar a energia de um sinal de db também. Se tomarmos a energia RMS como o quadrado da amplitude RMS, e E0 como 1, temos:
 $$
 E(db) = 10*log_{10}(Energia) = 10* log_{10}(RMS^2) = 20* log_{10}(RMS)
 $$
@@ -53,7 +53,7 @@ Uma outra escala interessante toma e0 como o limiar inferior da audição humana
 
 ### Frequencia instantânea e estimação
 
-Frequência instantânea é um conceito usado para sinais que **não são senoidais**. Isso é feito definindo um pequeno intervalo de tempo e notando qual a frequência do sinal nesse pequeno intervalo.
+Frequência instantânea é um conceito usado para sinais que **não são periódicos**. Isso é feito definindo um pequeno intervalo de tempo e notando qual a frequência do sinal nesse pequeno intervalo.
 
 A medida dessa frequencia é a ideia de minimizar o erro entre x(t) e x(t + periodo). Assim conseguiriamos um periodo estimado
 
