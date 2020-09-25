@@ -1,0 +1,29 @@
+# Aula 04
+
+Intervalos e escalas musicais
+
+***
+
+## Altura musical e intervalos musicais
+
+**Altura musical**: designa a posição de um som periódico entre os extremos "grave" e  "agudo". É uma escala perceptual que está relacionada à frequência de um som (por isso falamos de sons periódicos num primeiro momento). Mais do que isso, tem relação ao intervalo de **frequências audíveis**, que está entre 20hz e 20khz.
+
+
+
+Assim como a intensidade musical, a percepção de altura musical não cresce linearmente com o aumento da frequência e sim em **razões entre frequências**:
+$$
+R = \frac{F_1}{F_0}
+$$
+Ou seja, percebemos uma alteração na altura musical apenas quando multiplicamos uma frequência base por um valor R. Da mesma forma, notamos uma diminuição ao dividirmos por R. Mas qual valor de R?
+
+### Intervalos musicais
+
+Para cada valor de R, associa-se uma **escala ou intervalo musical**. Em música, usam-se muitos valores de R:
+
+* R = 2: razão **oitava**. Ele tem esse nome porque partindo de uma frequência inicial F0, chega-se a 2*F0 tomando o oitavo passso da escala **Diatônica** (a famosa Dó, ré, mi, fa, sol, la si, dó, ré...).
+*   R = 5/2:  quinta justa
+* R = 3/2: terça maior
+* R = $2^\frac{1}{12}$: razão **semitom**: a ela está associada a escala **Cromática**, muito utilizada em pianos. Aqui dividimos a oitava em 12 intervalos iguais;
+
+Um fenômeno interessante é a relação entre **altura musical** e **intensidade sonora**: o ouvido humano tende a ouvir sons no meio do intervalo [20, 20khz] como mais intensos e sons nos extremos como menos intensos (com um leve desvio para os tons mais agudos). Uma forma de equilibrar isso é usar **A-weighting** ou **compensação de amplitude**, que é criar uma segunda onda sonora paralela à principal que intensifica a sonoridade de sons nos extremos de frequência.
+
