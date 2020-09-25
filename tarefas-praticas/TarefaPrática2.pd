@@ -1,0 +1,269 @@
+#N canvas 0 56 1920 985 16;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array sinal_de_entrada 44100 float 2;
+#X coords 0 1 4410 -1 300 200 1 0 0;
+#X restore 900 143 graph;
+#X obj 20 10 cnv 15 1200 40 empty empty empty 0 16 0 16 -262130 -4160
+0;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array sinal_de_teste 44100 float 2;
+#X coords 0 1 4410 -1 300 200 1 0 0;
+#X restore 900 448 graph;
+#N canvas 0 56 838 499 CaixaDeNúmerosEstável 0;
+#X floatatom 51 51 10 20 1000 1 Frequência_de_teste - -;
+#X obj 51 263 f;
+#X obj 51 235 delay 100;
+#X obj 51 194 trigger bang float;
+#X text 378 50 Selecione números "arrastando" com o mouse;
+#X text 248 194 Envia o número pelo outlet da direita \, depois um
+bang pelo outlet da esquerda, f 38;
+#X text 198 235 retém bangs seguidos por 100ms (apenas o último sai)
+;
+#X text 159 262 guarda os números recebidos pelo inlet da direita
+(frio) \, e envia apenas o último quando receber "bang" no inlet da
+esquerda (quente)., f 46;
+#X obj 51 330 ofelia f \; local x = ofArray("sinal_de_teste") \; local
+N = x:getSize() \; for n=0 \, N-1 do \; x[n] = math.sin(2*math.pi*a*n/N)
+\; end \;;
+#X text 48 4 "Estabiliza" a caixa de números \, enviando apenas o
+número final a cada "rolagem" da caixa:;
+#X obj 51 75 bng 24 250 50 0 empty toca2 Toca_sinal2 26 12 0 16 -262130
+-4160 -4160;
+#X obj 391 128 dac~;
+#X obj 191 75 bng 24 250 50 0 toca2 empty Toca_sinais_1+2 26 12 0 16
+-262130 -4160 -4160;
+#X obj 391 99 tabplay~ sinal_de_teste;
+#X connect 0 0 3 0;
+#X connect 1 0 8 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 3 1 1 1;
+#X connect 10 0 13 0;
+#X connect 13 0 11 1;
+#X coords 0 -1 1 1 320 50 2 50 50;
+#X restore 901 375 pd CaixaDeNúmerosEstável;
+#X text 34 17 Tarefa Prática #2;
+#N canvas 0 56 838 495 CaixaDeNúmerosEstável 0;
+#X floatatom 51 51 10 20 1000 1 Frequência_de_entrada - -;
+#X obj 51 233 f;
+#X obj 51 205 delay 100;
+#X obj 51 164 trigger bang float;
+#X text 378 50 Selecione números "arrastando" com o mouse;
+#X text 248 164 Envia o número pelo outlet da direita \, depois um
+bang pelo outlet da esquerda, f 38;
+#X text 198 205 retém bangs seguidos por 100ms (apenas o último sai)
+;
+#X text 159 232 guarda os números recebidos pelo inlet da direita
+(frio) \, e envia apenas o último quando receber "bang" no inlet da
+esquerda (quente)., f 46;
+#X text 48 4 "Estabiliza" a caixa de números \, enviando apenas o
+número final a cada "rolagem" da caixa:;
+#X obj 51 300 ofelia f \; local x = ofArray("sinal_de_entrada") \;
+local N = x:getSize() \; for n=0 \, N-1 do \; x[n] = math.sin(2*math.pi*a*n/N)
+\; end \;;
+#X obj 51 75 bng 24 250 50 0 empty toca2 Toca_sinal1 26 12 0 16 -262130
+-4160 -4160;
+#X obj 391 128 dac~;
+#X obj 391 99 tabplay~ sinal_de_entrada;
+#X obj 191 75 bng 24 250 50 0 toca2 empty Toca_sinais_1+2 26 12 0 16
+-262130 -4160 -4160;
+#X connect 0 0 3 0;
+#X connect 1 0 9 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 3 1 1 1;
+#X connect 10 0 12 0;
+#X connect 12 0 11 0;
+#X coords 0 -1 1 1 320 50 2 50 50;
+#X restore 901 71 pd CaixaDeNúmerosEstável;
+#N canvas 0 56 959 984 calcula_correlação 1;
+#X obj 104 101 bng 24 250 50 0 empty empty calcula_correlação 26
+12 0 16 -262130 -4160 -4160;
+#X floatatom 223 124 9 20 1000 1 - - -;
+#X text 96 124 correlação=;
+#X obj 439 124 ofelia f \; local x = ofArray("sinal_de_entrada") \;
+local y = ofArray("sinal_de_teste") \; local N = x:getSize() \; local
+cor = 0 \; for n = 0 \, N-1 do \; cor = cor+x[n]*y[n] \; end \; return
+cor;
+#X connect 0 0 3 0;
+#X connect 3 0 1 0;
+#X coords 0 -1 1 1 210 50 2 100 100;
+#X restore 22 70 pd calcula_correlação;
+#N canvas 0 0 916 351 gera_1_aleatória 0;
+#X obj 101 100 bng 24 250 50 0 empty empty gera_1_aleatória 26 12
+0 16 -262130 -4160 -4160;
+#X floatatom 217 126 7 0 0 1 Hz - -;
+#X obj 101 125 bng 24 250 50 0 empty empty mostra 26 12 0 16 -262130
+-4160 -4160;
+#X obj 382 286 f;
+#X obj 409 124 ofelia f \; local x = ofArray("sinal_de_entrada") \;
+local N = x:getSize() \; local f = 10*math.floor(2.5+98*math.random()^2)
+\; for n = 0 \, N-1 do \; x[n] = math.sin(2*math.pi*f*n/N) \; end \;
+return f;
+#X connect 0 0 4 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X connect 4 0 3 1;
+#X coords 0 -1 1 1 210 50 2 100 100;
+#X restore 22 140 pd gera_1_aleatória;
+#N canvas 0 0 1066 457 gera_3_aleatórias 0;
+#X obj 101 100 bng 24 250 50 0 empty empty gera_3_aleatórias 26 12
+0 16 -262130 -4160 -4160;
+#X floatatom 197 126 7 0 0 1 Hz - -;
+#X obj 101 125 bng 24 250 50 0 empty empty mostra 26 12 0 16 -262130
+-4160 -4160;
+#X obj 382 402 f;
+#X obj 485 402 f;
+#X obj 588 402 f;
+#X floatatom 197 152 7 0 0 1 Hz - -;
+#X floatatom 197 178 7 0 0 1 Hz - -;
+#X floatatom 297 126 7 0 0 1 amp - -;
+#X floatatom 297 152 7 0 0 1 amp - -;
+#X floatatom 297 178 7 0 0 1 amp - -;
+#X obj 101 214 t b b b b b b;
+#X obj 692 402 f;
+#X obj 795 402 f;
+#X obj 899 402 f;
+#X obj 409 34 ofelia f -c16 \; local x = ofArray("sinal_de_entrada")
+\; local N = x:getSize() \; local f = ofTable() \; --[[ guarda freqs
+em i=1 \, 2 \, 3 e amps em 4 \, 5 \, 6 ]] \; for i=1 \, 3 do \; f[i]
+= 10*math.floor(2.5+98*math.random()^2) \; end \; f[4] = math.random()
+\; f[5] = (1-f[4])*math.random() \; f[6] = (1-f[4]-f[5])*math.random()
+\; for n = 0 \, N-1 do \; x[n] = 0 \; for i=1 \, 3 do \; x[n] = x[n]+f[3+i]*math.sin(2*math.pi*f[i]*n/N)
+\; end \; end \; return f;
+#X connect 0 0 15 0;
+#X connect 2 0 11 0;
+#X connect 3 0 1 0;
+#X connect 4 0 6 0;
+#X connect 5 0 7 0;
+#X connect 11 0 3 0;
+#X connect 11 1 4 0;
+#X connect 11 2 5 0;
+#X connect 11 3 12 0;
+#X connect 11 4 13 0;
+#X connect 11 5 14 0;
+#X connect 12 0 8 0;
+#X connect 13 0 9 0;
+#X connect 14 0 10 0;
+#X connect 15 0 3 1;
+#X connect 15 1 4 1;
+#X connect 15 2 5 1;
+#X connect 15 3 12 1;
+#X connect 15 4 13 1;
+#X connect 15 5 14 1;
+#X coords 0 -1 1 1 302 103 2 100 100;
+#X restore 22 210 pd gera_3_aleatórias;
+#N canvas 0 0 1278 591 gera_3_híbridas 0;
+#X obj 101 100 bng 24 250 50 0 empty empty gera_3_híbridas 26 12 0
+16 -262130 -4160 -4160;
+#X floatatom 197 126 7 0 0 1 Hz - -;
+#X obj 101 125 bng 24 250 50 0 empty empty mostra 26 12 0 16 -262130
+-4160 -4160;
+#X obj 592 492 f;
+#X obj 664 492 f;
+#X obj 736 492 f;
+#X floatatom 197 152 7 0 0 1 Hz - -;
+#X floatatom 197 178 7 0 0 1 Hz - -;
+#X floatatom 297 126 7 0 0 1 amp - -;
+#X floatatom 297 152 7 0 0 1 amp - -;
+#X floatatom 297 178 7 0 0 1 amp - -;
+#X obj 808 492 f;
+#X obj 880 492 f;
+#X obj 952 492 f;
+#X obj 619 34 ofelia f -c19 \; local x = ofArray("sinal_de_entrada")
+\; local N = x:getSize() \; local f = ofTable() \; --[[ guarda freqs
+em i=1 \, 2 \, 3 \, amps em 4 \, 5 \, 6 e fases em 7 \, 8 \, 9]] \;
+for i=1 \, 3 do \; f[i] = 10*math.floor(2.5+98*math.random()^2) \;
+end \; f[4] = math.random() \; f[5] = (1-f[4])*math.random() \; f[6]
+= (1-f[4]-f[5])*math.random() \; for i=7 \, 9 do f[i] = 2*math.pi*math.random()
+\; end \; for n = 0 \, N-1 do \; x[n] = 0 \; for i=1 \, 3 do \; x[n]
+= x[n]+f[3+i]*math.sin(2*math.pi*f[i]*n/N+f[6+i]) \; end \; end \;
+return f;
+#X floatatom 407 126 7 0 0 1 φ - -;
+#X floatatom 407 152 7 20 1000 1 φ - -;
+#X floatatom 407 178 7 20 1000 1 φ - -;
+#X obj 1024 492 f;
+#X obj 1096 492 f;
+#X obj 1169 492 f;
+#X obj 101 214 t b b b b b b b b b;
+#X connect 0 0 14 0;
+#X connect 2 0 21 0;
+#X connect 3 0 1 0;
+#X connect 4 0 6 0;
+#X connect 5 0 7 0;
+#X connect 11 0 8 0;
+#X connect 12 0 9 0;
+#X connect 13 0 10 0;
+#X connect 14 0 3 1;
+#X connect 14 1 4 1;
+#X connect 14 2 5 1;
+#X connect 14 3 11 1;
+#X connect 14 4 12 1;
+#X connect 14 5 13 1;
+#X connect 14 6 18 1;
+#X connect 14 7 19 1;
+#X connect 14 8 20 1;
+#X connect 18 0 15 0;
+#X connect 19 0 16 0;
+#X connect 20 0 17 0;
+#X connect 21 0 3 0;
+#X connect 21 1 4 0;
+#X connect 21 2 5 0;
+#X connect 21 3 11 0;
+#X connect 21 4 12 0;
+#X connect 21 5 13 0;
+#X connect 21 6 18 0;
+#X connect 21 7 19 0;
+#X connect 21 8 20 0;
+#X coords 0 -1 1 1 392 103 2 100 100;
+#X restore 22 336 pd gera_3_híbridas;
+#N canvas 1 57 959 984 item 0;
+#X text 24 169 ii) para valores vizinhos (testei 440hz copm 441hz)
+obtive correlação de 0 Achei estranho ter uma diferença tão grande
+de correlação \, sendo que a percepção sonora entre i) e ii) foi
+quase a mesma;
+#X text 20 289 iii) Testei 440hz com 880hz. São a mesma nota \, mas
+a correlação \, novamente \, foi a 0;
+#X text 17 357 iv) Tentei combinar 223hz com 877hz \, gerou um som
+bem pouco harmônico e a correlação deu 0;
+#X text 25 102 i)Para sinais de frequências iguais notei alta correlação:
+valor de 22050 Testei 440hz com 440hz, f 74;
+#X text 18 468 Achei curioso como a correlação só foi diferente
+de 0 quando as frequências são exatamente iguais. Para mim faria
+sentido a correlação ser maior que 0 quando lidamos com sons extremamente
+próximos ou sons relacionados harmonicamente. Outra coisa que achei
+curiosa foi a correlação no caso i) ser exatamente a metade da taxa
+de amostragem do PD (44100);
+#X restore 25 519 pd item 3;
+#N canvas 0 56 959 984 item 0;
+#X text 60 17 O que eu faço é ver o período do sinal gerado aleatoriamente
+e tento \, no olho \, chutar uma frequência do sinal de teste. Dai
+em diante \, repito o seguinte: 1) Toco o sinal de entrada e o sinal
+teste separados. Se sinal teste estiver muito agudo \, aumento sua
+frequência em 10hz. Do contrário \, reduzo em 10hz. 2) Toco os dois
+sons juntos: se notar algum tipo de "vibração" entre os dois sons
+\, provavelmente não são a mesma frequência. Se parecerem muito
+próximos \, testo a acurácia: se der 22500hz \, acertei . Do contrário
+\, volto pro passo 1;
+#X restore 135 519 pd item 4;
+#N canvas 961 56 959 984 item 1;
+#X obj 30 33 bng 24 250 50 0 empty empty calcula_correlação 26 12
+0 16 -262130 -4160 -4160;
+#X floatatom 38 464 9 20 1000 1 - - -;
+#X obj 31 76 ofelia f \; local x = ofArray("sinal_de_entrada") \; local
+N = x:getSize() \; local cor = 0 \; local fmax = 20 \; local cormax
+= 0 \; for f=20 \, 1000 \, 10 do \; for n = 0 \, N-1 do \; y_teste
+= math.sin(2*math.pi*f*n/N) \; cor = cor + x[n] * y_teste \; if cor
+> cormax then \; fmax = f \; cormax = cor \; end \; end \; end \; return
+fmax;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X restore 245 519 pd item 5;
+#N canvas 0 0 450 300 item 0;
+#X restore 355 519 pd item 6;
+#N canvas 0 0 450 300 item 0;
+#X restore 465 519 pd item 7;
+#N canvas 0 0 450 300 item 0;
+#X restore 575 519 pd item 8;
+#X text 394 17 Nome: Caio Túlio de Deus Andrade;
+#X text 1004 17 N° USP:9797232;
