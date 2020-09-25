@@ -16,9 +16,9 @@
 -1 -1;
 #X msg 189 801 \; pd-icsm115B vis 1;
 #X obj 366 220 hsl 128 20 0 1 0 0 empty \$0_115B_vol_r Volume_(linear)
--2 -8 0 16 -262144 -1 -1 6350 0;
+-2 -8 0 16 -262144 -1 -1 0 0;
 #X obj 696 220 hsl 128 20 0.001 1 1 0 empty \$0_115B_vol_r Volume_(log)
--2 -8 0 16 -262144 -1 -1 11426 0;
+-2 -8 0 16 -262144 -1 -1 0 0;
 #X floatatom 359 421 8 0 0 1 pico #0_115B_bloco_pico -;
 #X obj 362 448 hsl 128 20 0 1 0 0 empty empty empty -2 -8 0 16 -262144
 -1 -1 0 1;
@@ -1284,6 +1284,55 @@ const 0;
 #X connect 16 0 11 0;
 #X restore 1159 806 pd mágica;
 #X obj 102 203 icsm_dsp;
+#N canvas 0 0 817 574 icsm115B++ 0;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm115B++ vis 1;
+#X text 6 801 +detalhes(*):;
+#X text 55 43 Para as formas de onda elementares \, é possível calcular
+todas as medidas de amplitude e energia de forma analítica \, considerando
+a soma (integral) dos valores das funções |x(t)| ou |x(t)|^2 no intervalo
+correspondente a um período completo. Assim temos:, f 67;
+#X text 146 139 AMP(PICO);
+#X text 256 139 AMP(MED);
+#X text 366 139 AMP(RMS);
+#X text 476 139 ENERGIA(MED);
+#X text 616 139 ENERGIA(dB);
+#X text 55 183 SENOIDE;
+#X text 55 213 QUADRADA;
+#X text 55 243 DENTE;
+#X text 55 273 RUÍDO;
+#X text 175 183 1;
+#X text 245 183 2/π~0.637;
+#X text 505 183 0.5;
+#X text 175 213 1;
+#X text 285 213 1;
+#X text 405 213 1;
+#X text 515 213 1;
+#X text 655 213 0;
+#X text 175 243 1;
+#X text 275 243 0.5;
+#X text 505 243 1/3;
+#X text 625 243 ~-4.77;
+#X text 625 183 ~-3.01;
+#X text 175 273 1;
+#X text 275 273 0.5;
+#X text 505 273 1/3;
+#X text 625 273 ~-4.77;
+#X text 375 243 ~0.577;
+#X text 375 273 ~0.577;
+#X text 375 183 ~0.707;
+#X text 55 323 No caso do ruído esse cálculo involve \, além de
+integrais \, também os modelos de funções de densidade de probabilidade
+e de densidade acumulada \, de tal forma que as médias dos valores
+de |x(t)| ou |x(t)|^2 se convertem em esperanças. No caso do ruído
+branco \, todas as medidas são equivalentes à da forma de dente-de-serra
+\, cuja distribuição de valores de amplitude possui características
+semelhantes às do ruído branco (igual "frequência" de cada valor
+no intervalo [-1 \, +1]., f 67;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 670 371 pd icsm115B++;
 #X connect 1 0 2 0;
 #X connect 3 0 13 0;
 #X connect 4 0 14 0;

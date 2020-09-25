@@ -1,4 +1,0 @@
-#N canvas 0 0 450 300 12;
-#X obj 52 49 icsm_dsp;
-#X obj 110 149 icsm_dsp;
-#X obj 289 98 icsm_dsp;
