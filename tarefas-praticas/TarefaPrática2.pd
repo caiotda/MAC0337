@@ -153,7 +153,7 @@ em i=1 \, 2 \, 3 e amps em 4 \, 5 \, 6 ]] \; for i=1 \, 3 do \; f[i]
 #X connect 15 5 14 1;
 #X coords 0 -1 1 1 302 103 2 100 100;
 #X restore 22 210 pd gera_3_aleatórias;
-#N canvas 0 0 1278 591 gera_3_híbridas 0;
+#N canvas 0 56 1278 591 gera_3_híbridas 0;
 #X obj 101 100 bng 24 250 50 0 empty empty gera_3_híbridas 26 12 0
 16 -262130 -4160 -4160;
 #X floatatom 197 126 7 0 0 1 Hz - -;
@@ -246,7 +246,7 @@ sons juntos: se notar algum tipo de "vibração" entre os dois sons
 próximos \, testo a acurácia: se der 22500hz \, acertei . Do contrário
 \, volto pro passo 1;
 #X restore 135 519 pd item 4;
-#N canvas 961 56 959 984 item 1;
+#N canvas 961 56 959 984 item 0;
 #X obj 30 47 bng 24 250 50 0 empty empty calcula_correlação 26 12
 0 16 -262130 -4160 -4160;
 #X floatatom 35 442 9 20 1000 1 - - -;
@@ -259,7 +259,7 @@ N = x:getSize() \; local cor = 0 \; local fmax = 20 \; local cormax
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 245 519 pd item 5;
-#N canvas 0 83 959 984 item 0;
+#N canvas 0 576 959 463 item 1;
 #X text 24 15 Depois de gerar a onda relatória \, vi o valor de frequência
 sugerido pelo item 5 \, ajustei a frquência de teste de acordo e toquei
 os dois sinais. Notei que os dois sons gerados são \, na minha perceção
@@ -285,7 +285,7 @@ as frequências das componentes senoidais geradas pelo gera_3_aleatorias
 ;
 #X connect 1 0 3 0;
 #X restore 355 519 pd item 6;
-#N canvas 0 56 959 984 item 1;
+#N canvas 0 56 959 984 item 0;
 #X floatatom 47 84 10 20 1000 1 Frequência_de_entrada - -;
 #X obj 48 263 f;
 #X obj 48 235 delay 100;
@@ -362,7 +362,50 @@ diferença numerica no resultado da correlação), f 124;
 #X connect 13 0 12 0;
 #X connect 13 1 11 1;
 #X restore 465 519 pd item 7;
-#N canvas 0 0 450 300 item 0;
+#N canvas 0 55 1920 985 item 1;
+#X obj 30 19 bng 24 250 50 0 empty empty gera_grafico_a 26 12 0 16
+-262130 -4160 -4160;
+#N canvas 0 56 1920 985 (subpatch) 0;
+#X array a 1001 float 2;
+#X coords 0 0 1000 22500 200 140 1 0 0;
+#X restore 482 69 graph;
+#X obj 24 381 bng 24 250 50 0 empty empty gera_grafico_b 26 12 0 16
+-262130 -4160 -4160;
+#N canvas 0 56 1920 985 (subpatch) 0;
+#X array b 1001 float 2;
+#X coords 0 0 1000 22500 200 140 1 0 0;
+#X restore 476 431 graph;
+#X obj 791 17 bng 24 250 50 0 empty empty gera_grafico_c 26 12 0 16
+-262130 -4160 -4160;
+#N canvas 0 56 1920 985 (subpatch) 0;
+#X array c 1001 float 2;
+#X coords 0 0 1000 22500 200 140 1 0 0;
+#X restore 1388 70 graph;
+#X obj 31 47 ofelia f \; local x = ofArray("sinal_de_entrada") \; local
+corr_a = ofArray("a") \; local N = x:getSize() \; local aux = 0 \;
+for f=0 \, 1000 \, 1 do \; for n = 0 \, N-1 do \; y_teste = math.sin(2*math.pi*f*n/N)
+\; aux = aux + x[n] * y_teste \; end \; corr_a[f] = aux \; aux = 0
+\; if corr_a[f] > 0.001 then \; print(f.." "..corr_a[f]) \; end \;
+end \;;
+#X obj 25 409 ofelia f \; local x = ofArray("sinal_de_entrada") \;
+local corr_b = ofArray("b") \; local N = x:getSize() \; local aux =
+0 \; for f=0 \, 1000 \, 1 do \; for n = 0 \, N-1 do \; y_teste = math.cos(2*math.pi*f*n/N)
+\; aux = aux + x[n] * y_teste \; end \; corr_b[f] = aux \; aux = 0
+\; if corr_b[f] > 0.001 then \; print(f.." "..corr_b[f]) \; end \;
+end \;;
+#X text 475 604 Gerou f = 100 e f = 260 (as outras duas componentes).
+hipotese: são as cossenoidais;
+#X text 488 253 só obtive f = 950 (é uma das componentes). hipotese:
+são as senoidais, f 19;
+#X obj 792 45 ofelia f \; local corr_c = ofArray("c") \; local corr_a
+= ofArray("a") \; local corr_b = ofArray("b") \; for f=0 \, 1000 \,
+1 do \; corr_c[f] = math.sqrt(corr_a[f]^2 + corr_b[f]^2) \; if corr_c[f]
+> 0.001 then \; print(f.." "..corr_c[f]) \; end \; end \;;
+#X text 783 277 E esse cara conseguiu gerar exatamente as tres figuras
+;
+#X connect 0 0 6 0;
+#X connect 2 0 7 0;
+#X connect 4 0 10 0;
 #X restore 575 519 pd item 8;
 #X text 394 17 Nome: Caio Túlio de Deus Andrade;
 #X text 1004 17 N° USP:9797232;
