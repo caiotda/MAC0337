@@ -268,15 +268,21 @@ eles foi de 20101.8. Até agora \, se dois sons fossem identicos teriamos
 uma correlação de 22500;
 #X obj 131 258 bng 24 250 50 0 empty empty gera_grafico 26 12 0 16
 -262130 -4160 -4160;
-#N canvas 0 50 450 250 (subpatch) 0;
+#N canvas 0 56 1920 985 (subpatch) 0;
 #X array corr 1001 float 2;
-#X coords 0 1 1001 -1 200 140 1;
-#X restore 91 800 graph;
-#X obj 132 285 ofelia f \; local x = ofArray("sinal_de_entrada") \;
-local corr = ofArray("corr") \; local N = x:getSize() \; for f=0 \,
-1000 \, 1 do \; for n = 0 \, N-1 do \; y_teste = math.sin(2*math.pi*f*n/N)
-\; corr[f] = corr[f] + x[n] * y_teste \; end \; if corr[f] > 1e-05
-then \; print(f.." "..corr[f]) \; end \; end \;;
+#X coords 0 0 1000 22500 200 140 1 0 0;
+#X restore 583 308 graph;
+#X obj 132 285 ofelia f \; print('oi') \; local x = ofArray("sinal_de_entrada")
+\; local corr = ofArray("corr") \; local N = x:getSize() \; local aux
+= 0 \; for f=0 \, 1000 \, 1 do \; for n = 0 \, N-1 do \; y_teste =
+math.sin(2*math.pi*f*n/N) \; aux = aux + x[n] * y_teste \; end \; corr[f]
+= aux \; aux = 0 \; if corr[f] > 0.001 then \; print(f.." "..corr[f])
+\; end \; end \;;
+#X text 24 786 Não consegui extrair muitas informações do gráfico
+\, já que ele apresenta picos muito pontuais. Mas pelo print do par
+(f \, corr[f]) \, notei que os pares que satisfazem a condição corr[f]
+> 0.001 são exatamente as frequências das componentes senoidais geradas
+pelo gera_3_aleatorias;
 #X connect 1 0 3 0;
 #X restore 355 519 pd item 6;
 #N canvas 0 56 450 300 item 1;
