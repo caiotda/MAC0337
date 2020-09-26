@@ -1,4 +1,4 @@
-#N canvas 0 56 1920 985 16;
+#N canvas 0 55 1920 985 16;
 #N canvas 0 0 450 250 (subpatch) 0;
 #X array sinal_de_entrada 44100 float 2;
 #X coords 0 1 4410 -1 300 200 1 0 0;
@@ -75,7 +75,7 @@ local N = x:getSize() \; for n=0 \, N-1 do \; x[n] = math.sin(2*math.pi*a*n/N)
 #X connect 10 0 12 0;
 #X connect 12 0 11 0;
 #X coords 0 -1 1 1 320 50 2 50 50;
-#X restore 901 71 pd CaixaDeNúmerosEstável;
+#X restore 901 72 pd CaixaDeNúmerosEstável;
 #N canvas 0 56 959 984 calcula_correlação 0;
 #X obj 108 105 bng 24 250 50 0 empty empty calcula_correlação 26
 12 0 16 -262130 -4160 -4160;
@@ -88,7 +88,7 @@ cor;
 #X connect 0 0 3 0;
 #X connect 3 0 1 0;
 #X coords 0 -1 1 1 210 50 2 100 100;
-#X restore 35 65 pd calcula_correlação;
+#X restore 34 65 pd calcula_correlação;
 #N canvas 0 0 916 351 gera_1_aleatória 0;
 #X obj 101 100 bng 24 250 50 0 empty empty gera_1_aleatória 26 12
 0 16 -262130 -4160 -4160;
@@ -259,7 +259,7 @@ N = x:getSize() \; local cor = 0 \; local fmax = 20 \; local cormax
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 245 519 pd item 5;
-#N canvas 0 83 959 984 item 1;
+#N canvas 0 83 959 984 item 0;
 #X text 24 15 Depois de gerar a onda relatória \, vi o valor de frequência
 sugerido pelo item 5 \, ajustei a frquência de teste de acordo e toquei
 os dois sinais. Notei que os dois sons gerados são \, na minha perceção
@@ -285,7 +285,82 @@ as frequências das componentes senoidais geradas pelo gera_3_aleatorias
 ;
 #X connect 1 0 3 0;
 #X restore 355 519 pd item 6;
-#N canvas 0 56 450 300 item 1;
+#N canvas 0 56 959 984 item 1;
+#X floatatom 47 84 10 20 1000 1 Frequência_de_entrada - -;
+#X obj 48 263 f;
+#X obj 48 235 delay 100;
+#X obj 48 194 trigger bang float;
+#X text 375 80 Selecione números "arrastando" com o mouse;
+#X text 245 194 Envia o número pelo outlet da direita \, depois um
+bang pelo outlet da esquerda, f 38;
+#X text 195 235 retém bangs seguidos por 100ms (apenas o último sai)
+;
+#X text 156 262 guarda os números recebidos pelo inlet da direita
+(frio) \, e envia apenas o último quando receber "bang" no inlet da
+esquerda (quente)., f 46;
+#X text 45 34 "Estabiliza" a caixa de números \, enviando apenas o
+número final a cada "rolagem" da caixa:;
+#X obj 48 330 ofelia f \; local x = ofArray("sinal_de_entrada") \;
+local N = x:getSize() \; for n=0 \, N-1 do \; x[n] = math.cos(2*math.pi*a*n/N)
+\; end \;;
+#X floatatom 21 571 10 20 1000 1 Frequência_de_teste - -;
+#X obj 21 765 f;
+#X obj 21 737 delay 100;
+#X obj 21 696 trigger bang float;
+#X text 348 552 Selecione números "arrastando" com o mouse;
+#X text 218 696 Envia o número pelo outlet da direita \, depois um
+bang pelo outlet da esquerda, f 38;
+#X text 168 737 retém bangs seguidos por 100ms (apenas o último sai)
+;
+#X text 129 764 guarda os números recebidos pelo inlet da direita
+(frio) \, e envia apenas o último quando receber "bang" no inlet da
+esquerda (quente)., f 46;
+#X text 18 506 "Estabiliza" a caixa de números \, enviando apenas
+o número final a cada "rolagem" da caixa:;
+#X obj 21 833 ofelia f \; local x = ofArray("sinal_de_teste") \; local
+N = x:getSize() \; for n=0 \, N-1 do \; x[n] = math.cos(2*math.pi*a*n/N)
+\; end \;;
+#X text 896 83 i) frequencias iguais. Assim como no item 3 \, obtive
+correlação de 22500 e dois sons iguais (testei com 220hz);
+#X text 893 176 ii) Testando com dois sonds vizinhos (220hz e 221hz)
+\, obtive dois sons extremamente similares \, obtendo uma leve dissonância
+entre os dois sons. A correlação entre os dois sinais foi 0;
+#X text 891 358 iii) Agora com 2 sinais distantes mas relacionados
+harmonicamente (220hz e 880hz \, o segundo som estando 2 oitavas acima
+do primeiro). Também obtive correlação 0;
+#X text 888 546 iv) Agora com 2 sinais distantes e não relacionados
+harmonicamente (220hz e 997hz). Novamente \, a correlação calculada
+foi 0;
+#X text 1019 19 usando 2 cossenos;
+#X text 1683 22 usando seno e cosseno;
+#X text 1561 86 i) frequencias iguais. Usando uma senoide e cossenoides
+de frequencia 220hz \, obtive dois sons muito parecidos mas com correlação
+0;
+#X text 1558 179 ii) Testando com uma senoide de 220hz e uma cossenoide
+de 221hz \, obtive um resultado sonoro ligeiramente parecido com o
+mesmo experimento \, mas com 2 cossenoides \, e ainda obtive correlação
+0;
+#X text 1555 363 iii) Agora testei usando um sinal de entrada de 220hz
+e um sinal de teste - cossenoide - de 880hz.Novamente obtive correlação
+0;
+#X text 1553 538 iv) Testando com uma senoide de 220hz e uma cossenoide
+de 997hz \, obtive o mesmo resultado do item anterior;
+#X text 883 743 Em suma \, entre os dois blocos de experimento \, notei
+que o som acaba não mudando muito (entre senoide-senoide \, cosseno-cosseno
+ou senoide-cosseno) mas a correlação de ondas de frequencia igual
+vai a 0 se mudarmos de seno para cosseno (que são basicamente a mesma
+onda \, a única diferença é a fase inicial e isso explicaria uma
+diferença numerica no resultado da correlação), f 124;
+#X connect 0 0 3 0;
+#X connect 1 0 9 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 3 1 1 1;
+#X connect 10 0 13 0;
+#X connect 11 0 19 0;
+#X connect 12 0 11 0;
+#X connect 13 0 12 0;
+#X connect 13 1 11 1;
 #X restore 465 519 pd item 7;
 #N canvas 0 0 450 300 item 0;
 #X restore 575 519 pd item 8;
