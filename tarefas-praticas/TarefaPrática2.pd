@@ -259,10 +259,27 @@ N = x:getSize() \; local cor = 0 \; local fmax = 20 \; local cormax
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 245 519 pd item 5;
-#N canvas 0 55 1920 985 item 1;
-#X text 24 15 comment;
+#N canvas 0 56 959 984 item 1;
+#X text 24 15 Depois de gerar a onda relatória \, vi o valor de frequência
+sugerido pelo item 5 \, ajustei a frquência de teste de acordo e toquei
+os dois sinais. Notei que os dois sons gerados são \, na minha perceção
+\, identicos. No entando \, achei curioso que a correlação entre
+eles foi de 20101.8. Até agora \, se dois sons fossem identicos teriamos
+uma correlação de 22500;
+#X obj 131 258 bng 24 250 50 0 empty empty gera_grafico 26 12 0 16
+-262130 -4160 -4160;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array corr 1001 float 2;
+#X coords 0 1 1001 -1 200 140 1;
+#X restore 91 800 graph;
+#X obj 132 285 ofelia f \; local x = ofArray("sinal_de_entrada") \;
+local corr = ofArray("corr") \; local N = x:getSize() \; for f=0 \,
+1000 \, 1 do \; for n = 0 \, N-1 do \; y_teste = math.sin(2*math.pi*f*n/N)
+\; corr[f] = corr[f] + x[n] * y_teste \; end \; if corr[f] > 1e-05
+then \; print(f.." "..corr[f]) \; end \; end \;;
+#X connect 1 0 3 0;
 #X restore 355 519 pd item 6;
-#N canvas 0 0 450 300 item 0;
+#N canvas 0 56 450 300 item 1;
 #X restore 465 519 pd item 7;
 #N canvas 0 0 450 300 item 0;
 #X restore 575 519 pd item 8;
