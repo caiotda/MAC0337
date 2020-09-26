@@ -259,7 +259,7 @@ N = x:getSize() \; local cor = 0 \; local fmax = 20 \; local cormax
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 245 519 pd item 5;
-#N canvas 0 576 959 463 item 1;
+#N canvas 429 115 959 984 item 1;
 #X text 24 15 Depois de gerar a onda relatória \, vi o valor de frequência
 sugerido pelo item 5 \, ajustei a frquência de teste de acordo e toquei
 os dois sinais. Notei que os dois sons gerados são \, na minha perceção
@@ -393,19 +393,21 @@ local corr_b = ofArray("b") \; local N = x:getSize() \; local aux =
 \; aux = aux + x[n] * y_teste \; end \; corr_b[f] = aux \; aux = 0
 \; if corr_b[f] > 0.001 then \; print(f.." "..corr_b[f]) \; end \;
 end \;;
-#X text 475 604 Gerou f = 100 e f = 260 (as outras duas componentes).
-hipotese: são as cossenoidais;
-#X text 488 253 só obtive f = 950 (é uma das componentes). hipotese:
-são as senoidais, f 19;
 #X obj 792 45 ofelia f \; local corr_c = ofArray("c") \; local corr_a
 = ofArray("a") \; local corr_b = ofArray("b") \; for f=0 \, 1000 \,
 1 do \; corr_c[f] = math.sqrt(corr_a[f]^2 + corr_b[f]^2) \; if corr_c[f]
 > 0.001 then \; print(f.." "..corr_c[f]) \; end \; end \;;
-#X text 783 277 E esse cara conseguiu gerar exatamente as tres figuras
-;
+#X text 796 287 O que notei é que \, consistentemente \, os valores
+em c batem exatamente com as frequências geradas pelo gera_3_hibridas.
+O que notei é que o grafico_a gera algumas das frequencias do gera_3_hibridas
+\, assim como o grafico_b. A minha hipótese é que o grafico_a consegue
+determinar a frequências das componentes senoidais enquanto que o
+gráfico b consegue mostrar a frequência das componentes cossenoidais.
+Enquanto que o gráfico c é agnóstico à natureza da componente e
+consegue determinar todas componentes do sinal gerado.;
 #X connect 0 0 6 0;
 #X connect 2 0 7 0;
-#X connect 4 0 10 0;
+#X connect 4 0 8 0;
 #X restore 575 519 pd item 8;
 #X text 394 17 Nome: Caio Túlio de Deus Andrade;
 #X text 1004 17 N° USP:9797232;
