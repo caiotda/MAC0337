@@ -76,11 +76,11 @@ local N = x:getSize() \; for n=0 \, N-1 do \; x[n] = math.sin(2*math.pi*a*n/N)
 #X connect 12 0 11 0;
 #X coords 0 -1 1 1 320 50 2 50 50;
 #X restore 901 71 pd CaixaDeNúmerosEstável;
-#N canvas 0 56 959 984 calcula_correlação 1;
-#X obj 104 101 bng 24 250 50 0 empty empty calcula_correlação 26
+#N canvas 0 56 959 984 calcula_correlação 0;
+#X obj 108 105 bng 24 250 50 0 empty empty calcula_correlação 26
 12 0 16 -262130 -4160 -4160;
-#X floatatom 223 124 9 20 1000 1 - - -;
-#X text 96 124 correlação=;
+#X floatatom 211 119 9 20 1000 1 - - -;
+#X text 100 125 correlação=;
 #X obj 439 124 ofelia f \; local x = ofArray("sinal_de_entrada") \;
 local y = ofArray("sinal_de_teste") \; local N = x:getSize() \; local
 cor = 0 \; for n = 0 \, N-1 do \; cor = cor+x[n]*y[n] \; end \; return
@@ -88,7 +88,7 @@ cor;
 #X connect 0 0 3 0;
 #X connect 3 0 1 0;
 #X coords 0 -1 1 1 210 50 2 100 100;
-#X restore 22 70 pd calcula_correlação;
+#X restore 35 65 pd calcula_correlação;
 #N canvas 0 0 916 351 gera_1_aleatória 0;
 #X obj 101 100 bng 24 250 50 0 empty empty gera_1_aleatória 26 12
 0 16 -262130 -4160 -4160;
@@ -217,7 +217,7 @@ return f;
 #X connect 21 8 20 0;
 #X coords 0 -1 1 1 392 103 2 100 100;
 #X restore 22 336 pd gera_3_híbridas;
-#N canvas 1 57 959 984 item 0;
+#N canvas 1 58 959 983 item 0;
 #X text 24 169 ii) para valores vizinhos (testei 440hz copm 441hz)
 obtive correlação de 0 Achei estranho ter uma diferença tão grande
 de correlação \, sendo que a percepção sonora entre i) e ii) foi
@@ -247,19 +247,20 @@ próximos \, testo a acurácia: se der 22500hz \, acertei . Do contrário
 \, volto pro passo 1;
 #X restore 135 519 pd item 4;
 #N canvas 961 56 959 984 item 1;
-#X obj 30 33 bng 24 250 50 0 empty empty calcula_correlação 26 12
+#X obj 30 47 bng 24 250 50 0 empty empty calcula_correlação 26 12
 0 16 -262130 -4160 -4160;
-#X floatatom 38 464 9 20 1000 1 - - -;
+#X floatatom 35 442 9 20 1000 1 - - -;
 #X obj 31 76 ofelia f \; local x = ofArray("sinal_de_entrada") \; local
 N = x:getSize() \; local cor = 0 \; local fmax = 20 \; local cormax
 = 0 \; for f=20 \, 1000 \, 10 do \; for n = 0 \, N-1 do \; y_teste
 = math.sin(2*math.pi*f*n/N) \; cor = cor + x[n] * y_teste \; if cor
-> cormax then \; fmax = f \; cormax = cor \; end \; end \; end \; return
-fmax;
+> cormax then \; fmax = f \; cormax = cor \; end \; end \; cor = 0
+\; end \; return fmax;
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 245 519 pd item 5;
-#N canvas 0 0 450 300 item 0;
+#N canvas 0 55 1920 985 item 1;
+#X text 24 15 comment;
 #X restore 355 519 pd item 6;
 #N canvas 0 0 450 300 item 0;
 #X restore 465 519 pd item 7;
