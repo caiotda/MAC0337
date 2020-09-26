@@ -1,4 +1,4 @@
-#N canvas 0 55 1920 985 16;
+#N canvas 0 56 1920 985 16;
 #N canvas 0 0 450 250 (subpatch) 0;
 #X array sinal_de_entrada 44100 float 2;
 #X coords 0 1 4410 -1 300 200 1 0 0;
@@ -235,7 +235,7 @@ próximos ou sons relacionados harmonicamente. Outra coisa que achei
 curiosa foi a correlação no caso i) ser exatamente a metade da taxa
 de amostragem do PD (44100);
 #X restore 25 519 pd item 3;
-#N canvas 0 56 959 984 item 0;
+#N canvas 399 140 959 984 item 0;
 #X text 60 17 O que eu faço é ver o período do sinal gerado aleatoriamente
 e tento \, no olho \, chutar uma frequência do sinal de teste. Dai
 em diante \, repito o seguinte: 1) Toco o sinal de entrada e o sinal
@@ -247,8 +247,8 @@ próximos \, testo a acurácia: se der 22500hz \, acertei . Do contrário
 \, volto pro passo 1;
 #X restore 135 519 pd item 4;
 #N canvas 961 56 959 984 item 0;
-#X obj 30 47 bng 24 250 50 0 empty empty calcula_correlação 26 12
-0 16 -262130 -4160 -4160;
+#X obj 30 47 bng 24 250 50 0 empty empty calcula_fmax 26 12 0 16 -262130
+-4160 -4160;
 #X floatatom 35 442 9 20 1000 1 - - -;
 #X obj 31 76 ofelia f \; local x = ofArray("sinal_de_entrada") \; local
 N = x:getSize() \; local cor = 0 \; local fmax = 20 \; local cormax
@@ -259,13 +259,7 @@ N = x:getSize() \; local cor = 0 \; local fmax = 20 \; local cormax
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 245 519 pd item 5;
-#N canvas 429 115 959 984 item 1;
-#X text 24 15 Depois de gerar a onda relatória \, vi o valor de frequência
-sugerido pelo item 5 \, ajustei a frquência de teste de acordo e toquei
-os dois sinais. Notei que os dois sons gerados são \, na minha perceção
-\, identicos. No entando \, achei curioso que a correlação entre
-eles foi de 20101.8. Até agora \, se dois sons fossem identicos teriamos
-uma correlação de 22500;
+#N canvas 643 56 959 984 item 0;
 #X obj 131 258 bng 24 250 50 0 empty empty gera_grafico 26 12 0 16
 -262130 -4160 -4160;
 #N canvas 0 56 1920 985 (subpatch) 0;
@@ -283,9 +277,13 @@ pelos prints do par (f \, corr[f]) \, notei que esses picos são os
 pares que satisfazem a condição corr[f] > 0.001 e que são exatamente
 as frequências das componentes senoidais geradas pelo gera_3_aleatorias
 ;
-#X connect 1 0 3 0;
+#X text 24 15 Depois de gerar a onda aleatória \, vi o valor de frequência
+sugerido pelo item 5 \, ajustei a frequência de teste de acordo e
+toquei os dois sinais. Notei que os dois sons gerados são \, na minha
+perceção \, identicos. E a correlação foi de 22500;
+#X connect 0 0 2 0;
 #X restore 355 519 pd item 6;
-#N canvas 0 56 959 984 item 0;
+#N canvas 0 55 1920 985 item 0;
 #X floatatom 47 84 10 20 1000 1 Frequência_de_entrada - -;
 #X obj 48 263 f;
 #X obj 48 235 delay 100;
@@ -351,6 +349,10 @@ ou senoide-cosseno) mas a correlação de ondas de frequencia igual
 vai a 0 se mudarmos de seno para cosseno (que são basicamente a mesma
 onda \, a única diferença é a fase inicial e isso explicaria uma
 diferença numerica no resultado da correlação), f 124;
+#X text 877 878 Observação: para fazer esse experimento \, gerei
+os valores de frequência aqui (excetp qiamdp foi pedido para usar
+valores de senoide para comparações) \, mas toquei o sinal e verifiquei
+correlações no patch principal do Trabalho prático.;
 #X connect 0 0 3 0;
 #X connect 1 0 9 0;
 #X connect 2 0 1 0;
@@ -362,7 +364,7 @@ diferença numerica no resultado da correlação), f 124;
 #X connect 13 0 12 0;
 #X connect 13 1 11 1;
 #X restore 465 519 pd item 7;
-#N canvas 0 55 1920 985 item 1;
+#N canvas 0 56 1920 985 item 0;
 #X obj 30 19 bng 24 250 50 0 empty empty gera_grafico_a 26 12 0 16
 -262130 -4160 -4160;
 #N canvas 0 56 1920 985 (subpatch) 0;
