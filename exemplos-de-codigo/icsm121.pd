@@ -1,0 +1,857 @@
+#N canvas 0 0 1280 700 16;
+#X declare -lib zexy;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty Detecção_de_componentes_senoidais
+0 0 0 34 -262144 -38 0;
+#X text 100 260 Nesta seção abordaremos o problema da detecção
+de componentes senoidais presentes em sinais de áudio. Num primeiro
+momento consideraremos sinais de entrada simples \, eles próprios
+senoidais \; posteriormente \, consideraremos misturas de sinais senoidais
+e finalmente sinais mais gerais, f 107;
+#X text 100 360 A principal ferramenta de que dispomos para detectar
+a presença de uma componente senoidal em um sinal é a CORRELAÇÃO
+ENTRE SINAIS \, definida pela fórmula, f 107;
+#X obj 773 459 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 808 439 x[n]y[n];
+#X text 772 465 n=0;
+#X text 772 415 N-1;
+#N canvas 0 0 1280 700 icsm121A 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm121A vis 1;
+#N canvas 0 0 1280 700 icsm121B 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm121B vis 1;
+#N canvas 0 0 1280 700 icsm121C 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm121C vis 1;
+#X obj 100 110 cnv 15 14 14 empty empty Magnitude_e_fase_de_componentes_senoidais_arbitrárias
+0 0 0 28 -262144 -38 0;
+#X text 428 228 cos(a+b) = cos(a)cos(b)-sen(a)sen(b) \,;
+#X text 100 258 que permite concluir que Acos(2πfn/N+φ) = Acos(2πfn/N)cos(φ)-Asen(2πfn/N)sen(φ)
+\, ou ainda \, que, f 107;
+#X text 380 308 onde;
+#X text 100 160 Uma COMPONENTE SENOIDAL GENÉRICA pode ser representada
+por uma expressão da forma x[n]=Acos(2πfn/N+φ) onde A é a AMPLITUDE
+ou MAGNITUDE e φ é a FASE INICIAL. Sinais senoidais genéricos podem
+ser representados como combinações de senos e cossenos de fase 0
+por causa da propriedade trigonométrica, f 107;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121C_polar_e_cartesiano 400 float 0;
+#X coords 0 1 399 -1 250 250 1 0 0;
+#X restore 101 317 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121C_polar_e_ 400 float 0;
+#X coords 0 1 399 -1 250 250 1 0 0;
+#X restore 101 317 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121C_polar_ 400 float 0;
+#X coords 0 1 399 -1 250 250 1 0 0;
+#X restore 101 317 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121C_polar_e 400 float 0;
+#X coords 0 1 399 -1 250 250 1 0 0;
+#X restore 101 317 graph;
+#N canvas 0 0 718 431 init 0;
+#X obj 56 36 loadbang;
+#X obj 56 65 ofelia f \; local x=ofArray("\$0_121C_polar_e_cartesiano")
+\; local y=ofArray("\$0_121C_polar_e_") \; local z=ofArray("\$0_121C_polar_e")
+\; local w=ofArray("\$0_121C_polar_") \; local N=x:getSize() \; local
+m \; for n=0 \, N-1 do \; m=(n-N/2)/(N/2) \; x[n]=math.sqrt(1-m^2)
+\; y[n]=-math.sqrt(1-m^2) \; z[n]=(m<0 and 0) or (m>0.707 and 0) or
+m \; w[n]=(m<0 and 0) or (m<0.01 and 1) or (m<0.707 and 0.707) or 0
+\; end \;;
+#X connect 0 0 1 0;
+#X restore 1182 811 pd init;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121C_polar 400 float 0;
+#X coords 0 1 399 -1 250 250 1 0 0;
+#X restore 101 317 graph;
+#X text 256 374 A;
+#X text 308 438 α;
+#X text 212 342 β;
+#X text 246 417 φ;
+#X text 478 288 x[n] = Acos(2πfn/N+φ) = αcos(2πfn/N)-βsen(2πfn/N)
+\,;
+#X text 380 455 As REPRESENTAÇÕES (A \, φ) e (α \, β) dos parâmetros
+que caracterizam a componente senoidal recebem os nomes de REPRESENTAÇÃO
+POLAR e CARTESIANA \, respectivamente \, de acordo com sua interpretação
+geométrica no plano: α e β correspondem à ABCISSA e ORDENADA associadas
+aos eixos horizontal (do COSSENO) e vertical (do SENO) \, ao passo
+que A e φ representam a DISTÂNCIA À ORIGEM e o ÂNGULO em relação
+ao eixo horizontal., f 79;
+#N canvas 0 0 1280 700 icsm121D 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm121D vis 1;
+#N canvas 0 0 1280 700 icsm121E 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm121E vis 1;
+#N canvas 0 0 1280 700 icsm121F 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm121F vis 1;
+#N canvas 0 0 1280 700 icsm121G 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm121G vis 1;
+#N canvas 0 0 1280 700 icsm121H 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm121H vis 1;
+#X obj 100 110 cnv 15 14 14 empty empty Experimento_com_análise_em_tempo_real
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121H_sinal 64 float 4;
+#X coords 0 1.1 63 -1.1 300 200 1 0 0;
+#X restore 879 146 graph;
+#X obj 547 158 icsm_dsp;
+#X obj 713 299 hsl 128 20 0 1 0 0 empty \$0_121H_vol_r Volume -2 -8
+0 16 -262144 -1 -1 0 0;
+#X floatatom 710 323 8 0 1 0 - - #0_121H_vol;
+#X text 696 298 0;
+#X text 844 298 1;
+#X obj 550 210 tgl 24 0 \$0_121H_mute \$0_121H_mute_r MUTE 28 12 0
+18 -262130 -1 -1 0 1;
+#X obj 553 299 hsl 128 20 0 22050 0 0 empty \$0_121H_freq_r Frequência
+-2 -8 0 16 -262144 -1 -1 0 0;
+#X floatatom 550 323 8 0 22050 0 - - #0_121H_freq;
+#X obj 710 160 vradio 24 1 1 4 \$0_121H_mux \$0_121H_mux_r empty 0
+-8 0 10 -262130 -1 -1 0;
+#X text 742 160 SILÊNCIO;
+#X text 742 185 SENOIDE;
+#X text 742 208 MICROFONE;
+#X text 742 232 ARQUIVO;
+#X obj 821 235 bng 20 250 50 0 \$0_121H_load empty empty 17 7 0 10
+-262130 -1 -1;
+#N canvas 0 0 637 448 \$0_121H_síntese 0;
+#X obj 28 344 multiplex~ _ _ _ _;
+#X obj 220 345 declare -lib zexy;
+#X obj 87 211 osc~;
+#X obj 87 249 *~;
+#X obj 87 179 line~;
+#X obj 250 70 pack f 50;
+#X obj 250 99 line~;
+#X obj 224 167 adc~;
+#X obj 407 70 openpanel;
+#X obj 407 128 readsf~;
+#X obj 407 167 *~;
+#X obj 224 216 *~;
+#X msg 407 99 open \$1 \, 1;
+#X obj 28 373 outlet~;
+#X obj 87 41 r \$0_121H_freq;
+#X obj 250 41 r \$0_121H_vol;
+#X obj 407 41 r \$0_121H_load;
+#X obj 28 281 r \$0_121H_mux;
+#X obj 87 150 pack f 100;
+#X connect 0 0 13 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 1;
+#X connect 4 0 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 3 1;
+#X connect 6 0 10 1;
+#X connect 6 0 11 1;
+#X connect 7 0 11 0;
+#X connect 7 1 11 0;
+#X connect 8 0 12 0;
+#X connect 9 0 10 0;
+#X connect 10 0 0 3;
+#X connect 11 0 0 2;
+#X connect 12 0 9 0;
+#X connect 14 0 18 0;
+#X connect 15 0 5 0;
+#X connect 16 0 8 0;
+#X connect 17 0 0 0;
+#X connect 18 0 4 0;
+#X restore 106 478 pd \$0_121H_síntese;
+#N canvas 0 0 797 435 \$0_121H_análise 0;
+#X obj 37 59 inlet~;
+#X obj 37 201 cyclone/cartopol~;
+#X obj 207 285 expr~ if($v1>1e-1 \, $v2 \, 0);
+#X text 223 200 conversão cartesiano -> polar;
+#X text 481 286 elimina "ruído" associado às fases de componentes
+muito fracas., f 25;
+#X obj 222 313 bng 15 250 50 0 empty \$0_121H_atualiza empty 17 7 0
+10 -262144 -1 -1;
+#X obj 52 233 bng 15 250 50 0 empty \$0_121H_atualiza empty 17 7 0
+10 -262144 -1 -1;
+#X obj 37 253 tabwrite~ \$0_121H_ampl;
+#X obj 208 333 tabwrite~ \$0_121H_fase;
+#X obj 82 93 bng 15 250 50 0 empty \$0_121H_atualiza empty 17 7 0 10
+-262144 -1 -1;
+#X obj 68 113 tabwrite~ \$0_121H_sinal;
+#X obj 501 61 loadbang;
+#X obj 501 90 metro 100 64 samp;
+#X obj 501 119 s \$0_121H_atualiza;
+#X obj 37 159 rfft~;
+#X connect 0 0 10 0;
+#X connect 0 0 14 0;
+#X connect 1 0 2 0;
+#X connect 1 0 7 0;
+#X connect 1 1 2 1;
+#X connect 2 0 8 0;
+#X connect 5 0 8 0;
+#X connect 6 0 7 0;
+#X connect 9 0 10 0;
+#X connect 11 0 12 0;
+#X connect 12 0 13 0;
+#X connect 14 0 1 0;
+#X connect 14 1 1 1;
+#X restore 116 513 pd \$0_121H_análise;
+#N canvas 0 0 301 280 \$0_121H_saída 0;
+#X obj 51 202 dac~;
+#X obj 51 151 *~;
+#X obj 98 106 expr 1-$f1;
+#X obj 51 33 inlet~;
+#X obj 98 77 r \$0_121H_mute;
+#X connect 1 0 0 0;
+#X connect 1 0 0 1;
+#X connect 2 0 1 1;
+#X connect 3 0 1 0;
+#X connect 4 0 2 0;
+#X restore 106 549 pd \$0_121H_saída;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121H_ampl 33 float 0;
+#X coords 0 64 32 0 300 200 1 0 0;
+#X restore 550 378 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121H_fase 33 float 0;
+#X coords 0 3.1415 32 -3.1415 300 200 1 0 0;
+#X restore 880 378 graph;
+#N canvas 0 0 450 354 init 0;
+#X obj 57 74 loadbang;
+#X obj 57 103 f \$0;
+#X obj 210 41 r pd;
+#X obj 210 70 route dsp;
+#X obj 210 99 sel 0;
+#X msg 57 143 \; \$1_121H_freq_r 0 \; \$1_121H_vol_r 0 \; \$1_121H_mute_r
+0 \; \$1_121H_mux_r 0 \; \$1_121H_sinal const 0 \; \$1_121H_ampl const
+0 \; \$1_121H_fase const 0 \;;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X restore 1174 812 pd init;
+#X text 542 578 0;
+#X text 816 578 N/2;
+#X text 872 578 0;
+#X text 1146 578 N/2;
+#X text 872 578 0;
+#X text 856 369 +π;
+#X text 856 563 -π;
+#X text 536 369 N;
+#X text 535 567 0;
+#X text 100 160 No último subpatch os sinais estavam sendo gerados
+e analisados em fluxo contínuo \, porém os gráficos só eram atualizados
+quando a interface era alterada \, a fim de controlar de forma precisa
+a fase inicial das componentes senoidais geradas. De forma mais geral
+\, é possível acompanhar a evolução espectral de um sinal a partir
+da análise de blocos sucessivos \, com a taxa de atualização que
+bem entendermos. Neste exemplo \, os espectros de amplitude e fase
+são atualizados a cada 100 blocos de 64 amostras \, ou aproximadamente
+a cada 145ms., f 42;
+#X connect 1 0 2 0;
+#X connect 6 0 7 0;
+#X connect 11 0 12 0;
+#X connect 19 0 20 0;
+#X connect 19 0 21 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm121H;
+#X obj 100 110 cnv 15 14 14 empty empty Experimento_com_o_objeto_rfft~
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121G_bloco 64 float 4;
+#X coords 0 1 63 -1 300 200 1 0 0;
+#X restore 102 378 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121G_ampl 33 float 0;
+#X coords 0 64 32 0 300 200 1 0 0;
+#X restore 550 378 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121G_fase 33 float 0;
+#X coords 0 3.1415 32 -3.1415 300 200 1 0 0;
+#X restore 880 378 graph;
+#N canvas 0 0 1204 705 \$0_121G_análise/síntese 0;
+#X floatatom 103 27 8 0 64 2 Frequência - -;
+#X floatatom 332 114 8 -3.1415 3.1415 1 rad - -;
+#X text 189 27 ciclos/bloco;
+#X floatatom 103 114 8 0 64 1 Hz - -;
+#X obj 332 27 vradio 20 1 0 4 empty empty Fase_inicial 0 -10 0 16 -262144
+-1 -1 3;
+#X text 356 25 cos;
+#X text 356 45 sen;
+#X text 356 65 -cos;
+#X text 356 85 -sen;
+#X text 100 91 Frequência equivalente;
+#X obj 223 117 tgl 20 0 empty empty Toca 22 10 0 16 -262144 -1 -1 0
+1;
+#X obj 467 26 expr $f1*44100/64;
+#X obj 451 481 cyclone/cartopol~;
+#X obj 466 423 tabwrite~ \$0_121G_corr_cos;
+#X obj 451 533 tabwrite~ \$0_121G_ampl;
+#X obj 622 613 tabwrite~ \$0_121G_fase;
+#X obj 621 565 expr~ if($v1>1e-1 \, $v2 \, 0);
+#X obj 150 503 *~;
+#X obj 150 532 dac~;
+#X obj 224 461 line~;
+#X obj 150 294 osc~;
+#X obj 186 383 tabwrite~ \$0_121G_bloco;
+#X obj 332 203 t b f;
+#X obj 103 153 t b f;
+#X msg 224 428 \$1 100;
+#X text 637 480 conversão cartesiano -> polar;
+#X obj 103 184 bng 15 250 50 0 \$0_121G_atualiza empty atualiza 17
+7 0 10 -262144 -1 -1;
+#X obj 332 234 bng 15 250 50 0 \$0_121G_atualiza empty atualiza 17
+7 0 10 -262144 -1 -1;
+#X obj 186 363 bng 15 250 50 0 empty \$0_121G_atualiza atualiza 17
+7 0 10 -262144 -1 -1;
+#X obj 466 403 bng 15 250 50 0 empty \$0_121G_atualiza atualiza 17
+7 0 10 -262144 -1 -1;
+#X obj 746 403 bng 15 250 50 0 empty \$0_121G_atualiza atualiza 17
+7 0 10 -262144 -1 -1;
+#X obj 636 593 bng 15 250 50 0 empty \$0_121G_atualiza atualiza 17
+7 0 10 -262144 -1 -1;
+#X obj 466 513 bng 15 250 50 0 empty \$0_121G_atualiza atualiza 17
+7 0 10 -262144 -1 -1;
+#X obj 746 423 tabwrite~ \$0_121G_corr_-sen;
+#X obj 451 369 rfft~;
+#X text 507 369 [rfft~] calcula correlações com cosseno e -seno;
+#X text 895 566 elimina "ruído" associado às fases de componentes
+muito fracas (pois rotações aleatórias geram fases aleatórias entre
+-π e +π)., f 25;
+#X text 465 63 converte seletor em (0 \, -π/2 \, +π \, +π/2);
+#X obj 466 90 expr (if($f1<2 \, 0 \, 4)-$f1)*acos(-1)/2;
+#X floatatom 332 171 5 0 0 0 - - -;
+#X obj 332 142 expr $f1/acos(-1)/2;
+#X text 392 171 fase em frações de ciclo;
+#X floatatom 103 64 8 0 1 1 Amplitude #0_121G_amp_r -;
+#X obj 150 323 *~;
+#X obj 183 153 t b f;
+#X obj 183 184 bng 15 250 50 0 \$0_121G_atualiza empty atualiza 17
+7 0 10 -262144 -1 -1;
+#X text 468 0 converte frequência para Hz;
+#X connect 0 0 11 0;
+#X connect 1 0 40 0;
+#X connect 3 0 23 0;
+#X connect 4 0 38 0;
+#X connect 10 0 24 0;
+#X connect 11 0 3 0;
+#X connect 12 0 14 0;
+#X connect 12 0 16 0;
+#X connect 12 1 16 1;
+#X connect 16 0 15 0;
+#X connect 17 0 18 0;
+#X connect 17 0 18 1;
+#X connect 19 0 17 1;
+#X connect 20 0 43 0;
+#X connect 22 0 27 0;
+#X connect 22 1 20 1;
+#X connect 23 0 26 0;
+#X connect 23 1 20 0;
+#X connect 24 0 19 0;
+#X connect 28 0 21 0;
+#X connect 29 0 13 0;
+#X connect 30 0 33 0;
+#X connect 31 0 15 0;
+#X connect 32 0 14 0;
+#X connect 34 0 12 0;
+#X connect 34 0 13 0;
+#X connect 34 1 12 1;
+#X connect 34 1 33 0;
+#X connect 38 0 1 0;
+#X connect 39 0 22 0;
+#X connect 40 0 39 0;
+#X connect 42 0 44 0;
+#X connect 43 0 17 0;
+#X connect 43 0 21 0;
+#X connect 43 0 34 0;
+#X connect 44 0 45 0;
+#X connect 44 1 43 1;
+#X coords 0 -1 1 1 370 150 2 90 0;
+#X restore 102 208 pd \$0_121G_análise/síntese;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121G_corr_cos 33 float 0;
+#X coords 0 64 32 -64 300 200 1 0 0;
+#X restore 550 148 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121G_corr_-sen 33 float 0;
+#X coords 0 64 32 -64 300 200 1 0 0;
+#X restore 880 148 graph;
+#X text 542 578 0;
+#X text 816 578 N/2;
+#X text 872 578 0;
+#X text 1146 578 N/2;
+#X text 536 369 N;
+#X text 856 369 +π;
+#X text 856 563 -π;
+#X text 536 137 N;
+#X text 526 335 -N;
+#X text 866 137 N;
+#X text 856 335 -N;
+#X obj 445 158 icsm_dsp;
+#X text 100 140 Mesmo exemplo anterior usando objetos de áudio nativos
+do Pd. Comentários no bloco abaixo:, f 31;
+#X text 535 567 0;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm121G;
+#X obj 100 110 cnv 15 14 14 empty empty Transformada_de_Fourier_Real
+0 0 0 28 -262144 -38 0;
+#X obj 483 432 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 610 231 e;
+#X text 610 335 e;
+#X text 518 412 A[f]·cos(2πfn/N+φ[f]);
+#X text 482 438 f=1;
+#X text 472 388 N/2-1;
+#X text 320 412 x[n] = 1·A[0]+2·;
+#X text 390 413 _;
+#X text 460 413 _;
+#X text 740 413 _;
+#X text 390 432 N;
+#X text 460 432 N;
+#X text 740 432 N;
+#X text 970 231 (EQUAÇÃO DE ANÁLISE);
+#X text 970 412 (EQUAÇÃO DE SÍNTESE);
+#X text 730 412 +1·A[N/2]·cos(πn) \,;
+#X text 320 231 a[f] = (x \, cos_f);
+#X text 700 231 b[f] = (x \, -sen_f) \,;
+#X text 320 335 A[f] = sqrt(a[f]²+b[f]²);
+#X text 700 335 φ[f] = atan(b[f] \, a[f]).;
+#X text 100 264 onde cos_f[n]=cos(2πfn/N) e sen_f[n]=sen(2fn/N). Observe
+que as expressões acima não possuem os denominadores N ou N/2 vistos
+anteriormente nas expressões de α[f] e β[f]. Os parâmetros acima
+\, em coordenadas cartesianas \, podem ser expressos equivalentemente
+em coordenadas polares pelas expressões, f 107;
+#X text 100 160 A TRANSFORMADA DE FOURIER REAL associa a um sinal real
+arbitrário x=(x[0] \, x[1] \, ... \, x[N-1]) uma representação como
+COMBINAÇÃO LINEAR de COMPONENTES SENOIDAIS com frequências f=0 \,
+1 \, 2 \, ... \, N/2 \, medidas em ciclos completos por bloco de N
+amostras \, através das CORRELAÇÕES NÃO NORMALIZADAS, f 107;
+#X text 100 367 A RECONSTRUÇÃO PERFEITA do sinal x[n] a partir dos
+parâmetros acima é dada pela TRANSFORMADA INVERSA, f 107;
+#X text 100 467 onde os pesos 1/N \, 2/N e 1/N são exatamente os inversos
+dos valores das correlações encontradas respectivamente para f=0
+(COMPONENTE DC) \, 0<f<N/2 e f=N/2 (COMPONENTE DE NYQUIST) \, lembrando
+também das propriedades a[0]=0 e b[N/2]=0 (porque sen_0 e sen_N/2
+são funções identicamente nulas)., f 107;
+#X text 100 535 As equações de análise e síntese acima podem ser
+vistas como uma MUDANÇA DE BASE DE REPRESENTAÇÃO \, onde x=(x[0]
+\, x[1] \, ... \, x[N-1]) e X=(a[0] \, a[1] \, b[1] \, a[2] \, b[2]
+\, ... \, a[N/2-1] \, b[N/2-1] \, a[N/2]) estão respectivamente na
+BASE CANÔNICA e na BASE DE COSSENOS E SENOS DE FASE 0, f 107;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm121F;
+#X obj 100 110 cnv 15 14 14 empty empty Experimento_com_múltiplas_componentes
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121E_bloco 67 float 4;
+#X coords 0 1 66 -1 300 200 1 0 0;
+#X restore 880 148 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121E_ampl 33 float 0;
+#X coords 0 64 32 0 300 200 1 0 0;
+#X restore 550 378 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121E_fase 33 float 0;
+#X coords 0 3.1415 32 -3.1415 300 200 1 0 0;
+#X restore 880 378 graph;
+#N canvas 0 0 1098 709 \$0_121E_análise/síntese 0;
+#X floatatom 103 27 8 0 64 2 Frequência #0_121E_freq_r -;
+#X floatatom 332 114 8 -3.1415 3.1415 2 - - -;
+#X text 189 27 ciclos/bloco;
+#X obj 332 27 vradio 20 1 0 4 empty \$0_121E_fase_r Fase_inicial 0
+-10 0 16 -262144 -1 -1 2;
+#X text 356 25 cos;
+#X text 356 45 sen;
+#X text 356 65 -cos;
+#X text 356 85 -sen;
+#X obj 173 117 bng 20 250 50 0 empty empty Reinicia 0 -10 0 16 -262144
+-1 -1;
+#X obj 173 142 f \$0;
+#X msg 416 166 \; \$1_121E_bloco const 0 \; \$1_121E_ampl const 0 \;
+\$1_121E_fase const 0;
+#X obj 268 117 tgl 20 0 empty empty Toca 0 -10 0 16 -262144 -1 -1 0
+1;
+#X floatatom 103 64 8 0 1 1 Amplitude #0_121E_amp_r -;
+#X obj 103 241 pack f f f;
+#X obj 103 117 bng 20 250 50 0 empty empty Soma 0 -10 0 16 -262144
+-1 -1;
+#N canvas 0 0 1095 356 \$0_121E_tocar 0;
+#X obj 37 37 inlet;
+#X obj 307 235 *~;
+#X obj 307 264 dac~;
+#X obj 37 66 sel 0;
+#X obj 37 95 t b b;
+#X msg 354 164 0 100;
+#X obj 334 193 line~;
+#X obj 37 124 del 100;
+#X msg 37 153 \; pd dsp 0;
+#X obj 130 94 t b b;
+#X msg 177 123 \; pd dsp 1;
+#X msg 334 128 1 100;
+#X obj 307 36 loadbang;
+#X obj 307 66 expr 44100/64;
+#X obj 307 96 tabosc4~ \$0_121E_bloco;
+#X obj 261 37 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 544 96 Nessa implementação usamos o próprio bloco para sintetizar
+o sinal usando um oscilador por consulta a tabela. O objeto [tabosc4~]
+usa interpolação e exige a repetição das 3 amostras iniciais no
+final do vetor \, por economia computacional (evita usar o operador
+módulo na leitura do vetor)., f 51;
+#X connect 0 0 3 0;
+#X connect 1 0 2 0;
+#X connect 1 0 2 1;
+#X connect 3 0 4 0;
+#X connect 3 1 9 0;
+#X connect 4 0 7 0;
+#X connect 4 1 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 1;
+#X connect 7 0 8 0;
+#X connect 9 0 11 0;
+#X connect 9 1 10 0;
+#X connect 11 0 6 0;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 1 0;
+#X connect 15 0 13 0;
+#X restore 268 142 pd \$0_121E_tocar;
+#X text 211 241 (freq \, amp \, fase);
+#X obj 103 270 ofelia f \; local x=ofArray("\$0_121E_bloco") \; local
+y=ofArray("\$0_121E_ampl") \; local z=ofArray("\$0_121E_fase") \; local
+tmp=ofArray("\$0_121E_blo") \; local Np3=x:getSize() \; local N=Np3-3
+--[[ tam. do bloco=N+3 para o tabosc4~]] \; --[[ inicializa sinal ]]
+\; for n=0 \, Np3-1 do \; tmp[n] = a[2]*math.cos(2*math.pi*a[1]*n/N+a[3])
+\; end \; --[[ calcula correlações com cos/-sen \; de frequências
+f=0 \, 1 \, ... \, N-1 ]] \; for f=0 \, N-1 do \; local ccos=0 \; local
+csen=0 \; for n=0 \, N-1 do \; ccos = ccos+(x[n]+tmp[n])*math.cos(2*math.pi*f*n/N)
+\; csen = csen-(x[n]+tmp[n])*math.sin(2*math.pi*f*n/N) \; end \; y[f]
+= math.sqrt(ccos^2+csen^2) \; z[f] = (y[f]>1e-3 and math.atan(csen
+\, ccos)) or 0 \; end \;;
+#X obj 671 470 f \$0;
+#X text 670 240 soma componente temporária ao sinal;
+#X obj 671 270 ofelia f \; local x=ofArray("\$0_121E_bloco") \; local
+tmp=ofArray("\$0_121E_blo") \; local Np3=x:getSize() \; local N=Np3-3
+\; --[[ soma tmp ao sinal ]] \; for n=0 \, Np3-1 do \; x[n] = x[n]+tmp[n]
+\; end \; return bang \;;
+#X msg 671 499 \; \$1_121E_amp_r 0 \; \$1_121E_fase_r 0 \; \$1_121E_freq_r
+0;
+#X obj 332 174 t b f;
+#X obj 152 175 t b f;
+#X obj 103 210 f;
+#X text 465 63 converte seletor em (0 \, -π/2 \, +π \, +π/2);
+#X obj 476 87 expr (if($f1<2 \, 0 \, 4)-$f1)*acos(-1)/2;
+#X connect 0 0 24 0;
+#X connect 1 0 22 0;
+#X connect 3 0 26 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 11 0 15 0;
+#X connect 12 0 23 0;
+#X connect 13 0 17 0;
+#X connect 14 0 20 0;
+#X connect 18 0 21 0;
+#X connect 20 0 18 0;
+#X connect 22 0 24 0;
+#X connect 22 1 13 2;
+#X connect 23 0 24 0;
+#X connect 23 1 13 1;
+#X connect 24 0 13 0;
+#X connect 26 0 1 0;
+#X coords 0 -1 1 1 370 150 2 90 0;
+#X restore 491 148 pd \$0_121E_análise/síntese;
+#X text 542 578 0;
+#X text 816 578 N/2;
+#X text 872 578 0;
+#X text 1146 578 N/2;
+#X text 536 369 N;
+#X text 856 369 +π;
+#X text 856 563 -π;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121E_blo 67 float 4;
+#X coords 0 1 66 -1 300 200 1 0 0;
+#X restore 880 148 graph;
+#X text 100 140 A implementação ao lado permite a criação de sinais
+de teste com múltiplas componentes senoidais \, usando frequências
+\, fases e amplitudes independentes. Basta escolher os parâmetros
+(f \, A \, φ) e apertar o botão "Soma". Você pode ouvir o sinal
+de teste com a chave "Toca" e começar um novo sinal com o botão "Reinicia".
+, f 36;
+#X text 100 542 Observe também como componentes em FREQUÊNCIAS DIFERENTES
+NÃO INTERFEREM umas com as outras no algoritmo de detecção., f
+42;
+#X text 100 341 Os gráficos ao lado mostram amplitudes e fases correspondentes
+às CORRELAÇÕES NÃO NORMALIZADAS a[f]=(x \, cos_f) e b[f]=(x \,
+-sen_f) \, convertidas em coordenadas polares pelas expressões sqrt(a[f]²+b[f]²)
+e atan(b[f] \, a[f]). Observe a CORRESPONDÊNCIA dos valores de FASE
+(considerando EQUIVALENTES -π e +π) e das AMPLITUDES quando divididas
+por N/2 ou N (conforme o caso \, 0<f<N/2 e f=0 ou f=N/2)., f 42;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm121E;
+#X obj 100 110 cnv 15 14 14 empty empty Ortogonalidade_e_linearidade_na_obtenção_de_α_e_β
+0 0 0 28 -262144 -38 0;
+#X text 418 228 x[n] = Acos(2πfn/N+φ) = αcos_f[n]-βsen_f[n] \,
+;
+#X text 280 330 (x \, cos_g) = (αcos_f-βsen_f \, cos_g) = α(cos_f
+\, cos_g) - β(sen_f \, cos_g), f 72;
+#X text 280 350 (x \, -sen_g) = (αcos_f-βsen_f \, -sen_g) = -α(cos_f
+\, sen_g) + β(sen_f \, sen_g) \,, f 77;
+#X text 620 600 e;
+#X text 280 411 (x \, cos_f) = α(cos_f \, cos_f);
+#X text 280 430 (x \, -sen_f) = β(sen_f \, sen_f) \,;
+#X text 630 411 ==>;
+#X text 630 430 ==>;
+#X text 100 160 A medida de correlação entre sinais vista anteriormente
+pode ser usada na extração dos parâmetros α e β que representam
+componentes senoidais genéricas. Usando a notação cos_f[n]=cos(2πfn/N)
+e sen_f[n]=sen(2πgn/N) \, podemos escrever uma componente senoidal
+genérica como, f 107;
+#X text 100 380 o que \, juntamente com a ORTOGONALIDADE quando g!=f
+\, permite concluir que, f 107;
+#X text 100 530 Um último comentário sobre LINEARIDADE e ORTOGONALIDADE
+é que sinais compostos por várias componentes senoidais \, como por
+exemplo x[n] = A[f]cos(2πfn/N+φ[f]) + A[g]cos(2πgn/N+φ[g]) \, são
+passíveis do mesmo mecanismo de extração de parâmetros \, e nesse
+caso, f 107;
+#X text 340 591 α[f] = C[f]·(x \, cos_f);
+#X text 340 610 β[f] = D[f]·(x \, -sen_f) \,;
+#X text 720 591 α[g] = C[g]·(x \, cos_g);
+#X text 720 610 β[g] = D[g]·(x \, -sen_g).;
+#X text 100 260 e podemos calcular a correlação de x[n] com sinais
+de fase 0 cos_g[n]=cos(2πgn/N) e sen_g[n]=sen(2πgn/N) para frequências
+de teste g=0 \, 1 \, ... \, N/2. Usando a LINEARIDADE DA CORRELAÇÃO
+\, ou seja \, a propriedade que (cx + dy \, z) = c(x \, z) + d(y \,
+z) \, obtemos, f 107;
+#N canvas 0 0 708 272 icsm121D_obs_norma 0;
+#X obj 0 800 bng 15 250 50 0 empty empty * 4 9 0 14 -262144 -1 -1;
+#X msg 189 801 \; pd-icsm121D_obs_norma vis 1;
+#X text 108 104 ||cos_f||²=(cos_f \, cos_f)=N/2;
+#X text 118 124 ||sen_f||²=(sen_f \, sen_f)=N/2;
+#X text 438 114 se 0<f<N/2;
+#X text 44 144 e;
+#X text 118 164 ||cos_f||²=(cos_f \, cos_f)=N;
+#X text 118 184 ||sen_f||²=(sen_f \, sen_f)=0;
+#X text 438 174 se f=0 ou f=N/2.;
+#X text 44 37 Os termos C[f] e D[f] são chamados de TERMOS DE NORMALIZAÇÃO
+porque correspondem respectivamente ao inverso da NORMA² das funções
+cos_f e sen_f. Mais precisamente \,;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 15 15 2 0 800;
+#X restore 946 424 pd icsm121D_obs_norma;
+#X text 730 411 α = C[f]·(x \, cos_f);
+#X text 730 430 β = D[f]·(x \, -sen_f) \,;
+#X text 100 460 onde C[f] e D[f] são TERMOS DE NORMALIZAÇÃO satisfazendo
+C=D=2/N se 0<f<N/2 \, e C=1/N e D=0 se f=0 ou f=N/2. A CORRELAÇÃO
+é a ferramenta que permite EXTRAIR os parâmetros α e β da representação
+cartesiana a partir do sinal x[n] \, e a partir daqueles os parâmetros
+da representação polar A=sqrt(α²+β²) e φ=atan(β \, α)., f
+107;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm121D;
+#X text 380 358 Observe que \, dados α e β \, é possível recuperar
+A e φ de acordo com as expressões α²+β²=A²(cos²φ+sen²φ)=A²
+e β/α=tan(φ) \, de onde, f 79;
+#X text 758 328 β = Asen(φ).;
+#X text 478 328 α = Acos(φ);
+#X text 668 328 e;
+#X text 478 410 A=sqrt(α²+β²);
+#X text 668 410 e;
+#N canvas 0 0 715 320 icsm121C_obs_atan 0;
+#X msg 189 801 \; pd-icsm121C_obs_atan vis 1;
+#X obj 90 151 loadbang;
+#X floatatom 90 230 8 0 0 1 =π/4 - -;
+#X floatatom 472 230 8 0 0 1 =-3π/4 - -;
+#X obj 90 180 ofelia f -c12 \; return ofTable(math.atan(-1/-1) \, math.atan(-1
+\, -1)) \;;
+#X obj 0 800 bng 15 250 50 0 empty empty * 4 9 0 14 -262144 -1 -1;
+#X text 26 28 A função arcotangente é definida em certas linguagens
+de programação como aceitando 2 parâmetros \, um valor de seno e
+um valor de cosseno \, o que permite distinguir ângulos que possuem
+o mesmo valor de tangente mas se localizam em quadrantes opostos do
+círculo trigonométrico \, como no exemplo abaixo:, f 63;
+#X connect 1 0 4 0;
+#X connect 4 0 2 0;
+#X connect 4 1 3 0;
+#X connect 5 0 0 0;
+#X coords 0 -1 1 1 15 15 2 0 800;
+#X restore 906 415 pd icsm121C_obs_atan;
+#X text 758 410 φ=atan(β \, α).;
+#X text 237 422 );
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm121C;
+#X obj 100 110 cnv 15 14 14 empty empty Experimento_de_detecção_com_senos_e_cossenos
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121B_bloco 64 float 4;
+#X coords 0 1 63 -1 300 200 1 0 0;
+#X restore 880 148 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121B_corr_cos 33 float 0;
+#X coords 0 64 32 -64 300 200 1 0 0;
+#X restore 530 378 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_121B_corr_sen 33 float 0;
+#X coords 0 64 32 -64 300 200 1 0 0;
+#X restore 880 378 graph;
+#N canvas 0 0 889 703 \$0_121B_análise/síntese 0;
+#X obj 103 241 pack f f;
+#X floatatom 103 27 8 0 64 2 Frequência - -;
+#X obj 103 212 f;
+#X floatatom 332 114 8 -3.1415 3.1415 1 rad - -;
+#X obj 332 182 t b f;
+#X text 201 241 (frequência \, fase inicial);
+#X text 189 27 ciclos/bloco;
+#X floatatom 103 114 8 0 64 1 Hz - -;
+#X obj 332 27 vradio 20 1 0 4 empty empty Fase_inicial 0 -10 0 16 -262144
+-1 -1 1;
+#X text 356 25 cos;
+#X text 356 45 sen;
+#X text 356 65 -cos;
+#X text 356 85 -sen;
+#X text 100 91 Frequência equivalente;
+#X obj 223 117 tgl 20 0 empty empty Toca 22 10 0 16 -262144 -1 -1 0
+1;
+#N canvas 0 0 518 337 \$0_121B_toca 0;
+#X obj 173 65 inlet;
+#X obj 77 235 *~;
+#X obj 77 264 dac~;
+#X obj 104 193 line~;
+#X obj 77 66 inlet;
+#X obj 77 96 osc~;
+#X obj 173 94 t f f;
+#X msg 104 148 \$1 100;
+#X obj 220 127 moses 1;
+#X msg 220 234 \; pd dsp \$1;
+#X text 300 114 0 -> esquerda 1 -> direita, f 13;
+#X text 311 161 espera rampa se for desligar, f 15;
+#X text 75 35 freq;
+#X text 171 35 liga/desliga;
+#X obj 220 161 pipe 100;
+#X connect 0 0 6 0;
+#X connect 1 0 2 0;
+#X connect 1 0 2 1;
+#X connect 3 0 1 1;
+#X connect 4 0 5 0;
+#X connect 5 0 1 0;
+#X connect 6 0 7 0;
+#X connect 6 1 8 0;
+#X connect 7 0 3 0;
+#X connect 8 0 14 0;
+#X connect 8 1 9 0;
+#X connect 14 0 9 0;
+#X restore 103 161 pd \$0_121B_toca;
+#X obj 103 55 expr $f1*44100/64;
+#X obj 46 55 t f f;
+#X obj 103 270 ofelia f \; local x=ofArray("\$0_121B_bloco") \; local
+y=ofArray("\$0_121B_corr_cos") \; local z=ofArray("\$0_121B_corr_sen")
+\; local N=x:getSize() \; --[[ inicializa sinal ]] \; for n=0 \, N-1
+do \; x[n] = math.cos(2*math.pi*a[1]*n/N+a[2]) \; end \; --[[ calcula
+correlações com cos/sen \; de frequências f=0 \, 1 \, ... \, N/2
+]] \; for f=0 \, N/2 do \; local ccos=0 \; local csen=0 \; for n=0
+\, N-1 do \; ccos = ccos+x[n]*math.cos(2*math.pi*f*n/N) \; csen = csen+x[n]*math.sin(2*math.pi*f*n/N)
+\; end \; y[f] = ccos \; z[f] = csen \; end \;;
+#X obj 466 90 expr (if($f1<2 \, 0 \, 4)-$f1)*acos(-1)/2;
+#X text 465 63 converte seletor em (0 \, -π/2 \, +π \, +π/2);
+#X connect 0 0 18 0;
+#X connect 1 0 17 0;
+#X connect 2 0 0 0;
+#X connect 3 0 4 0;
+#X connect 4 0 2 0;
+#X connect 4 1 0 1;
+#X connect 7 0 15 0;
+#X connect 8 0 19 0;
+#X connect 14 0 15 1;
+#X connect 16 0 7 0;
+#X connect 17 0 2 0;
+#X connect 17 1 16 0;
+#X connect 19 0 3 0;
+#X coords 0 -1 1 1 370 150 2 90 0;
+#X restore 491 158 pd \$0_121B_análise/síntese;
+#X text 100 157 A implementação ao lado estende a técnica de detecção
+por correlação para sinais em fase de cos/sen/-cos/-sen. São computadas
+as correlações do sinal gerado com todos os sinais de teste da forma
+y[n]=cos(2πgn/N) e y[n]=sen(2πgn/N) \, com g=0 \, 1 \, 2 \, ... \,
+N/2., f 38;
+#X text 100 322 Observe como os sinais em forma de cosseno são mapeados
+exclusivamente no mapa corr_cos \, com sinal negativo quando estão
+em fase -cos (o que decorre de (x \, -y) = -(x \, y)) \, e que os sinais
+em forma de seno são mapeados exclusivamente no mapa corr_sen \, com
+troca de sinal quando em fase -sen., f 38;
+#X text 522 578 0;
+#X text 873 578 0;
+#X text 796 578 N/2;
+#X text 100 507 Você pode observar o que acontece com senoides que
+possuem fase inicial arbitrária \, controlando diretamente a caixa
+numérica em radianos. Esse é o tema abordado a seguir., f 38;
+#X text 1146 578 N/2;
+#X text 516 367 N;
+#X text 866 367 N;
+#X text 506 565 -N;
+#X text 856 565 -N;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm121B;
+#X obj 100 110 cnv 15 14 14 empty empty Ortogonalidade_entre_senos_e_cossenos_de_fase_0
+0 0 0 28 -262144 -38 0;
+#X text 100 150 Um sinal da forma x[n]=cos(2πfn/N) ou x[n]=sen(2πfn/N)
+é dito "de fase 0" pois a função fase φ[n]=2πfn/N satisfaz φ[0]=0.
+Observe que a frequência f que aparece na expressão de x[n] representa
+a quantidade de CICLOS POR BLOCO DE N AMOSTRAS. A frequência f em
+ciclos/bloco coincide com o valor de frequência em Hz apenas se N=R
+(1 bloco = 1 segundo) \, e em geral pode ser convertida para Hz pela
+expressão f_Hz = f·R/N., f 107;
+#X text 347 309 (x \, y) = 0 se f!=g \,;
+#X text 347 329 (x \, y) = N/2 se 0 < f=g < N/2 (pois cos(2π(f-g)n/N)=cos(0)=1)
+\, e, f 69;
+#X text 347 349 (x \, y) = N se f=g=0 ou f=g=N/2 (pois f+g=f-g=0).
+;
+#X text 100 380 Se f é uma frequência inteira desconhecida \, podemos
+usar a condição (x \, y)!=0 <==> f==g para construir um algoritmo
+de DETECÇÃO \, percorrendo as frequências g=0 \, 1 \, 2 \, ... \,
+N/2 (note que N/2 é a FREQUÊNCIA DE NYQUIST) e considerando que g=f
+será a única alternativa que produz correlação não-nula., f 107
+;
+#X text 100 450 A propriedade trigonométrica 2sen(a)sen(b) = cos(a-b)-cos(a+b)
+pode ser usada para verificar que sinais da forma x[n]=sen(2πfn/N)
+e y[n]=sen(2πgn/N) satisfazem (x \, y) = 0 se f!=g \, e (x \, y) =
+N/2 se 0 < f=g < N/2. Porém \, DIFERENTEMENTE do que ocorre com o
+cosseno \, temos (x \, y) = 0 se f=g=0 ou f=g=N/2 \, porque nesses
+casos vale que x[n]=y[n]=0 para todo n., f 107;
+#X text 100 537 Finalmente \, a propriedade trigonométrica 2sen(a)cos(b)
+= sen(a+b)+sen(a-b) pode ser usada para verificar que (x \, y) = 0
+sempre que x e y correspondem respectivamente a um seno e um cosseno
+de fase 0, f 107;
+#X text 100 240 Se x[n]=cos(2πfn/N) e y[n]=cos(2πgn/N) \, podemos
+usar a identidade 2cos(a)cos(b) = cos(a+b)+cos(a-b) para ver que x[n]y[n]=cos(2πfn/N)·cos(2πgn/N)=0.5·[
+cos(2π(f+g)n/N)+cos(2π(f-g)n/N) ]. Quando f e g são INTEIROS \,
+a soma de correlação percorrerá f+g e f-g períodos completos últimos
+dos dois cossenos \, de onde, f 107;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm121A;
+#X text 317 439 (x \, y) = x[0]y[0]+x[1]y[1]+···+x[N-1]y[N-1] =
+;
+#X text 100 510 para dois sinais x e y com N amostras. O termo correlação
+tem origem ESTATÍSTICA \, mas a mesma fórmula também é usada em
+ÁLGEBRA/GEOMETRIA e recebe o nome de PRODUTO INTERNO \, sendo uma
+medida relacionada ao ÂNGULO entre vetores e à propriedade de ORTOGONALIDADE
+\, caracterizada pela condição (x \, y) = 0, f 107;

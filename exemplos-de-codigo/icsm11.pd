@@ -1,37 +1,16 @@
 #N canvas 0 0 1280 700 24;
 #X obj 0 0 icsm_cabecalho;
-#X obj 100 200 cnv 15 14 14 empty empty 1.1_-_Representações_de_Áudio_Digital
+#X obj 100 150 cnv 15 14 14 empty empty 1.1_-_Representação_Temporal
 0 0 0 34 -262144 -147457 0;
-#N canvas 0 0 1280 700 icsm11A 0;
-#X text 6 801 continua:;
-#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
--1 -1;
-#X msg 189 801 \; pd-icsm11A vis 1;
-#X obj 100 100 cnv 15 14 14 empty empty 1.1_-_Representações_de_Áudio_Digital
-0 0 0 34 -262144 -147457 0;
-#X obj 100 180 icsm_topico icsm111.pd 1.1.1_Som_e_sinal:_conversões_AD/DA
+#X obj 100 190 icsm_topico icsm111.pd 1.1.1_Som_e_sinal:_conversões_AD/DA
 ;
-#X obj 100 240 icsm_topico icsm112.pd 1.1.2_Taxa_de_amostragem_e_quantização
+#X obj 100 250 icsm_topico icsm112.pd 1.1.2_Taxa_de_amostragem_e_quantização
 ;
-#X obj 100 300 icsm_topico icsm113.pd 1.1.3_Sinais_elementares;
-#X obj 100 360 icsm_topico icsm114.pd 1.1.4_Processamento_em_tempo_real
+#X obj 100 310 icsm_topico icsm113.pd 1.1.3_Sinais_elementares;
+#X obj 100 370 icsm_topico icsm114.pd 1.1.4_Processamento_em_tempo_real
 ;
-#X obj 100 420 icsm_topico icsm115.pd 1.1.5_Amplitude_e_frequência
+#X obj 100 430 icsm_topico icsm115.pd 1.1.5_Amplitude_e_frequência
 ;
-#X obj 100 480 icsm_topico icsm116.pd 1.1.6_Teorema_de_Nyquist_e_rebatimento
+#X obj 100 490 icsm_topico icsm116.pd 1.1.6_Teorema_de_Nyquist_e_rebatimento
 ;
-#X obj 100 540 icsm_topico icsm117.pd 1.1.7_Quantização_e_SQNR;
-#X connect 1 0 2 0;
-#X coords 0 -1 1 1 180 36 2 0 800;
-#X restore 1000 600 pd icsm11A;
-#X text 99 258 OBJETIVO: estudar as representações usadas em áudio
-digital \, particularmente as noções de SINAL ANALÓGICO \, SINAL
-DIGITAL \, suas representações nos DOMÍNIOS DO TEMPO E DA FREQUÊNCIA
-\, e as OPERAÇÕES ELEMENTARES aplicadas a essas representações.
-, f 76;
-#X text 99 408 Nossas preocupações principais se referem à fidelidade
-das representações (em particular \, entender e controlar perdas
-ou distorções nas informações) e à compreensão das diferentes
-perspectivas oferecidas pelas diversas representações (e suas potencialidades
-nos domínios da análise \, síntese e processamento sonoros)., f
-76;
+#X obj 100 550 icsm_topico icsm117.pd 1.1.7_Quantização_e_SQNR;

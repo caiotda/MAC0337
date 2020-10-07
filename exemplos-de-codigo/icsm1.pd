@@ -2,8 +2,29 @@
 #X obj 0 0 icsm_cabecalho;
 #X obj 100 200 cnv 15 14 14 empty empty 1_-_Representações_de_Áudio_Digital
 0 0 0 34 -262144 -1601 0;
+#N canvas 0 0 1280 700 icsm1A 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm1A vis 1;
+#X obj 100 200 cnv 15 14 14 empty empty 1_-_Representações_de_Áudio_Digital
+0 0 0 34 -262144 -1601 0;
 #X obj 100 280 icsm_topico icsm11.pd 1.1_Representação_Temporal;
 #X obj 100 360 icsm_topico icsm12.pd 1.2_Representação_Espectral
 ;
-#X obj 100 440 icsm_topico icsm13.pd 1.3_Operações_Elementares_sobre_Sinais
+#X obj 100 440 icsm_topico icsm13.pd 1.3_Filtros
 ;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm1A;
+#X text 99 258 OBJETIVO: estudar as representações usadas em áudio
+digital \, particularmente as noções de SINAL ANALÓGICO \, SINAL
+DIGITAL \, suas representações nos DOMÍNIOS DO TEMPO E DA FREQUÊNCIA
+\, e as OPERAÇÕES ELEMENTARES aplicadas a essas representações.
+, f 76;
+#X text 99 408 Nossas preocupações principais se referem à fidelidade
+das representações (em particular \, entender e controlar perdas
+ou distorções nas informações) e à compreensão das diferentes
+perspectivas oferecidas pelas diversas representações (e suas potencialidades
+nos domínios da análise \, síntese e processamento sonoros)., f
+76;

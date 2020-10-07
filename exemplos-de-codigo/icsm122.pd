@@ -1,0 +1,530 @@
+#N canvas 0 0 1280 700 16;
+#X declare -lib ofelia;
+#X declare -lib zexy;
+#X declare -lib ofelia;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 1.2.2_Transformada_de_Fourier
+0 0 0 34 -262144 -38 0;
+#X text 390 386 exp_f[n] = e;
+#X text 510 376 i2πfn/N;
+#X text 590 386 = cos(2πfn/N)+i·sen(2πfn/N);
+#X text 100 250 Inicialmente \, é importante observar que existem
+várias Transformadas de Fourier \, que diferem entre si entre outras
+coisas pelo conjunto de sinais considerado como domínio de partida
+e pela base de funções usada na representação. Sua forma mais comum
+é a TRANSFORMADA DE FOURIER DISCRETA (DFT = Discrete Fourier Transform)
+que considera como domínio de partida vetores de N componentes (REAIS
+ou COMPLEXAS) e como base de representação as funções EXPONENCIAIS
+COMPLEXAS associadas à expressão, f 107;
+#N canvas 0 0 877 703 icsm122A 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm122A vis 1;
+#X obj 100 110 cnv 15 14 14 empty empty Exponenciais_complexas_e_rebatimento
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 251 164 \$0_122A_interface 0;
+#X floatatom 13 27 8 -64 64 2 Frequência #0_122A_freq_r #0_122A_freq
+;
+#X floatatom 12 104 8 -3.1415 3.1415 1 Fase_inicial #0_122A_fase_r
+#0_122A_fase;
+#X floatatom 13 64 8 0 2 1 Amplitude #0_122A_amp_r #0_122A_amp;
+#N canvas 0 0 1280 700 magic 0;
+#X obj 803 470 ofWindow;
+#X obj 39 66 ofSetup;
+#X obj 39 97 ofBackground 51;
+#X obj 39 358 ofRequire \$0-vars;
+#X obj 523 25 declare -lib ofelia;
+#X text 36 19 Adaptado do exemplo motion/brownian do [ofelia];
+#X obj 709 318 r \$0_122A_popup;
+#X obj 637 151 r \$0_122A_freq;
+#X msg 637 180 freq \$1;
+#X obj 787 151 r \$0_122A_amp;
+#X msg 787 180 amp \$1;
+#X obj 637 211 r \$0_122A_fase;
+#X msg 637 280 fase \$1;
+#X obj 709 377 sel 0;
+#X msg 673 409 destroy;
+#X obj 39 128 ofSetFrameRate 30;
+#X obj 39 155 ofelia f \$0-vars \; M.num \, M.freq \, M.amp \, M.fase
+\, M.n \, M.N = 10 \, 1 \, 1 \, 0 \, 0 \, 30 \; M.ax \, M.ay = ofTable()
+\, ofTable() \; for i=1 \, M.num do \; M.ax[i] = 300 \; M.ay[i] = 200
+\; end \;;
+#X msg 727 280 n 0;
+#X msg 803 440 setPosition 880 0 \, setSize 400 400 \, create;
+#X obj 637 240 t f b;
+#X obj 1031 110 loadbang;
+#X obj 1031 139 f \$0;
+#X obj 756 409 t b b;
+#X msg 1031 168 \; \$1_122A_freq_r 1 \; \$1_122A_amp_r 1 \; \$1_122A_fase_r
+0;
+#X text 1030 79 inicializações;
+#X text 636 116 recebe variações de freq \, amp \, fase;
+#X obj 918 340 ofDraw;
+#X obj 918 379 spigot;
+#X obj 709 347 t f f;
+#X obj 39 389 ofelia f \; for i=2 \, a.num do \; a.ax[i-1] = a.ax[i]
+\; a.ay[i-1] = a.ay[i] \; end \; a.ax[a.num] = 200+math.floor(0.5+100*a.amp*math.cos(2*math.pi*a.freq*a.n/a.N+a.fase))
+\; a.ay[a.num] = 200-math.floor(0.5+100*a.amp*math.sin(2*math.pi*a.freq*a.n/a.N+a.fase))
+\; a.n = (a.n+1)%(100*a.N) \; for i=2 \, a.num do \; local val = i/a.num
+* 204 + 51 \; ofSetColor(val) \; ofDrawLine(a.ax[i-1] \, a.ay[i-1]
+\, a.ax[i] \, a.ay[i]) \; end \;;
+#X connect 1 0 2 0;
+#X connect 2 0 15 0;
+#X connect 3 0 29 0;
+#X connect 6 0 28 0;
+#X connect 7 0 8 0;
+#X connect 8 0 16 0;
+#X connect 9 0 10 0;
+#X connect 10 0 16 0;
+#X connect 11 0 19 0;
+#X connect 12 0 16 0;
+#X connect 13 0 14 0;
+#X connect 13 1 22 0;
+#X connect 14 0 0 0;
+#X connect 15 0 16 0;
+#X connect 17 0 16 0;
+#X connect 18 0 0 0;
+#X connect 19 0 12 0;
+#X connect 19 1 17 0;
+#X connect 20 0 21 0;
+#X connect 21 0 23 0;
+#X connect 22 0 21 0;
+#X connect 22 1 18 0;
+#X connect 26 0 27 0;
+#X connect 27 0 3 0;
+#X connect 28 0 13 0;
+#X connect 28 1 27 1;
+#X restore 501 600 pd magic;
+#X obj 151 27 tgl 20 0 \$0_122A_popup empty LIGA 24 10 0 18 -262130
+-1 -1 0 1;
+#X text 95 27 Hz;
+#X coords 0 -1 1 1 230 140 2 0 0;
+#X restore 560 158 pd \$0_122A_interface;
+#X text 100 150 As funções exponenciais complexas usadas pela Transformada
+de Fourier podem ser visualizadas através de animações no plano.
+A animação ao lado usa 30 quadros/segundo \, e podemos imaginar vetores
+de tamanho N=30 descrevendo as trajetórias indicadas na figura. Observe
+como os parâmetros de frequência \, amplitude e fase inicial afetam
+a animação \, que se repete a cada 1 segundo., f 44;
+#X text 100 332 Exponenciais complexas estão sujeitas ao mesmo limite
+de representação de sinais digitais que os sinais reais aos quais
+estamos acostumados. Em particular \, a frequência de N/2 ciclos por
+bloco fará com que a exponencial percorra meio ciclo a cada amostra
+\, o que a fará alternar entre dois valores opostos. A partir de N/2
+\, ocorre o fenômeno de REBATIMENTO \, em que componentes com frequências
+f>N/2 \, após amostradas \, são indistinguíveis da frequência rebatida
+f-N \, que esse caso será uma FREQUÊNCIA NEGATIVA representando um
+movimento circular uniforme EM SENTIDO CONTRÁRIO., f 69;
+#X text 100 591 f=-N/2+1 \, ... \, -1 \, 0 \, 1 \, ... \, N/2.;
+#N canvas 0 0 877 700 icsm122B 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm122B vis 1;
+#N canvas 0 0 1280 700 icsm122C 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm122C vis 1;
+#N canvas 0 0 1280 700 icsm122D 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm122D vis 1;
+#N canvas 0 0 1280 700 icsm122E 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X obj 100 110 cnv 15 14 14 empty empty Experimento_com_síntese_espectral
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_122E_espectro_magnitude 1025 float 0;
+#X coords 0 0.01 1024 0 1074 150 1 0 0;
+#X restore 104 272 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_122E_sinal_sintetizado 1025 float 0;
+#X coords 0 0.05 1024 -0.05 1074 150 1 0 0;
+#X restore 104 442 graph;
+#N canvas 0 0 592 300 \$0_122D_interface 0;
+#X obj 90 198 *~;
+#X obj 90 227 dac~;
+#X msg 311 145 \$1 100;
+#X obj 311 174 line~;
+#X obj 239 25 bng 20 250 50 0 empty empty Limpa 0 -10 0 16 -262130
+-1 -1;
+#X obj 239 50 f \$0;
+#X obj 94 26 hsl 128 20 0.01 1 0 0 empty \$0_122E_vol_r Volume 0 -10
+0 16 -262130 -1 -1 0 1;
+#X obj 12 16 icsm_dsp;
+#X msg 239 79 \; \$1_122E_espectro_magnitude const 0;
+#N canvas 0 0 572 300 \$0_122E_síntese 0;
+#X obj 47 32 bang~;
+#X obj 47 239 outlet~;
+#X obj 135 146 bang~;
+#X obj 47 90 rifft~;
+#X obj 296 19 block~ 2048;
+#X obj 47 61 tabplay~ \$0_122E_espectro_magnitude;
+#X obj 89 202 tabwrite~ \$0_122E_sinal_sintetizado;
+#X connect 0 0 5 0;
+#X connect 2 0 6 0;
+#X connect 3 0 1 0;
+#X connect 3 0 6 0;
+#X connect 5 0 3 0;
+#X restore 90 153 pd \$0_122E_síntese;
+#X connect 0 0 1 0;
+#X connect 0 0 1 1;
+#X connect 2 0 3 0;
+#X connect 3 0 0 1;
+#X connect 4 0 5 0;
+#X connect 5 0 8 0;
+#X connect 6 0 2 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 300 60 2 0 0;
+#X restore 878 200 pd \$0_122D_interface;
+#X msg 189 801 \; pd-icsm122E vis 1;
+#X text 100 160 Na interface abaixo você pode construir sinais a partir
+da especificação direta de componentes espectrais. Nesse exemplo
+estamos usando a [rfft~] que só inclui as frequências f=0 \, 1 \,
+... \, N/2 (para usar a [fft~] teríamos que "espelhar e conjugar"
+automaticamente a metade alta do espectro)., f 76;
+#X connect 1 0 6 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm122E;
+#X obj 100 110 cnv 15 14 14 empty empty Espectro_de_Magnitude_da_DFT
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_122C_espectro_magnitude 2048 float 2;
+#X coords 0 1 2048 0 1074 200 1 0 0;
+#X restore 104 342 graph;
+#X obj 104 562 hsl 1074 20 0 44100 0 0 empty \$0_122C_freq_r Frequência
+-2 -8 0 16 -262144 -1 -1 0 1;
+#N canvas 0 0 682 708 \$0_122C_síntese 0;
+#X obj 15 63 vradio 24 1 1 5 empty \$0_122C_mux_r empty 0 -8 0 10 -262130
+-1 -1 0;
+#X text 47 88 RUÍDO;
+#X obj 65 269 noise~;
+#X obj 15 658 dac~;
+#X text 47 63 SILÊNCIO;
+#X text 47 111 SENOIDE;
+#X text 47 159 QUADRADA;
+#X obj 213 420 sgn~;
+#X obj 15 459 multiplex~ 0 1 2 3 4;
+#X obj 163 358 *~ 2;
+#X obj 163 388 -~ 1;
+#X obj 12 12 icsm_dsp;
+#X obj 225 459 declare -lib zexy;
+#X text 47 136 SERRA;
+#X obj 163 329 phasor~;
+#X obj 114 299 osc~;
+#X obj 15 558 *~;
+#X msg 42 497 \$1 100;
+#X obj 42 526 line~;
+#X obj 15 627 *~;
+#X msg 255 575 \$1 100;
+#X obj 255 604 line~;
+#X obj 255 545 expr 1-$f1;
+#X obj 155 15 tgl 24 0 empty \$0_122C_mute_r MUTE 28 12 0 20 -262130
+-1 -1 0 1;
+#X obj 155 65 vsl 20 115 0 1 0 0 empty \$0_122C_vol_r Volume 0 -12
+0 16 -262130 -1 -1 0 1;
+#X obj 254 69 r \$0_122C_freq;
+#N canvas 0 0 450 300 \$0_122C_análise 0;
+#X obj 37 37 inlet~;
+#X obj 37 66 fft~;
+#X obj 37 95 cyclone/cartopol~;
+#X obj 37 124 /~ 2048;
+#X obj 37 233 tabwrite~ \$0_122C_espectro_magnitude;
+#X obj 282 40 block~ 2048;
+#X obj 57 187 bang~;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 2 1;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 6 0 4 0;
+#X restore 22 588 pd \$0_122C_análise;
+#X obj 341 14 r \$0_122C_quantiza_freq;
+#X obj 254 173 multiplex;
+#X msg 254 202 \$1 100;
+#X obj 254 231 line~;
+#X obj 254 98 expr $f1 \; round($f1*2048/44100)*44100/2048;
+#X connect 0 0 8 0;
+#X connect 2 0 8 1;
+#X connect 7 0 8 4;
+#X connect 8 0 16 0;
+#X connect 9 0 10 0;
+#X connect 10 0 7 0;
+#X connect 10 0 8 3;
+#X connect 14 0 9 0;
+#X connect 15 0 8 2;
+#X connect 16 0 19 0;
+#X connect 16 0 26 0;
+#X connect 17 0 18 0;
+#X connect 18 0 16 1;
+#X connect 19 0 3 0;
+#X connect 19 0 3 1;
+#X connect 20 0 21 0;
+#X connect 21 0 19 1;
+#X connect 22 0 20 0;
+#X connect 23 0 22 0;
+#X connect 24 0 17 0;
+#X connect 25 0 31 0;
+#X connect 27 0 28 2;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 30 0 15 0;
+#X connect 30 0 14 0;
+#X connect 31 0 28 0;
+#X connect 31 1 28 1;
+#X coords 0 -1 1 1 240 196 2 0 0;
+#X restore 938 135 pd \$0_122C_síntese;
+#X obj 231 587 tgl 20 0 \$0_122C_quantiza_freq \$0_122C_quantiza_freq_r
+quantiza_frequência_(restringe_aos_múltiplos_de_R/N) 24 10 0 16 -262130
+-1 -1 0 1;
+#X floatatom 101 584 8 0 0 1 Hz - #0_122C_freq;
+#X text 100 140 No exemplo abaixo podemos visualizar o espectro de
+magnitude de uma DFT em blocos de tamanho N=2048 (usando o objeto do
+Pd [block~ 2048]) para uma série de sinais conhecidos. Observe como
+as senoides de frequência f são representadas por frequências "espelhadas"
++f e -f. A chave "quantiza frequência" ajusta a frequência das senoides
+para múltiplos inteiros de R/N \, que coincidem com as frequências
+usadas pela análise. Aproveite a mesma implementação para inspecionar
+os espectros das formas de onda quadrada e dente-de-serra \, e procure
+observar os respectivos padrões de decaimento da amplitude em função
+da posição nas séries harmônicas., f 82;
+#X connect 1 0 2 0;
+#X connect 6 0 9 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm122D;
+#N canvas 0 0 450 300 init 0;
+#X obj 57 74 loadbang;
+#X obj 57 103 f \$0;
+#X obj 210 41 r pd;
+#X obj 210 70 route dsp;
+#X obj 210 99 sel 0;
+#X msg 57 143 \; \$1_122C_freq_r 0 \; \$1_122C_vol_r 0 \; \$1_122C_mute_r
+0 \; \$1_122C_mux_r 0 \; \$1_122C_quantiza_freq_r 0 \;;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X restore 1174 812 pd init;
+#X obj 100 110 cnv 15 14 14 empty empty Análise_e_síntese_na_DFT
+0 0 0 28 -262144 -38 0;
+#X text 320 212 X[f] = (x \, exp_f) = (x \, cos_f) + i·(x \, -sen_f)
+= a[f] + i·b[f] \,, f 63;
+#N canvas 0 0 755 413 icsm122_obs_conjugação 0;
+#X obj 0 800 bng 15 250 50 0 empty empty * 4 9 0 14 -262144 -1 -1;
+#X msg 189 801 \; pd-icsm122_obs_conjugação vis 1;
+#X text 38 33 A troca de sinal no segundo termo não é um erro \,
+mas uma necessidade da definição de produto interno em espaços vetoriais
+definidos sobre números complexos. A fórmula habitual (x \, y) =
+x[0]y[0]+···+x[N-1]y[N-1] no contexto complexo se torna, f 64;
+#X text 125 119 (x \, y) = x[0]y[0]+···+x[N-1]y[N-1];
+#X text 255 102 ____;
+#X text 405 102 ______;
+#X text 65 236 (x \, cy+dz) = x[0](cy[0]+dz[0])+···+x[N-1](cy[N-1]+dz[N-1])
+;
+#X text 485 219 _______________;
+#X text 245 219 ___________;
+#X text 175 266 = c(x \, y) + d(x \, z);
+#X text 195 249 _;
+#X text 295 249 _;
+#X text 38 149 onde a barra indica a operação de CONJUGAÇÃO COMPLEXA
+\, que equivale à troca do sinal da parte imaginária. Esse pequeno
+detalhe faz com que a propriedade de LINEARIDADE no segundo argumento
+seja CONJUGADA:, f 64;
+#X text 38 296 o que no segundo termo corresponde à troca de sinal
+de i por -i \, sinal esse transportado para a função sen_f \, exatamente
+como no caso da Transformada de Fourier Real., f 64;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 15 15 2 0 800;
+#X restore 969 216 pd icsm122_obs_conjugação;
+#X text 100 162 Os COEFICIENTES DA DFT são obtidos pela CORRELAÇÃO
+de um sinal x[n] com cada uma das funções exp_f para f=0 \, 1 \,
+... \, N-1 \, ou seja \, pelos valores da EQUAÇÃO DE ANÁLISE, f
+107;
+#X text 100 242 onde a[f] e b[f] são as mesmas correlações já vistas
+na Transformada de Fourier Real \, sendo que a principal diferença
+é o fato dos coeficientes X[k] serem complexos (combinarem correlações
+de senos e cossenos) e o uso da faixa de frequências f=0 \, 1 \, ...
+\, N-1 ao invés de f=0 \, 1 \, ... \, N/2., f 107;
+#X obj 454 397 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 453 353 N-1;
+#X text 453 403 f=0;
+#X obj 666 397 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 665 353 N-1;
+#X text 665 403 f=0;
+#X text 701 377 X[f]·(cos_f[n]+i·sen_f[n]).;
+#X text 100 430 No caso particular de um SINAL REAL \, que é o que
+nos interessa principalmente \, os coeficientes de Fourier apresentam
+uma forma de REDUNDÂNCIA conhecida como SIMETRIA CONJUGADA: se x[n]
+é REAL então as correlações das frequências +f e -f com os senos
+e cossenos de fase 0 satisfazem, f 107;
+#X text 258 497 a[-f] = (x \, cos_-f) = (x \, cos_f) = a[f] (por que
+cos(·) é uma função PAR) \,, f 74;
+#X text 258 517 b[-f] = (x \, -sen_-f) = (x \, sen_f) = -b[f] (por
+que sen(·) é uma função ÍMPAR)., f 78;
+#X text 100 550 ou seja \, a "metade alta" do espectro \, contendo
+as frequências f>N/2 que rebatem em frequências negativas f-N entre
+-N/2 e 0 \, simplesmente repete a primeira metade de forma ESPELHADA
+\, com uma troca de sinal da parte imaginária b[f] e da fase φ[f]=atan(b[f]
+\, a[f])., f 107;
+#X text 367 377 x[n] = 1;
+#X text 489 377 X[f]·exp_f[n] = 1;
+#X text 437 378 _;
+#X text 649 378 _;
+#X text 437 398 N;
+#X text 649 398 N;
+#X text 100 310 A EQUAÇÃO DE SÍNTESE combina linearmente as exponenciais
+complexas de frequências f=0 \, 1 \, ... \, N-1 com os coeficientes
+de Fourier e um termo de normalização:, f 107;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 610 600 pd icsm122C;
+#X obj 100 110 cnv 15 14 14 empty empty Frequências_negativas_e_sinais_reais
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 251 174 \$0_122B_interface 0;
+#X floatatom 13 27 8 0 64 2 Frequência #0_122B_freq_r #0_122B_freq
+;
+#X floatatom 12 104 8 -3.1415 3.1415 1 Fase_inicial #0_122B_fase_r
+#0_122B_fase;
+#X floatatom 13 64 8 0 2 1 Amplitude #0_122B_amp_r #0_122B_amp;
+#N canvas 0 0 1280 700 magic 0;
+#X obj 813 470 ofWindow;
+#X obj 39 46 ofSetup;
+#X obj 39 77 ofBackground 51;
+#X obj 918 340 ofDraw;
+#X obj 523 25 declare -lib ofelia;
+#X text 36 19 Adaptado do exemplo motion/brownian do [ofelia];
+#X msg 637 180 freq \$1;
+#X msg 787 180 amp \$1;
+#X msg 637 280 fase \$1;
+#X obj 719 377 sel 0;
+#X msg 683 409 destroy;
+#X obj 39 108 ofSetFrameRate 30;
+#X msg 727 280 n 0;
+#X msg 813 440 setPosition 880 0 \, setSize 400 400 \, create;
+#X obj 637 240 t f b;
+#X obj 1031 110 loadbang;
+#X obj 1031 139 f \$0;
+#X obj 766 409 t b b;
+#X text 1030 79 inicializações;
+#X text 636 116 recebe variações de freq \, amp \, fase;
+#X obj 637 151 r \$0_122B_freq;
+#X obj 637 211 r \$0_122B_fase;
+#X obj 787 151 r \$0_122B_amp;
+#X obj 719 318 r \$0_122B_popup;
+#X msg 1031 168 \; \$1_122B_freq_r 1 \; \$1_122B_amp_r 1 \; \$1_122B_fase_r
+0;
+#X obj 39 135 ofelia f \$0-vars2 \; M.num \, M.freq \, M.amp \, M.fase
+\, M.n \, M.N = 10 \, 1 \, 1 \, 0 \, 0 \, 30 \; M.ax \, M.ay = ofTable()
+\, ofTable() \; M.bx \, M.by = ofTable() \, ofTable() \; M.cx \, M.cy
+= ofTable() \, ofTable() \; for i=1 \, M.num do \; M.ax[i] \, M.bx[i]
+\, M.cx[i] = 300 \, 300 \, 300 \; M.ay[i] \, M.by[i] \, M.cy[i] = 200
+\, 200 \, 200 \; end \;;
+#X obj 39 358 ofRequire \$0-vars2;
+#X obj 918 379 spigot;
+#X obj 719 347 t f f;
+#X obj 39 389 ofelia f \; for i=2 \, a.num do \; a.ax[i-1] \, a.bx[i-1]
+\, a.cx[i-1] = a.ax[i] \, a.bx[i] \, a.cx[i] \; a.ay[i-1] \, a.by[i-1]
+\, a.cy[i-1] = a.ay[i] \, a.by[i] \, a.cy[i] \; end \; a.ax[a.num]
+= 200+math.floor(0.5+100*a.amp*math.cos(2*math.pi*a.freq*a.n/a.N+a.fase))
+\; a.ay[a.num] = 200-math.floor(0.5+100*a.amp*math.sin(2*math.pi*a.freq*a.n/a.N+a.fase))
+\; a.bx[a.num] \, a.by[a.num] = a.ax[a.num] \, 200-(a.ay[a.num]-200)
+\; a.cx[a.num] \, a.cy[a.num] = a.ax[a.num] \, 0.5*(a.ay[a.num]+a.by[a.num])
+\; a.n = (a.n+1)%(100*a.N) \; for i=2 \, a.num do \; local val = i/a.num
+* 204 + 51 \; ofSetColor(val) \; ofDrawLine(a.ax[i-1] \, a.ay[i-1]
+\, a.ax[i] \, a.ay[i]) \; ofDrawLine(a.bx[i-1] \, a.by[i-1] \, a.bx[i]
+\, a.by[i]) \; ofDrawLine(a.cx[i-1] \, a.cy[i-1] \, a.cx[i] \, a.cy[i])
+\; end \;;
+#X f 63;
+#X connect 1 0 2 0;
+#X connect 2 0 11 0;
+#X connect 3 0 27 0;
+#X connect 6 0 25 0;
+#X connect 7 0 25 0;
+#X connect 8 0 25 0;
+#X connect 9 0 10 0;
+#X connect 9 1 17 0;
+#X connect 10 0 0 0;
+#X connect 11 0 25 0;
+#X connect 12 0 25 0;
+#X connect 13 0 0 0;
+#X connect 14 0 8 0;
+#X connect 14 1 12 0;
+#X connect 15 0 16 0;
+#X connect 16 0 24 0;
+#X connect 17 0 16 0;
+#X connect 17 1 13 0;
+#X connect 20 0 6 0;
+#X connect 21 0 14 0;
+#X connect 22 0 7 0;
+#X connect 23 0 28 0;
+#X connect 26 0 29 0;
+#X connect 27 0 26 0;
+#X connect 28 0 9 0;
+#X connect 28 1 27 1;
+#X restore 501 600 pd magic;
+#X obj 151 27 tgl 20 0 \$0_122B_popup empty LIGA 24 10 0 18 -262130
+-1 -1 0 1;
+#X text 95 27 Hz;
+#X coords 0 -1 1 1 230 140 2 0 0;
+#X restore 560 158 pd \$0_122B_interface;
+#X text 100 140 No contexto da DFT as FREQUÊNCIAS NEGATIVAS têm um
+papel muito importante. Pela fórmula de Euler aplicada à frequência
+-f vemos que, f 44;
+#X text 127 208 exp_-f[n] = cos(-2πfn/N)+i·sen(-2πfn/N);
+#X text 100 238 ou seja \, que o movimento circular uniforme descrito
+por exp_-f simplesmente muda o sentido de rotação., f 44;
+#X text 100 384 ao passo que a subtração das mesmas duas formas permite
+concluir que, f 73;
+#X text 187 531 Acos(2πfn/N+φ) = ½A·(e;
+#X text 317 354 cos_f = ½·(exp_f+exp_-f) \,;
+#X text 317 414 sen_f = -½·i·(exp_f-exp_-f) \,;
+#X text 487 531 +e;
+#X text 597 531 );
+#X text 384 553 φ;
+#X text 357 561 ½Ae ·e;
+#X text 514 553 -φ;
+#X text 477 561 +½Ae;
+#X text 537 561 ·e;
+#X text 554 553 -2πfn/N;
+#X text 414 553 2πfn/N;
+#X text 404 523 2πfn/N+φ;
+#X text 504 523 -2πfn/N-φ;
+#X text 627 561 .;
+#X text 100 444 ou seja \, que as funções cosseno e seno podem ser
+vistas como combinações de exponenciais com frequências +f e -f.
+De modo ainda mais geral \, um SINAL SENOIDAL REAL com fase inicial
+arbitrária sempre pode ser escrita como combinação linear de duas
+exponenciais complexas de fase 0:, f 73;
+#X text 100 306 Somando as duas formas da fórmulas de Euler \, exp_f
+= cos_f+i·sen_f e exp_-f = cos_f-i·sen_f \, podemos concluir que
+, f 73;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 610 600 pd icsm122B;
+#X text 100 514 Na Transformada de Fourier Discreta essas exponenciais
+com frequência negativa são imprescindíveis para a correta representação
+de sinais complexos arbitrários \, razão pela qual a DFT utiliza
+todas as frequências f=0 \, 1 \, ... \, N-1 \, ou equivalentemente
+\,, f 69;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm122A;
+#X obj 324 604 icsm_url https://en.wikipedia.org/wiki/Euler%27s_formula#Using_power_series
+;
+#X text 100 436 onde a última desigualdade é chamada de FÓRMULA
+DE EULER \, e explicita a relação entre exponenciais complexas e
+funções trigonométricas. Observe que a última expressão corresponde
+à representação cartesiana do ponto x[n]+i·y[n] onde x[n]=cos_f[n]
+e y[n]=sen_f[n] \, que é sempre um ponto do círculo de raio unitário
+(pois x[n]²+y[n]²=1). Em outras palavras \, exponenciais complexas
+mapeiam a expressão da fase φ[n]=2πfn/N em um MOVIMENTO CIRCULAR
+UNIFORME que completa exatamente f voltas dentro de um bloco de N amostras.
+, f 107;
+#X text 100 597 uma prova da fórmula de Euler na Wikipedia:, f 22
+;

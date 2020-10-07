@@ -12,42 +12,42 @@
 #X text 6 801 continua:;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
-#X msg 189 801 \; pd-icsm117A vis 1 \; pd-icsm117A vis 1;
+#X msg 189 801 \; pd-icsm117A vis 1;
 #N canvas 0 0 1280 700 icsm117B 0;
 #X text 6 801 continua:;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
-#X msg 189 801 \; pd-icsm117B vis 1 \; pd-icsm117B vis 1;
+#X msg 189 801 \; pd-icsm117B vis 1;
 #N canvas 0 0 1280 700 icsm117C 0;
 #X text 6 801 continua:;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
-#X msg 189 801 \; pd-icsm117C vis 1 \; pd-icsm117C vis 1;
+#X msg 189 801 \; pd-icsm117C vis 1;
 #N canvas 0 0 1280 700 icsm117D 0;
 #X text 6 801 continua:;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
-#X msg 189 801 \; pd-icsm117D vis 1 \; pd-icsm117D vis 1;
+#X msg 189 801 \; pd-icsm117D vis 1;
 #N canvas 0 0 1280 700 icsm117E 0;
 #X text 6 801 continua:;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
-#X msg 189 801 \; pd-icsm117E vis 1 \; pd-icsm117E vis 1;
+#X msg 189 801 \; pd-icsm117E vis 1;
 #N canvas 0 0 1280 700 icsm117F 0;
 #X text 6 801 continua:;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
-#X msg 189 801 \; pd-icsm117F vis 1 \; pd-icsm117F vis 1;
+#X msg 189 801 \; pd-icsm117F vis 1;
 #N canvas 0 0 1280 700 icsm117G 0;
 #X text 6 801 continua:;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
-#X msg 189 801 \; pd-icsm117G vis 1 \; pd-icsm117G vis 1;
+#X msg 189 801 \; pd-icsm117G vis 1;
 #N canvas 0 0 1280 700 icsm117H 0;
 #X text 6 801 continua:;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
-#X msg 189 801 \; pd-icsm117H vis 1 \; pd-icsm117H vis 1;
+#X msg 189 801 \; pd-icsm117H vis 1;
 #X obj 100 100 cnv 15 14 14 empty empty Experimento_com_Quantização_Não_Linear
 0 0 0 24 -262144 -38 0;
 #X floatatom 517 223 5 1 24 0 N°Bits_= #0_117H_B_r #0_117H_B;
@@ -236,7 +236,6 @@ sinal-ruído praticamente fixa., f 107;
 #X restore 24 86 graph;
 #X obj 565 4 loadbang;
 #X floatatom 45 29 5 1 32 1 bits #0_117G_bits_r #0_117G_bits_s;
-#X floatatom 340 334 7 0 0 1 - #0_117G_res_amp_r -;
 #X text 573 388 Preenche a tabela com a função sen(2πfn/R) com f=2
 ;
 #N canvas 0 0 450 250 (subpatch) 0;
@@ -252,16 +251,12 @@ sinal-ruído praticamente fixa., f 107;
 #X coords 0 1 511 -1 500 220 1 0 0;
 #X restore 24 86 graph;
 #X obj 565 180 t f f;
-#X floatatom 340 394 7 0 0 1 - #0_117G_amp_erro -;
 #N canvas 0 0 450 250 (subpatch) 0;
 #X array \$0_117G_s 512 float 2;
 #X coords 0 1 512 -1 500 220 1 0 0;
 #X restore 24 86 graph;
 #X text 563 93 Recebe valor de B;
-#X floatatom 340 424 7 0 0 1 - #0_117G_sqnr -;
 #X text 21 393 Amplitude (pico) do ruído:;
-#X text 654 3 inicializa B=3;
-#X msg 565 33 3;
 #X text 782 93 Recebe volume;
 #X obj 815 4 loadbang;
 #X msg 815 33 1;
@@ -277,24 +272,8 @@ sinal-ruído praticamente fixa., f 107;
 #X obj 565 121 r \$0_117G_bits_s;
 #X obj 785 121 r \$0_117G_vol;
 #X obj 612 326 s \$0_117G_res_amp_r;
-#X obj 662 918 s \$0_117G_sqnr;
-#X obj 565 948 s \$0_117G_amp_erro;
 #X text 21 333 Mínima amplitude representável:;
-#X obj 565 870 unpack f f;
-#X obj 565 420 ofelia f \; local x = ofArray("\$0_117G_sinal") \; local
-y = ofArray("\$0_117G_sinal_quantizado") \; local z = ofArray("\$0_117G_sinal_quantizado_e_erro")
-\; local w = ofArray("\$0_117G_sinal_quantizado_e_erro_") \; local
-N = x:getSize() \; local L=2^a[1]-1 \; local erro=0 \; local sqnr=0
-\; for i = 0 \, N-1 do \; x[i] = a[2]*math.sin(2*math.pi*2*i/N) \;
-y[i] = math.floor(0.5+L*math.log(1+L*math.abs(x[i]))/math.log(1+L))/L
-\; y[i] = ((1+L)^y[i]-1)/L \; y[i] = (x[i]<0 and -y[i]) or y[i] \;
-z[i] = (i%2==0 and x[i]) or y[i] \; w[i] = x[i]-y[i] \; erro = math.max(erro
-\, math.abs(w[i])) \; sqnr = sqnr+w[i]^2 \; end \; return ofTable(erro
-\, 10*(math.log(a[2]*math.sqrt(2)/2)-math.log(sqnr/N))/math.log(10))
-\;;
-#X f 66;
 #X obj 612 209 expr pow(2 \, $f1)-1;
-#X floatatom 340 364 7 0 0 1 - #0_117G_faixa_r -;
 #X text 21 363 Faixa Dinâmica (dB):;
 #X text 21 423 Relação Sinal-Ruído (SQNR dB):;
 #X obj 847 326 s \$0_117G_faixa_r;
@@ -306,26 +285,48 @@ z[i] = (i%2==0 and x[i]) or y[i] \; w[i] = x[i]-y[i] \; erro = math.max(erro
 #X obj 612 287 t f f;
 #X text 1054 293 faixa din.(dB);
 #X obj 847 293 expr 20*log10(1/$f1);
-#X connect 1 0 15 0;
-#X connect 8 0 24 0;
-#X connect 8 1 36 0;
-#X connect 15 0 26 0;
-#X connect 17 0 18 0;
-#X connect 18 0 27 0;
-#X connect 22 0 8 0;
-#X connect 23 1 22 0;
-#X connect 23 2 24 1;
-#X connect 24 0 35 0;
-#X connect 28 0 22 0;
-#X connect 29 0 23 0;
-#X connect 34 0 32 0;
-#X connect 34 1 31 0;
-#X connect 35 0 34 0;
-#X connect 36 0 41 0;
-#X connect 41 0 46 0;
-#X connect 46 0 30 0;
-#X connect 46 1 48 0;
-#X connect 48 0 40 0;
+#X msg 565 33 4;
+#X text 654 3 inicializa B=4;
+#X floatatom 340 424 7 0 0 1 - #0_117G_sqnr_r #0_117G_sqnr;
+#X floatatom 340 334 7 0 0 1 - #0_117G_res_amp_r -;
+#X floatatom 340 394 7 0 0 1 - #0_117G_amp_erro -;
+#X floatatom 340 364 7 0 0 1 - #0_117G_faixa_r -;
+#X msg 565 902 \; \$3_117G_sqnr_r \$2 \; \$3_117G_amp_erro \$1 \;;
+#X msg 880 34 0;
+#X msg 620 35 3;
+#X obj 565 420 ofelia f \; local x = ofArray("\$0_117G_sinal") \; local
+y = ofArray("\$0_117G_sinal_quantizado") \; local z = ofArray("\$0_117G_sinal_quantizado_e_erro")
+\; local w = ofArray("\$0_117G_sinal_quantizado_e_erro_") \; local
+N = x:getSize() \; local L=2^a[1]-1 \; local erro=0 \; local sqnr=0
+\; for i = 0 \, N-1 do \; x[i] = a[2]*math.sin(2*math.pi*2*i/N) \;
+y[i] = math.floor(0.5+L*math.log(1+L*math.abs(x[i]))/math.log(1+L))/L
+\; y[i] = ((1+L)^y[i]-1)/L \; y[i] = (x[i]<0 and -y[i]) or y[i] \;
+z[i] = (i%2==0 and x[i]) or y[i] \; w[i] = x[i]-y[i] \; erro = math.max(erro
+\, math.abs(w[i])) \; sqnr = sqnr+w[i]^2 \; end \; if a[2]==0 then
+return ofTable(0 \, 0 \, \$0) --[[para evitar log(0)]] \; else return
+ofTable( erro \, 10* ( math.log(a[2]*math.sqrt(2)/2) - math.log(sqnr/N)
+) / math.log(10) \, \$0 ) \; end \;;
+#X f 66;
+#X connect 1 0 39 0;
+#X connect 7 0 19 0;
+#X connect 7 1 27 0;
+#X connect 12 0 13 0;
+#X connect 13 0 22 0;
+#X connect 17 0 7 0;
+#X connect 18 1 17 0;
+#X connect 18 2 19 1;
+#X connect 19 0 48 0;
+#X connect 23 0 17 0;
+#X connect 24 0 18 0;
+#X connect 27 0 31 0;
+#X connect 31 0 36 0;
+#X connect 36 0 25 0;
+#X connect 36 1 38 0;
+#X connect 38 0 30 0;
+#X connect 39 0 21 0;
+#X connect 46 0 22 0;
+#X connect 47 0 21 0;
+#X connect 48 0 45 0;
 #X coords 0 -1 1 1 550 480 2 0 0;
 #X restore 101 140 pd \$0_icsm117Gfig;
 #X text 658 140 Aqui podemos visualizar o ERRO DE QUANTIZAÇÃO ε[n]=x[n]-d(q(x[n]))
@@ -627,7 +628,7 @@ dentro de cada ORDEM DE GRANDEZA associada a cada expoente p., f 75
 #X text 467 396 BRANCO;
 #X text 467 421 VIOLETA;
 #X text 100 140 Adaptamos a implementação anterior para incluir ruído
-com amplitude L/4 antes e depois da quantização. Nessa versão \,
+com amplitude L/2 antes e depois da quantização. Nessa versão \,
 o ruído de dither pode ser branco \, com energia distribuída de maneira
 igual por todo o espectro \, ou violeta \, com maior energia nas altas
 frequências (menos audíveis dependendo do sinal)., f 107;

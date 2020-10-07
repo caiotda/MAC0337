@@ -1,0 +1,9 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 1.2_-_Representação_Espectral
+0 0 0 34 -262144 -147457 0;
+#X obj 100 300 icsm_topico icsm121.pd 1.2.1_Detecção_de_componentes_senoidais
+;
+#X obj 100 380 icsm_topico icsm122.pd 1.2.2_Transformada_de_Fourier
+;
+#X obj 100 460 icsm_topico icsm123.pd 1.2.3_Janelamento_e_vazamento_espectral;
