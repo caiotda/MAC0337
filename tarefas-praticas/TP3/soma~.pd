@@ -1,0 +1,9 @@
+#N canvas 1191 280 450 300 12;
+#X obj 98 66 ofelia function -s21 \; for i=1 \, #a1 do \; a1[i] = a1[i]+a2[i]
+\; end \; return a1 \;;
+#X obj 237 22 inlet~;
+#X obj 94 22 inlet~;
+#X obj 95 175 outlet~;
+#X connect 0 0 3 0;
+#X connect 1 0 0 1;
+#X connect 2 0 0 0;

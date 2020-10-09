@@ -1,0 +1,7 @@
+#N canvas 961 56 959 984 12;
+#X obj 57 28 inlet~;
+#X obj 61 202 outlet~;
+#X obj 61 79 ofelia function -s21 \; for i=1 \, #a1 do \; a1[i] = 2*math.random()-1
+\; end \; return a1 \;;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
