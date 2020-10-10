@@ -1,38 +1,37 @@
-#N canvas 961 56 959 984 12;
+#N canvas 43 171 959 984 12;
 #X declare -lib zexy;
 #X text 22 19 Nome: Caio Túlio de Deus Andrade;
-#X obj 126 529 dac~;
+#X obj 146 533 dac~;
 #X obj 250 220 hsl 128 15 200 2000 1 0 empty empty Frequência -2 -8
-0 10 -262144 -1 -1 12900 1;
-#X obj 223 447 hsl 128 15 0.0001 1 1 0 empty empty Amplitude -2 -8
-0 10 -262144 -1 -1 16200 1;
-#X obj 262 272 osc~;
-#X obj 111 95 vradio 30 1 0 4 empty empty empty 0 -8 0 10 -262144 -1
+0 10 -262144 -1 -1 6400 1;
+#X obj 243 451 hsl 128 15 0.0001 1 1 0 empty empty Amplitude -2 -8
+0 10 -262144 -1 -1 6000 1;
+#X obj 109 95 vradio 30 1 0 4 empty empty empty 0 -8 0 10 -262144 -1
 -1 0;
 #X obj 286 401 declare -lib zexy;
 #X text 156 98 Silencio;
 #X text 163 130 Ruido;
 #X text 155 163 Senoide;
 #X text 164 189 Ruido + Senoide;
-#X obj 128 459 *~;
+#X obj 148 463 *~;
 #X text 23 49 NUSP:9797232;
 #X obj 268 317 soma~;
 #X obj 191 233 ruido~;
-#X obj 614 346 seletor~, f 19;
 #X obj 124 374 seletor~;
 #X obj 128 307 *~;
 #X obj 150 254 0;
-#X connect 2 0 4 0;
-#X connect 3 0 11 1;
-#X connect 4 0 13 1;
-#X connect 4 0 16 3;
-#X connect 5 0 16 0;
-#X connect 11 0 1 0;
-#X connect 11 0 1 1;
-#X connect 13 0 16 4;
-#X connect 14 0 13 0;
-#X connect 14 0 17 0;
-#X connect 14 0 16 2;
-#X connect 16 0 11 0;
-#X connect 17 0 16 1;
-#X connect 18 0 17 1;
+#X obj 262 272 oscilador~;
+#X connect 2 0 17 0;
+#X connect 3 0 10 1;
+#X connect 4 0 14 0;
+#X connect 10 0 1 0;
+#X connect 10 0 1 1;
+#X connect 12 0 14 4;
+#X connect 13 0 12 0;
+#X connect 13 0 15 0;
+#X connect 13 0 14 2;
+#X connect 14 0 10 0;
+#X connect 15 0 14 1;
+#X connect 16 0 15 1;
+#X connect 17 0 12 1;
+#X connect 17 0 14 3;

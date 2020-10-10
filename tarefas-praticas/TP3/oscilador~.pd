@@ -1,0 +1,8 @@
+#N canvas 867 166 959 984 12;
+#X obj 135 493 outlet~;
+#X obj 134 195 inlet~;
+#X obj 135 247 ofelia define -s11 \; local fase = 0 \; function ofelia.perform(a0)
+\; for i=1 \, #a0 do \; fase = fase + 2*math.pi * a0[i]/44100 \; a0[i]
+= math.sin(fase) \; end \; return a0 \; end \;;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
