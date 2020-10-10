@@ -1,5 +1,18 @@
-#N canvas 1180 227 450 300 12;
-#X obj 48 126 ofelia define -s41 \; local estado = 0 \; function ofelia.float(a)
-\; function ofelia.perform(a0 \, a1 \, a2 \, a3) \;;
-#X obj 48 196 outlet~;
-#X connect 0 0 1 0;
+#N canvas 961 56 959 984 12;
+#X obj 48 378 outlet~;
+#X obj 48 28 inlet;
+#X obj 116 25 inlet~;
+#X obj 176 26 inlet~;
+#X obj 245 27 inlet~;
+#X obj 324 28 inlet~;
+#X obj 49 99 ofelia define -s41 \; local estado = 0 \; function ofelia.float(a)
+\; estado = a \; end \; function ofelia.perform(a0 \, a1 \, a2 \, a3)
+\; if estado == 0 then \; return a0 \; elseif estado == 1 then \; return
+a1 \; elseif estado == 2 then \; return a2 \; elseif estado == 3 then
+\; return a3 \; end \; end \;;
+#X connect 1 0 6 0;
+#X connect 2 0 6 0;
+#X connect 3 0 6 1;
+#X connect 4 0 6 2;
+#X connect 5 0 6 3;
+#X connect 6 0 0 0;
