@@ -1,0 +1,310 @@
+#N canvas 0 0 1280 700 16;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 1.3.1-Convolução 0 0 0 34
+-262144 -38 0;
+#N canvas 0 0 1280 700 icsm131A 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm131A vis 1;
+#N canvas 0 0 1280 700 icsm131B 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm131B vis 1;
+#N canvas 0 0 1280 700 icsm131C 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm131C vis 1;
+#N canvas 0 0 1280 700 icsm131D 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm131D vis 1;
+#N canvas 0 0 1280 700 icsm131E 0;
+#X text 6 801 continua:;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm131E vis 1;
+#X obj 100 100 cnv 15 14 14 empty empty Filtros_da_média_e_da_diferença_revisitados
+0 0 0 28 -262144 -38 0;
+#X obj 267 250 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 266 206 N-1;
+#X text 266 256 n=0;
+#X text 650 290 ("simetrizar" exponenciais);
+#X text 100 150 À luz do teorema da convolução \, podemos reinterpretar
+o resultado da aplicação dos filtros da média e da diferença pelas
+DFTs dos vetores l=(½ \, ½ \, 0 \, ... \, 0) e h=(1 \, -1 \, 0 \,
+... \, 0):, f 107;
+#X text 200 230 L[f] =;
+#X text 252 290 = ½(exp_f[½]+exp_f[-½])·exp_f[-½];
+#X text 252 320 = cos(πf/N)·exp_f[-½];
+#X obj 267 400 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 266 356 N-1;
+#X text 266 406 n=0;
+#X text 650 440 ("simetrizar" exponenciais);
+#X text 200 380 H[f] =;
+#X text 302 380 h[n]·exp_-f[n] = h[0]·exp_-f[0]+h[1]·exp_-f[1];
+#X text 302 230 l[n]·exp_-f[n] = l[0]·exp_-f[0]+l[1]·exp_-f[1];
+#X text 252 440 = (exp_f[½]-exp_f[-½])·exp_f[-½];
+#X text 252 470 = 2i·sen(πf/N)·exp_f[-½];
+#X text 100 520 Esses fatores L[f] e H[f] explicam exatamente o que
+acontece com a magnitude e a fase de cada componente de frequência
+f em um sinal de entrada arbitrário x \, que será transformado em
+y com DFT(y)=L[f]·X[f] pelo filtro da média e em z com DFT(z)=H[f]·X[f]
+pelo filtro da diferença., f 107;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm131E;
+#X obj 100 100 cnv 15 14 14 empty empty Dualidade_de_Fourier_e_Teorema_da_Convolução
+0 0 0 28 -262144 -38 0;
+#X text 100 150 Uma forma comum de transpor resultados entre os domínios
+do tempo e da frequência é observar que as equações da DFT e IDFT
+, f 107;
+#X text 100 260 são muito parecidas \, diferindo essencialmente por
+uma constante e a conjugação das exponenciais. Isso permite estabelecer
+uma propriedade conhecida como DUALIDADE DA TRANSFORMADA DE FOURIER:
+, f 107;
+#X obj 734 227 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 733 183 N-1;
+#X text 733 233 f=0;
+#X text 647 207 x[n] = 1;
+#X text 717 208 _;
+#X text 717 228 N;
+#X obj 374 227 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 373 183 N-1;
+#X text 307 207 X[f] =;
+#X text 373 233 n=0;
+#X text 409 207 x[n]·exp_-f[n];
+#X text 769 207 X[f]·exp_f[n];
+#X obj 424 347 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 423 303 N-1;
+#X text 423 353 n=0;
+#X text 307 327 DFT(X)[f] =;
+#X text 459 327 X[n]·exp_-f[n] =;
+#X obj 624 347 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 623 303 N-1;
+#X text 623 353 n=0;
+#X text 659 327 X[n]·exp_f[-n] = N·x[-n] \,;
+#X text 100 380 ou seja \, que o espectro do espectro é essencialmente
+igual ao sinal original \, a menos de um fator de escala e de um espelhamento
+\, o que podemos expressar pela equação DFT(X) = N·espelho(x). Isso
+nos permite usar a 1ª forma do teorema da convolução (DFT(x·y)
+= (1/N)·X*Y) para provar sua 2ª forma em uma linha:, f 107;
+#X text 100 448 TEOREMA DA CONVOLUÇÃO (2ª forma): DFT(x*y) = X·Y.
+, f 107;
+#X text 100 478 PROVA: DFT(N·x·y) = X*Y ==> DFT(X*Y) = N·espelho(N·x·y)
+= N·espelho(x)·N·espelho(y) = DFT(X)·DFT(Y)., f 107;
+#X text 100 508 Observe que o teorema da convolução implica imediatamente
+na COMUTATIVIDADE da convolução (x*y = y*x) \, o que também pode
+ser provado diretamente da definição (fazendo a troca l=n-m na variável
+do somatório \, e usando a periodicidade no caso finito)., f 107
+;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm131D;
+#X obj 100 100 cnv 15 14 14 empty empty Teorema_da_Convolução_Revisitado
+0 0 0 28 -262144 -38 0;
+#X text 100 150 Vimos \, na discussão sobre janelamento e vazamento
+espectral \, que o PRODUTO DE SINAIS NO DOMÍNIO DO TEMPO está associado
+à CONVOLUÇÃO DOS ESPECTROS \, mais precisamente que se z = x·y
+então Z = (1/N)X*Y \, onde * representa a convolução. Um corolário
+direto daquele teorema estabelece que a convolução no domínio do
+tempo está associada ao produto dos espectros:, f 107;
+#X text 270 250 TEOREMA DA CONVOLUÇÃO (2ª forma: convolução no
+domínio do tempo), f 107;
+#X text 100 480 Embora seja possível provar esse teorema de forma
+muito parecida com o que fizemos na 1ª forma \, aplicando a definição
+da DFT sobre o sinal z definido pela equação de convolução \, mostraremos
+que as duas formas do teorema são ESSENCIALMENTE EQUIVALENTES. Essa
+equivalência vem da noção de DUALIDADE da DFT \, que permite reinterpretar
+espectros como sinais e vice-versa \, estabelecendo relações adicionais
+entre os DOMÍNIOS DO TEMPO E DA FREQUÊNCIA., f 107;
+#X text 310 280 dados dois sinais x e y \, a convolução z = x*y satisfaz
+Z = X·Y \, ou seja \, O ESPECTRO DA CONVOLUÇÃO É O PRODUTO DOS
+ESPECTROS., f 63;
+#X text 100 410 A formulação desse teorema foi deixada propositalmente
+vaga \, pois ele vale em muitos contextos diferentes. Demonstraremos
+a formulação que considera sinais de tamanho N e a convolução circular
+\, mas ele também vale no contexto de sinais de duração arbitrária
+(possivelmente infinita) com a convolução linear., f 107;
+#X text 100 340 Lembrando da interpretação da MULTIPLICAÇÃO COMPLEXA
+como PRODUTO DE MAGNITUDES e SOMA DE FASES \, o teorema acima diz que
+cada componente espectral X[f] do sinal x terá sua magnitude MULTIPLICADA
+por |Y[f]| e sua fase ACRESCIDA de fase(Y[f]) no resultado da convolução
+z = x*y., f 107;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm131C;
+#X obj 100 100 cnv 15 14 14 empty empty Análise_dos_filtros_da_média_e_da_diferença
+0 0 0 28 -262144 -38 0;
+#X obj 267 270 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 266 226 N-1;
+#X text 266 276 n=0;
+#X text 200 250 Y[f] =;
+#X text 302 250 y[n]·exp_-f[n] =;
+#X obj 467 270 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 466 226 N-1;
+#X text 466 276 n=0;
+#X obj 287 340 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 286 296 N-1;
+#X text 286 346 n=0;
+#X text 322 320 x[n]·exp_-f[n] + ½;
+#X obj 507 340 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 502 250 (½x[n]+½x[n-1])·exp_-f[n];
+#X text 252 320 = ½;
+#X text 506 346 m=-1;
+#X text 506 296 N-2;
+#X text 720 320 (fazendo m=n-1);
+#X text 252 440 = cos(πf/N)·exp_f[-½]·X[f];
+#X text 252 410 = ½(exp_f[½]+exp_f[-½])·exp_f[-½]·X[f];
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_131B_fator_y 64 float 0;
+#X coords 0 1 63 0 200 140 1 0 0;
+#X restore 980 280 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_131B_fator_z 64 float 0;
+#X coords 0 1 63 0 200 140 1 0 0;
+#X restore 980 450 graph;
+#X text 650 410 ("simetrizar" exponenciais);
+#N canvas 0 0 494 300 \$0_131B_fatores 0;
+#X obj 46 35 loadbang;
+#X obj 46 64 ofelia f \; local y=ofArray("\$0_131B_fator_y") \; local
+z=ofArray("\$0_131B_fator_z") \; local N=y:getSize() \; for f=0 \,
+N-1 do \; y[f] = math.abs(math.cos(math.pi*f/N)) \; z[f] = math.abs(math.sin(math.pi*f/N))
+\; end \;;
+#X connect 0 0 1 0;
+#X restore 994 228 pd \$0_131B_fatores;
+#X text 100 150 Podemos explicar o comportamento observado dos filtros
+da média e da diferença em sinais finitos a partir da análise espectral
+de suas equações. Tome por exemplo a equação y[n]=½x[n]+½x[n-1]
+do filtro da média. A DFT do sinal de saída será, f 107;
+#X text 966 578 0;
+#X text 966 440 2;
+#X text 966 410 0;
+#X text 966 270 1;
+#X text 99 476 Como exercício \, você pode repetir os passos acima
+para o filtro da diferença e concluir que o espectro do sinal de saída
+será Z[f] = 2i·sen(πf/N)·exp_f[-½]·X[f]. Note que o |cos(πf/N)|
+e o |2·sen(πf/N)| acima são os fatores responsáveis pela alteração
+dos espectros de magnitude do sinal da entrada (os outros fatores só
+afetam as fases). Nos gráficos ao lado você pode confirmar os perfis
+desses fatores nos filtros da média e da diferença:, f 83;
+#X text 542 320 x[m]·exp_-f[m+1];
+#X text 500 380 (passando exp_-f[1] para fora do somatório);
+#X text 252 380 = ½(X[f]+exp_f[-1]·X[f]);
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm131B;
+#X obj 100 100 cnv 15 14 14 empty empty Exemplos:_filtro_da_média_e_da_diferença
+0 0 0 28 -262144 -38 0;
+#X text 100 150 Dois exemplos simples e ilustrativos da teoria de filtros
+são o FILTRO DA MÉDIA e o FILTRO DA DIFERENÇA., f 107;
+#X text 100 180 O FILTRO DA MÉDIA está associado à equação y[n]
+= ½x[n]+½x[n-1] \, que produz um novo sinal com a média móvel de
+duas amostras do sinal da entrada. Essa equação corresponde à convolução
+y=x*l onde l=(½ \, ½ \, 0 \, ... \, 0) \, onde a equação de convolução
+(x*l)[n] = Σ x[m]l[n-m] se reduz a y[n] = x[n]l[0]+x[n-1]l[1] = ½x[n]+½x[n-1].
+, f 107;
+#X text 100 320 A implementação desses filtros em tempo real \, pressupondo
+sinais arbitrariamente longos e convolução linear \, pode ser feita
+trivialmente \, sendo o único detalhe importante a necessidade de
+se guardar a última amostra a cada troca de bloco (para permitir o
+cálculo de y[0] = αx[0]+βx[-1])., f 107;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_131A_espectro_x 64 float 0;
+#X coords 0 16 63 0 200 140 1 0 0;
+#X restore 540 450 graph;
+#X obj 540 390 icsm_dsp;
+#N canvas 0 0 1280 437 \$0_131A_filtros 0;
+#X obj 956 28 loadbang;
+#X obj 956 57 metro 100;
+#X obj 956 86 s \$0_131A_atualiza;
+#X obj 89 36 noise~;
+#X obj 106 246 r \$0_131A_atualiza;
+#X text 357 108 veja a sintaxe do [fexpr~] no help para saber como
+usá-lo em outros contextos., f 17;
+#X obj 334 72 fexpr~ .5*($x1[0]+$x1[-1]);
+#X obj 35 275 tabwrite~ \$0_131A_espectro_x;
+#X obj 34 187 fft~;
+#X obj 34 216 cyclone/cartopol~;
+#X obj 406 286 r \$0_131A_atualiza;
+#X obj 334 227 fft~;
+#X obj 334 256 cyclone/cartopol~;
+#X obj 726 326 r \$0_131A_atualiza;
+#X obj 654 267 fft~;
+#X obj 654 296 cyclone/cartopol~;
+#X text 337 43 filtro da média usando [fexpr~];
+#X text 657 43 filtro da diferença em Lua;
+#X obj 335 315 tabwrite~ \$0_131A_espectro_y;
+#X obj 655 355 tabwrite~ \$0_131A_espectro_z;
+#X obj 655 69 ofelia d -s11 \; local xn \, xn_1 = 0 \, 0 \; function
+ofelia.perform(a) \; for n=1 \, #a do \; xn = a[n] \; a[n] = xn-xn_1
+\; xn_1 = xn \; end \; return a \; end;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 3 0 6 0;
+#X connect 3 0 8 0;
+#X connect 3 0 20 0;
+#X connect 4 0 7 0;
+#X connect 6 0 11 0;
+#X connect 8 0 9 0;
+#X connect 8 1 9 1;
+#X connect 9 0 7 0;
+#X connect 10 0 18 0;
+#X connect 11 0 12 0;
+#X connect 11 1 12 1;
+#X connect 12 0 18 0;
+#X connect 13 0 19 0;
+#X connect 14 0 15 0;
+#X connect 14 1 15 1;
+#X connect 15 0 19 0;
+#X connect 20 0 14 0;
+#X restore 996 396 pd \$0_131A_filtros;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_131A_espectro_y 64 float 0;
+#X coords 0 16 63 0 200 140 1 0 0;
+#X restore 760 450 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0_131A_espectro_z 64 float 0;
+#X coords 0 16 63 0 200 140 1 0 0;
+#X restore 980 450 graph;
+#X text 100 250 O FILTRO DA DIFERENÇA está associado à equação
+z[n] = x[n]-x[n-1] \, que produz um novo sinal com a derivada discreta
+do sinal da entrada. Essa equação corresponde à convolução z=x*h
+onde h=(1 \, -1 \, 0 \, ... \, 0) \, onde a equação de convolução
+(x*h)[n] = Σ x[m]h[n-m] se reduz a z[n] = x[n]h[0]+x[n-1]h[1] = x[n]-x[n-1].
+, f 107;
+#X text 100 420 Na implementação ao lado \, vemos o espectro de amplitude
+de um sinal x inicializado com um ruído branco (amplitude aleatória
+com média constante) e os espectros de amplitude da saída do filtro
+da média (sinal y) e da diferença (sinal z) \, que evidenciam as
+características de PASSA-BAIXAS e de PASSA-ALTAS desses filtros.,
+f 41;
+#X connect 1 0 2 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 600 pd icsm131A;
+#X obj 577 314 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 510 294 z[n] =;
+#X text 100 500 Veremos a seguir que a CONVOLUÇÃO NO DOMÍNIO DO
+TEMPO possui papel central na teoria de FILTROS LINEARES \, e por consequência
+\, em processamento de sinais. Veremos também que o processo de FILTRAGEM
+LINEAR está associado à MANIPULAÇÃO DE COMPONENTES ESPECTRAIS através
+de ALTERAÇÕES DE AMPLITUDE E FASE de forma INDEPENDENTE PARA CADA
+FREQUÊNCIA., f 107;
+#X text 100 250 A CONVOLUÇÃO é uma OPERAÇÃO BINÁRIA que associa
+aos vetores x e y um terceiro vetor z = x*y definido por, f 107;
+#X obj 577 464 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 576 420 N-1;
+#X text 510 444 z[n] =;
+#X text 576 470 m=0;
+#X text 612 294 x[m]·y[n-m].;
+#X text 586 320 m;
+#X text 612 444 x[m]·y[(n-m)%N] \,;
+#X text 100 350 Esta equação pode ser interpretada de 2 maneiras:
+na CONVOLUÇÃO LINEAR \, considera-se que o somatório acima percorre
+todos os valores m inteiros (na prática \, todos os valores para os
+quais x[m]·y[n-m] é não-nulo). Na CONVOLUÇÃO CIRCULAR \, os 3
+vetores possuem N amostras e TODOS OS ÍNDICES SÃO INTERPRETADOS DE
+FORMA PERIÓDICA:, f 107;

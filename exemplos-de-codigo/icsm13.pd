@@ -1,0 +1,10 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 1.3_-_Filtros
+0 0 0 34 -262144 -147457 0;
+#X obj 100 300 icsm_topico icsm131.pd 1.3.1_Convolução;
+;
+#X obj 100 380 icsm_topico icsm132.pd 1.3.2_Equação_Geral_do_Filtro
+;
+#X obj 100 460 icsm_topico icsm133.pd 1.3.3_Polos_e_Zeros;
+#X obj 100 460 icsm_topico icsm134.pd 1.3.4_Filtros_Elementares_e_Compostos;

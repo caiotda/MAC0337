@@ -91,7 +91,6 @@ e permite a visualização do sinal digitalizado:, f 107;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
 #X msg 189 801 \; pd-icsm111C+ vis 1;
-#X text 6 801 +detalhes(*);
 #X obj 100 92 cnv 15 14 14 empty empty Mais_detalhes_da_Conversão_DA_(*)
 0 0 0 24 -262144 -38 0;
 #X text 100 145 A conversão DA também é realizada em uma sequência
@@ -121,6 +120,7 @@ bit da representação binária do valor de amplitude \, e que retêm
 à posição do bit no código (com valores α \, 2α \, 4α \, 8α
 ...). A soma das correntes das portas abertas compõem o sinal entregue
 à etapa seguinte., f 107;
+#X text 6 801 +detalhes(*):;
 #X connect 0 0 1 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 994 189 pd icsm111C+;
@@ -145,7 +145,6 @@ do [tabwrite~]:, f 107;
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
 #X msg 189 801 \; pd-icsm111B++ vis 1;
-#X text 6 801 +detalhes(*);
 #X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
 -1 -1;
 #X msg 189 801 \; pd-icsm111B++ vis 1;
@@ -181,6 +180,7 @@ elétricos \, usando codificações como PCM (Pulse Code Modulation
 \, onde cada bit do código é representado por um pulso retangular)
 e PAM/PWM (Pulse Amplitude/Width Modulation) \, entre outros., f 107
 ;
+#X text 6 801 +detalhes(*):;
 #X connect 0 0 1 0;
 #X coords 0 -1 1 1 180 36 2 0 800;
 #X restore 994 234 pd icsm111B++;
