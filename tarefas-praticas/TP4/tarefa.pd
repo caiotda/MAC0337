@@ -3,34 +3,102 @@
 #X text 12 37 NUSP:9797232;
 #X obj 84 262 noise~;
 #X obj 82 333 dac~;
-#N canvas 626 330 1920 985 item_3 1;
-#X obj 429 23 inlet~;
-#X obj 753 386 outlet~;
-#X obj 344 234 block~ 1024;
-#X obj 428 74 rfft~;
-#X obj 693 96 array define b 513;
-#X obj 691 42 array define a 512;
-#X obj 360 150 tabwrite~ a;
-#X obj 484 149 tabwrite~ b;
-#X obj 682 174 tabplay~ a;
-#X obj 833 178 tabplay~ b;
-#X obj 758 249 rifft~;
-#X obj 350 104 bang~;
-#X obj 756 310 /~ 1024;
-#X obj 489 102 bang~;
-#X obj 775 135 bang~;
+#N canvas 0 55 1920 985 item_3 1;
+#X obj 275 22 inlet~;
+#X obj 291 560 outlet~;
+#X obj 637 48 block~ 1024;
+#X obj 322 81 rfft~;
+#X obj 753 91 array define b 513;
+#X obj 751 47 array define a 512;
+#X obj 293 157 tabwrite~ a;
+#X obj 382 157 tabwrite~ b;
+#X obj 220 348 tabplay~ a;
+#X obj 371 352 tabplay~ b;
+#X obj 296 423 rifft~;
+#X obj 263 107 bang~;
+#X obj 294 484 /~ 1024;
+#X obj 387 110 bang~;
+#X obj 313 309 bang~;
+#N canvas 0 56 450 250 (subpatch) 0;
+#X array espectro1 513 float 2;
+#X coords 0 1 513 -1 200 140 1 0 0;
+#X restore 671 810 graph;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array espectro2 513 float 2;
+#X coords 0 1 513 -1 200 140 1 0 0;
+#X restore 921 819 graph;
+#X obj 110 78 expr~ sqrt($v1*$v1+$v2*$v2);
+#X obj 22 44 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 27 79 metro 500;
+#X obj 57 127 tabwrite~ espectro1;
+#X obj 176 531 expr~ sqrt($v1*$v1+$v2*$v2);
+#X obj 102 508 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 102 532 metro 500;
+#X obj 159 586 tabwrite~ espectro2;
+#N canvas 0 56 450 250 (subpatch) 0;
+#X array h 513 float 2;
+#X coords 0 0 513 2 200 140 1 0 0;
+#X restore 86 789 graph;
+#X obj 102 305 bang~;
+#X obj 197 393 *~;
+#X obj 474 332 bang~;
+#X obj 400 386 *~;
+#X obj 473 356 tabplay~ h;
+#X obj 129 349 tabplay~ h;
+#X msg 337 900 | \; h const 1 <;
+#X msg 340 805 | \; h const 0 <;
+#X text 73 661 A impressão é que cada frequencia escolhiada gera
+um som aleatorio que se assemelha a um tamborilhar de objetos contra
+uma superfície (dedos numa mesa ou moedas num pote \, claro que isso
+muda conforme a frequencia e alguns pontos geram sons mais agudos)
+Claramente \, quanto mais abaixo no vetor se clica \, mais intenso
+é o som gerado;
+#X obj 664 318 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 666 347 ofelia f \; local v = ofArray("h") \; for i=0 \, 512
+do \; v[i+1] = math.sin(i*math.pi/1024) \; end \;;
+#X text 699 313 Filtro passa alta;
+#X obj 667 455 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 667 484 ofelia f \; local v = ofArray("h") \; for i=0 \, 512
+do \; v[i+1] = 1/(i+1) \; end \;;
+#X text 702 450 Filtro passa baixa;
+#X obj 667 608 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 702 603 Ruído rosa;
+#X obj 667 637 ofelia f \; local v = ofArray("h") \; for i=0 \, 512
+do \; v[i+1] = 1/math.sqrt(i+1) \; end \;;
 #X connect 0 0 3 0;
+#X connect 0 0 17 0;
 #X connect 3 0 6 0;
 #X connect 3 1 7 0;
-#X connect 8 0 10 0;
-#X connect 9 0 10 1;
+#X connect 8 0 27 1;
+#X connect 9 0 29 0;
 #X connect 10 0 12 0;
 #X connect 11 0 6 0;
 #X connect 12 0 1 0;
+#X connect 12 0 21 0;
 #X connect 13 0 7 0;
 #X connect 14 0 8 0;
 #X connect 14 0 9 0;
-#X restore 116 292 pd item_3;
+#X connect 17 0 20 0;
+#X connect 18 0 19 0;
+#X connect 19 0 20 0;
+#X connect 21 0 24 0;
+#X connect 22 0 23 0;
+#X connect 23 0 24 0;
+#X connect 26 0 31 0;
+#X connect 27 0 10 0;
+#X connect 28 0 30 0;
+#X connect 29 0 10 1;
+#X connect 30 0 29 1;
+#X connect 31 0 27 0;
+#X connect 35 0 36 0;
+#X connect 38 0 39 0;
+#X connect 41 0 43 0;
+#X restore 87 294 pd item_3;
 #X connect 2 0 4 0;
-#X connect 2 0 3 0;
 #X connect 4 0 3 1;
+#X connect 4 0 3 0;
