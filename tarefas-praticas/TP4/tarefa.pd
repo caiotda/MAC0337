@@ -1,7 +1,7 @@
 #N canvas 0 56 1920 985 12;
 #X text 15 14 Nome: Caio Túlio de Deus Andrade;
 #X text 12 37 NUSP:9797232;
-#X obj 84 262 noise~;
+#X obj 67 237 noise~;
 #X obj 82 333 dac~;
 #N canvas 0 55 1920 985 item_3 1;
 #X obj 275 22 inlet~;
@@ -47,8 +47,6 @@
 #X obj 400 386 *~;
 #X obj 473 356 tabplay~ h;
 #X obj 129 349 tabplay~ h;
-#X msg 337 900 | \; h const 1 <;
-#X msg 340 805 | \; h const 0 <;
 #X text 73 661 A impressão é que cada frequencia escolhiada gera
 um som aleatorio que se assemelha a um tamborilhar de objetos contra
 uma superfície (dedos numa mesa ou moedas num pote \, claro que isso
@@ -70,6 +68,19 @@ do \; v[i+1] = 1/(i+1) \; end \;;
 #X text 702 603 Ruído rosa;
 #X obj 667 637 ofelia f \; local v = ofArray("h") \; for i=0 \, 512
 do \; v[i+1] = 1/math.sqrt(i+1) \; end \;;
+#X msg 337 900 \; h const 1;
+#X msg 338 805 \; h const 0;
+#X floatatom 982 405 5 0 0 0 - - -;
+#X obj 981 450 ofelia f \; function ofelia.float(a) \; f_1 = a \; local
+v = ofArray("h") \; oct_1 = math.floor(f_1 * 1024/44100) \; oct_2 =
+2*oct_1 \; for i=1 \, 513 do \; v[i] = 0 \; end \; for i=oct_1 \, oct_2
+do \; v[i] = 1 \; end \; end \;;
+#X text 971 294 Quanto mais alto o valor de entrada \, mais ampla é
+a oitava \, ou seja \, a faixa de frequência filtrada fica mais ampla
+e naturalmente filtra-se frequências mais agudas. Além disso \, nota-se
+que conforme maior o valor de entrada \, mais intenso torna-se o som
+gerado. Podemos notar a largura das frequencias geradas no grafico
+em h.;
 #X connect 0 0 3 0;
 #X connect 0 0 17 0;
 #X connect 3 0 6 0;
@@ -95,10 +106,25 @@ do \; v[i+1] = 1/math.sqrt(i+1) \; end \;;
 #X connect 29 0 10 1;
 #X connect 30 0 29 1;
 #X connect 31 0 27 0;
-#X connect 35 0 36 0;
-#X connect 38 0 39 0;
-#X connect 41 0 43 0;
+#X connect 33 0 34 0;
+#X connect 36 0 37 0;
+#X connect 39 0 41 0;
+#X connect 44 0 45 0;
 #X restore 87 294 pd item_3;
-#X connect 2 0 4 0;
+#X obj 134 230 phasor~ 100;
+#X text 311 245 Analise do item 5 (phasor x noise): Achei o efeito
+muito parecido entre os dois tipos de som. Para mim a diferença é
+que se selecionarmos frequencias mais altas \, o som gerado pelo phasor
+é muito mais fraco do que o som gerado pelo noise.;
+#X text 301 356 Analise do item 8 (phasor x noise): para frequencias
+baixas (f = 125hz e f = 500hz) \, consegui ouvir o som do phasor com
+maior intensidade e apresenta claramente uma qualidade periodica. Agora
+\, quando vamos para frequencias mais altas (f=2000hz e f=5000hz) \,
+passo a ouvir o chiado com maior intensidade. Além disso \, o som
+do chiado é mais "recheado": acredito que por ser um sinal aleatório
+\, consigo perceber varios sons diferentes soando juntos (para mim
+\, é como a diferença entre o som de algo sendo frito e o som do
+cantar de um grilo). Com o phasor \, sinto como se tivesse apenas um
+som periodico sendo reproduzido.;
 #X connect 4 0 3 1;
 #X connect 4 0 3 0;
