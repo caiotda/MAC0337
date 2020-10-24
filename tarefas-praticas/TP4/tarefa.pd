@@ -3,7 +3,7 @@
 #X text 12 37 NUSP:9797232;
 #X obj 67 237 noise~;
 #X obj 82 333 dac~;
-#N canvas 0 55 1920 985 item_3 1;
+#N canvas 0 56 1920 985 item_3 0;
 #X obj 275 22 inlet~;
 #X obj 291 560 outlet~;
 #X obj 637 48 block~ 1024;
@@ -126,5 +126,6 @@ do chiado é mais "recheado": acredito que por ser um sinal aleatório
 \, é como a diferença entre o som de algo sendo frito e o som do
 cantar de um grilo). Com o phasor \, sinto como se tivesse apenas um
 som periodico sendo reproduzido.;
+#X connect 2 0 4 0;
 #X connect 4 0 3 1;
 #X connect 4 0 3 0;
