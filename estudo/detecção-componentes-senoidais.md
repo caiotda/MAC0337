@@ -4,7 +4,7 @@ O objetivo dessa seção é estudar **sinais complexos**. Faremos isso decompond
 $$
 (x, y) = \sum_{n=0}^{N-1}x[n]y[n]
 $$
-Para sinais com N amostras. Iremos estudar como interpretar o resultado da correlação entre dois sinais e assim acertarmos componentes de um dado sinal. A correlação tem uma interpretação geométrica, que é exatamente a de **produto escalar**. Por isso, iremos dizer que um sinal é ortogonal a outro se (x,y) = 0.
+Para sinais com N amostras. O nosso processo será decompor nosso sinal de entrada em várias componentes x's, e por meio da correlação, iremos encontrar informações úteis sobre essa componente ao comparar com um sinal conhecido y. Iremos estudar como interpretar o resultado da correlação entre dois sinais e assim acertarmos componentes de um dado sinal. A correlação tem uma interpretação geométrica, que é exatamente a de **produto escalar**. Por isso, iremos dizer que um sinal é ortogonal a outro se (x,y) = 0.
 
 ### Ortogonalidades entre senos e cossenos de fase 0
 
@@ -97,10 +97,89 @@ $$
 x[n] = \alpha cos(\frac{2 \pi f n}{N})- \beta sen(\frac{2 \pi f n}{N})
 $$
 
-Note que, se encontrarmos de alguma forma, alfa e beta, poderiamos reconstruir a amplitude e a fase inicial do sinal. Isso segue pelas duas relações a seguir:
+O que mostra que podemos tomar um sinal como a combinação linear de dois outros sinais (estes de fase 0). Note que, se encontrarmos de alguma forma, alfa e beta, poderiamos reconstruir a amplitude e a fase inicial do sinal. Isso segue pelas duas relações a seguir:
 $$
 A = \sqrt{\alpha^2 + \beta^2} \ (pitagoras)
 \\
 \phi = arctan(\beta, \alpha)
 $$
 As coordenadas (A, $\alpha$) e ($\alpha, \beta$) são conhecidas como **coordenadas polares** e **coordenadas cartesianas**; No segundo caso, estamos tomando a componente horizontal e vertical de uma reta dentro de um círculo (pense num circulo unitario e uma reta partindo da origem e atingindo um ponto em, digamos, 45 graus). As coordenadas polares, por outro lado, são definidas exatamente pelo comprimento (em relação à origem) e inclinação do segmento de reta.
+
+### Ortogonalidade e linearidade na obtenção de $\alpha$ e $\beta$
+
+Vamos agora estudar a correlação de um sinal genérico x com um sinal conhecido y. Definimos x como
+$$
+x[n] = \alpha cosf(n) - \beta sen f(n)
+\\
+cos f(n) = cos(\frac{2\pi f n}{N})
+\\
+e
+\\
+sen f(n) = sen(\frac{2\pi f n}{N})
+$$
+E podemos calcular a correlação com sinais como:
+$$
+sen g(n) = sen(\frac{2\pi g n}{N})
+\\
+e
+\\
+cos g(n) = cos(\frac{2\pi g n}{N})
+$$
+Antes de partirmos para a corerlação, vamos ressaltar uma propriedade muito importante dela: a  **linearidade**:
+$$
+(a + b, c) = ac + cb
+$$
+Como tudo que é linear, também vale que
+$$
+\gamma(a, b) = (\gamma a, \gamma b)
+$$
+Assim, podemos calcular a correlação entre nosso sinal x e um sen g ou cos g:
+$$
+(\alpha cos f(n) - \beta sen f(n), -sen(g)) = -\alpha(cos f(n), sen g(n)) + \beta(sen f(n), sen g(n))
+$$
+Vale que a correlação entre cosseno e seno é sempre zero, podemos ignorar o primeiro termo da soma. Vamos nos preocupar nos casos em que f == g (do contrario, a correlação é zero):
+$$
+(x, -sen f) = \beta (sen f, sen f)
+\\
+\therefore
+\\
+\beta = D[f] * (x, -sen f)
+$$
+Onde D[f] é um **termo de normalização**, que é o inverso da norma de sen f (note como a correlação de um sinal com ele mesmo é sua norma).
+
+
+
+Repetindo o mesmo para a correlação com o cos g, teriamos:
+$$
+\alpha = C[f] * (x, cos f)
+$$
+Onde C também é um termo de normalização, e teríamos C[f] e D[f] satisfazendo C=D=2/N se 0<f<N/2, e C=1/N e D=0 se f=0 ou f=N/2. 
+
+
+
+Assim, por meio da correlação, conseguimos extrair do sinal as coordenadas alpha e beta. Com elas, poderíamos reconstruir o sinal original descobrindo a Amplitude e fase inicial.
+
+***
+
+## Transformada real de Fourier
+
+Agora vamos estudar como converter um sinal qualquer em componentes senoidais. A transformada de Fourier faz exatamente isso: ela recebe um sinal em uma base **canonica** (x[0], x[1], x[2], ...) e converte em uma base de **senos e cossenos** : x = (a[1], b[1] , a[2], b[2], ...) onde
+$$
+a[f] = (x, cos f)\\
+b[f] = (x, -sen f)
+$$
+Essa é a **equação de análise**. Essas correlações não são normalizadas. Como essas correlações não são normalizadas,vale que $\alpha = a[f], \beta = b[f]$. Portanto, como estudamos anteriormente, podemos facilmente converter essas coordenadas em polares, ou seja, obter a Amplitude do sinal e a fase inicial dele:
+$$
+A[f] = \sqrt{a[f]^2 + b[f]^2}
+\\
+\phi[f] = arctan(b[f]/a[f])
+$$
+Assim conseguimos obter a amplitude e a fase de cada componente.
+
+
+
+Podemos fazer o caminho inverso pela **equação de síntese**, que é um processo **sem perdas** de obter o sinal original a partir das componentes. Segue a equação:
+$$
+x[n] =A[0] *  \frac{1}{N} + \frac{2}{N}\sum_{f=1}^{N/2-1}A[f] * cos(\frac{2\pi f n + \phi(f)}{N}) + \frac{1}{N}A[N/2]cos(\pi n)
+$$
+Esses pesos 1/N e 2/N tem a ver com as correlações especiais quando f = 0 e f = N/2
