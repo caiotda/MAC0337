@@ -1,4 +1,4 @@
-#N canvas 0 55 1920 985 12;
+#N canvas 557 150 450 300 12;
 #X obj 135 246 sintetizador~;
 #X msg 135 47 liga;
 #X msg 135 75 desliga;
