@@ -1,0 +1,16 @@
+#N canvas 0 55 1920 985 12;
+#X obj 135 246 sintetizador~;
+#X msg 135 47 liga;
+#X msg 135 75 desliga;
+#X msg 137 101 onda;
+#X msg 139 127 ataque;
+#X msg 139 150 decaimento;
+#X msg 141 176 inicia;
+#X msg 141 205 notas;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
