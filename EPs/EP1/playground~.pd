@@ -1,15 +1,15 @@
 #N canvas 0 56 959 463 12;
 #X obj 135 246 sintetizador~;
-#X msg 135 47 liga;
-#X msg 135 75 desliga;
+#X msg 135 48 liga;
+#X msg 134 75 desliga;
 #X msg 141 176 inicia;
-#X msg 141 205 notas;
 #X msg 317 85 onda senoidal;
 #X msg 318 109 onda triangular;
 #X msg 318 132 onda quadrada;
 #X msg 319 155 onda dente-de-serra;
 #X msg 139 150 decaimento 50;
 #X msg 139 127 ataque 50;
+#X msg 408 189 notas 62 130.435 62 130.435 74 260.87;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
