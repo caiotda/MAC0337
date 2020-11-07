@@ -20,7 +20,7 @@
 74 260.87 69 391.305 68 260.87 67 260.87 65 260.87 62 130.435 65 130.435
 67 130.435;
 #X obj 196 163 hsl 128 15 0 126 0 0 empty empty Frequencia -2 -8 0
-10 -262144 -1 -1 11900 1;
+10 -262144 -1 -1 6000 1;
 #N canvas 0 56 450 250 (subpatch) 0;
 #X array array1 100 float 3;
 #A 0 0 0 0 0.885714 0.885714 0.885714 0.885714 0.885714 0.885714 0.885714
@@ -41,6 +41,10 @@
 #X obj 220 197 sig~;
 #X floatatom 157 205 5 0 0 0 - - -;
 #X msg 24 213 finaliza;
+#X obj 381 170 hsl 128 15 0 1 0 0 empty empty Amplitude -2 -8 0 10
+-262144 -1 -1 2200 1;
+#X obj 316 202 sig~;
+#X floatatom 428 104 5 0 0 0 - - -;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -57,3 +61,6 @@
 #X connect 13 0 16 0;
 #X connect 15 0 0 1;
 #X connect 17 0 0 0;
+#X connect 18 0 19 0;
+#X connect 18 0 20 0;
+#X connect 19 0 0 2;
