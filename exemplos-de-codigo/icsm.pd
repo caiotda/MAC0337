@@ -1,7 +1,12 @@
-#N canvas 0 0 1280 700 12;
+#N canvas 0 0 1280 700 24;
 #X obj 0 0 icsm_cabecalho;
-#X obj 100 200 icsm_topico icsm0.pd 0_Preâmbulo;
-#X obj 100 280 icsm_topico icsm1.pd 1_Representações;
-#X obj 100 360 icsm_topico icsm2.pd 2_Síntese;
-#X obj 100 440 icsm_topico icsm3.pd 3_Análise;
-#X obj 100 520 icsm_topico icsm4.pd 4_Aplicações;
+#X obj 100 350 icsm_topico icsm0.pd Preâmbulo icsm.pd;
+#X obj 100 430 icsm_topico icsmI.pd Parte_I_-_Representações icsm.pd
+;
+#X obj 100 510 icsm_topico icsmII.pd Parte_II_-_Aplicações icsm.pd
+;
+#X text 100 175 Esse livro serve de introdução à área de Computação
+Sonora e Musical (CSM). Ele está estruturado assim: na Parte I - REPRESENTAÇÕES
+são apresentados os conceitos de SINAL \, ESPECTRO e FILTRO \, e na
+Parte II - APLICAÇÕES são discutidos os temas de SÍNTESE \, ANÁLISE
+e PROCESSAMENTO sonoros., f 75;

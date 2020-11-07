@@ -1,5 +1,5 @@
 -- seleciona o vetor correspondente ao argumento
-local v = "$0_115B_"..a
+local v = "$0B_"..a
 local x = ofArray(v)
 local N = x:getSize()
 

@@ -1,0 +1,13 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty Parte_II_-_Aplicações
+0 0 0 34 -262144 -1601 0;
+#X text 99 238 OBJETIVO: estudar técnicas de SÍNTESE de sinais de áudio
+digital \, ferramentas ANALÍTICAS para extrair informação destes sinais
+e o PROCESSAMENTO visando a modificação controlada de seu conteúdo., f 76;
+#X obj 50 650 icsm_anterior icsmII.pd icsm.pd;
+#X obj 100 380 icsm_topico icsm4.pd 4_-_Síntese icsmII.pd
+;
+#X obj 100 460 icsm_topico icsm5.pd 5_-_Análise icsmII.pd
+;
+#X obj 100 540 icsm_topico icsm6.pd 6_-_Processamento icsmII.pd;

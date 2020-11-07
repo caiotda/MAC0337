@@ -2,21 +2,24 @@
 #X obj 0 0 icsm_cabecalho;
 #X obj 100 170 cnv 15 14 14 empty empty Antes_de_Começar 0 0 0 34
 -262144 -147457 0;
-#X text 100 205 O conteúdo que você está acessando é um material
-didático de suporte a uma disciplina introdutória de computação
-sonora e musical (ou SMC = Sound and Music Computing). Ele está escrito
-na forma de uma série de patches em Pd., f 75;
 #X obj 1080 422 icsm_url http://aspress.co.uk/ds/pdf/pd_intro.pdf;
 #X obj 1066 553 icsm_url http://msp.ucsd.edu/techniques.htm;
-#X text 100 305 É importante destacar que esse material NÃO É um
-curso da linguagem Pd. Ela aparece tão somente como uma (excelente)
-coadjuvante na discussão de conceitos e técnicas utilizadas em SMC.
-Além da rica documentação interna da linguagem (menu Ajuda->Navegador->Pure
+#X text 100 305 É importante destacar que esse livro NÃO É um curso
+da linguagem Pd. Ela aparece tão somente como uma (excelente) coadjuvante
+na discussão de conceitos e técnicas utilizadas em CSM. Além da
+rica documentação interna da linguagem (menu Ajuda->Navegador->Pure
 Data) você poderá encontrar ótimos tutoriais online (por exemplo:
 DESIGNING SOUND do Andy Farnell __)., f 75;
-#X text 100 465 Existem também muitos livros excelentes sobre o assunto
-\, que podem servir de material de consulta adicional. Entre eles destaco
-o ELEMENTS OF COMPUTER MUSIC do F. Richard Moore \, o THEORY AND TECHNIQUE
-OF ELECTRONIC MUSIC do autor do Pd Miller Puckette (disponível gratuitamente
-aqui: __) e o INTRODUCTION TO COMPUTER MUSIC do Nick Collins., f 75
-;
+#X text 100 465 Existem também muitos outros livros excelentes sobre
+o assunto \, que podem servir de material de consulta adicional. Entre
+eles destacam-se o ELEMENTS OF COMPUTER MUSIC do F. Richard Moore \,
+o THEORY AND TECHNIQUE OF ELECTRONIC MUSIC do autor do Pd Miller Puckette
+(disponível gratuitamente aqui: __) e o INTRODUCTION TO COMPUTER MUSIC
+do Nick Collins., f 75;
+#X text 100 205 Esse livro é um material didático de suporte à disciplina
+introdutória de CSM ministrada na Universidade de São Paulo. Ele
+está organizado como um hipertexto formado por programas (patches)
+na linguagem Puredata (Pd)., f 75;
+#X obj 1100 650 icsm_anterior icsm00.pd icsm0.pd;
+#X obj 1150 650 icsm_sobe icsm00.pd icsm0.pd;
+#X obj 1200 650 icsm_proximo icsm00.pd icsm01.pd;

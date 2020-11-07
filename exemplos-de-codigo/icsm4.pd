@@ -1,7 +1,10 @@
 #N canvas 0 0 1280 700 24;
 #X obj 0 0 icsm_cabecalho;
-#X obj 100 200 cnv 15 14 14 empty empty 4_-_Aplicações 0 0 0 34 -262144 -1601 0;
-#X obj 100 280 icsm_topico icsm41.pd 4.1_Acústica_de_Salas;
-#X obj 100 360 icsm_topico icsm42.pd 4.2_Modelagem_Física;
-#X obj 100 440 icsm_topico icsm43.pd 4.3_Sonificação;
-#X obj 100 520 icsm_topico icsm44.pd 4.4_Tarefas_em_MIR;
+#X obj 100 200 cnv 15 14 14 empty empty 4_-_Modelos_de_Síntese_e_Instrumentos_Digitais 0 0 0 34 -262144 -1601 0;
+#X obj 100 280 icsm_topico icsm41.pd 4.1_Síntese_Aditiva icsm4.pd;
+#X obj 100 360 icsm_topico icsm42.pd 4.2_Síntese_Subtrativa icsm4.pd;
+#X obj 100 440 icsm_topico icsm43.pd 4.3_Síntese_Não-Linear icsm4.pd;
+#X obj 100 520 icsm_topico icsm44.pd 4.4_Instrumentos_Digitais icsm4.pd;
+#X obj 1100 650 icsm_anterior icsm4.pd icsm3.pd;
+#X obj 1150 650 icsm_sobe icsm4.pd icsmII.pd;
+#X obj 1200 650 icsm_proximo icsm4.pd icsm5.pd;

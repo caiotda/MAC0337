@@ -1,0 +1,1087 @@
+#N canvas 0 0 1280 700 16;
+#X declare -lib zexy;
+#X declare -lib iemlib;
+#X declare -lib zexy;
+#X declare -lib zexy;
+#X declare -lib iemlib;
+#X declare -lib zexy;
+#N canvas 0 0 450 300 icsm16_ 0;
+#X obj 0 100 loadbang;
+#X msg 0 150 \; pd-icsm16.pd vis 1 \; pd-icsm16_ vis 0 \; pd-icsm16A
+vis 0 \; pd-icsm16B vis 0 \; pd-icsm16C vis 0 \; pd-icsm16D vis 0 \;
+pd-icsm16E vis 0 \; pd-icsm16F vis 0 \; pd-icsm16G vis 0 \; pd-icsm16H
+vis 0 \; pd-icsm16I vis 0 \; pd-icsm16J vis 0;
+#N canvas 0 0 1280 700 icsm16A 0;
+#X obj 1100 650 icsm_anterior icsm16A icsm16.pd;
+#X obj 1150 650 icsm_sobe icsm16A icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16A icsm16B;
+#X obj 100 80 cnv 15 14 14 empty empty Teorema_da_amostragem_(Shannon-Nyquist)
+0 0 0 24 -262144 -38 0;
+#X text 100 220 O teorema de Shannon-Nyquist estabelece as limitações
+no âmbito da frequência para que uma representação digital corresponda
+fielmente à representação analógica do sinal. A condição de suficiência
+do teorema provê uma GARANTIA de que \, se amostrarmos o sinal com
+uma taxa alta o bastante (>=2X Hz) \, então o sinal digital pode ser
+usado em uma RECONSTRUÇÃO PERFEITA do sinal analógico \, através
+de um procedimento matemático/teórico chamado de INTERPOLAÇÃO IDEAL.
+Demonstrar essa parte do teorema não é trivial., f 107;
+#X text 100 130 TEOREMA: Para representar digitalmente e SEM PERDAS
+um sinal analógico contendo componentes senoidais com frequências
+estritamente menores do que X Hz \, é SUFICIENTE tomar pelo menos
+2X amostras por segundo. Mais ainda \, para se representar corretamente
+todas as componentes senoidais no intervalo [0 \, X) Hz é NECESSÁRIO
+tomar pelo menos 2X amostras por segundo., f 107;
+#X text 100 330 A condição de necessidade do teorema estabelece que
+é IMPOSSÍVEL representar todo e qualquer sinal analógico contendo
+componentes senoidais no intervalo [0 \, X] Hz usando uma taxa de amostragem
+de MENOS do que 2X Hz. Como INTUIÇÃO \, podemos imaginar que uma
+componente senoidal com frequência X HZ exija ao menos 2 amostras
+(+1 e -1) para representar cada ciclo \, de onde exigirá 2X amostras
+por segundo. Mesmo com R=2X amostras por segundo \, pode acontecer
+de "fotografarmos" essa senoide exatamente nos instantes de cruzamento
+do zero \, gerando um sinal com duas amostras de valor 0 em cada ciclo:
+é exatamente isso o que acontece com a função sen(2π(R/2)t) para
+t=n/R \, n=0 \, 1 \, 2 \, ... Esse é um primeiro exemplo de REBATIMENTO
+\, que mostra que a frequência R/2 já não possui garantia de ser
+preservada no processo de digitalização. Outros exemplos de rebatimento
+irão evidenciar a condição de necessidade do teorema de Shannon-Nyquist.
+, f 107;
+#X text 101 522 No universo dos sinais digitais com taxa de amostragem
+R \, a frequência R/2 Hz recebe o nome de FREQUÊNCIA DE NYQUIST \,
+e estabelecendo um limite para a fidelidade da representação e reconstrutibilidade
+do sinal analógico., f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 0 0 pd icsm16A;
+#N canvas 0 0 1280 700 icsm16B 0;
+#X obj 1100 650 icsm_anterior icsm16B icsm16A;
+#X obj 1150 650 icsm_sobe icsm16B icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16B icsm16C;
+#X obj 100 80 cnv 15 14 14 empty empty Reconstrução_Perfeita_na_conversão_DA
+0 0 0 24 -262144 -38 0;
+#X text 100 110 A suficiência do teorema de Shannon-Nyquist está
+associada à possibilidade de reconstruir de forma perfeita sinais
+analógicos a partir de suas versões amostradas \, desde que o sinal
+analógico e a amostragem a R Hz respeitem a condição R>2F para todas
+as componentes senoidais de frequência F do sinal., f 85;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_analógico 1024 float 0;
+#X coords 0 1 1023 -1 200 140 1 0 0;
+#X restore 974 82 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_digital 7 float 2;
+#X coords 0 1 7 -1 200 140 1 0 0;
+#X restore 975 244 graph;
+#N canvas 0 0 1280 700 mágica 0;
+#X obj 66 27 loadbang;
+#X obj 66 72 ofelia f \; local x=ofArray("\$0B_analógico") \; N =
+x:getSize() \; for n=0 \, N-1 do \; x[n] = math.cos(2*math.pi*3*n/N)
+\; end \;;
+#X obj 469 70 ofelia f \; local x=ofArray("\$0B_digital") \; N = x:getSize()
+\; for n=0 \, N-1 do \; x[n] = math.cos(2*math.pi*3*n/N) \; end \;
+;
+#X obj 66 206 ofelia f \; local x=ofArray("\$0B_digital") \; local
+y=ofArray("\$0B_sinc") \; local L = y:getSize() \; local W = 1+5*x:getSize()
+\; for n=0 \, L-1 do \; m=n-L/2 \; if m==0 then y[n]=1 else \; y[n]
+= math.sin(math.pi*m/(L/W))/(math.pi*m/(L/W)) \; end \; end \;;
+#X obj 641 377 r \$0B_índice;
+#X msg 653 313 \; \$1B_reconstruído const 0;
+#X obj 653 281 f \$0;
+#X obj 875 17 r \$0B_3períodos;
+#X obj 875 46 t b b;
+#X msg 875 75 3;
+#X obj 985 76 t b b;
+#X obj 1055 106 t b b;
+#X obj 915 180 ofelia f \; local o = ofOutlet(this) \; n0 = math.floor(0.5+7*(a-1)/2)
+\; for n = -n0 \, 6+n0 do \; o:outletFloat(0 \, n) \; end \;;
+#X msg 985 105 7;
+#X obj 985 47 r \$0B_7períodos;
+#X obj 606 241 t b b;
+#X msg 1055 135 21;
+#X obj 60 467 ofelia f \; local s=ofSend("\$0B_erro") \; local x=ofArray("\$0B_analógico")
+\; local y=ofArray("\$0B_reconstruído") \; local ms = 0 \; local N
+= x:getSize() \; for n=0 \, N-1 do \; ms = ms + (x[n]-y[n])^2/N \;
+end \; s:sendFloat(10*math.log(ms)/math.log(10)) \;;
+#X obj 1055 77 r \$0B_21períodos;
+#X obj 641 423 ofelia f \; local x=ofArray("\$0B_digital") \; local
+z=ofArray("\$0B_reconstruído") \; local M = x:getSize() \; local N
+= z:getSize() \; if a~=a%M or math.abs(z[math.floor(a*N/M)]-x[a])>0.1
+then \; for n=0 \, N-1 do \; if math.abs(n-a*N/M)<1 then z[n]=z[n]+x[a%M]
+\; else z[n] = z[n] + x[a%M] * math.sin(math.pi*(n-a*N/M)/(N/M)) /
+(math.pi*(n-a*N/M)/(N/M)) \; end end end \; return bang \;;
+#X obj 606 206 r \$0B_limpa;
+#X connect 0 0 1 0;
+#X connect 0 0 2 0;
+#X connect 0 0 3 0;
+#X connect 4 0 19 0;
+#X connect 6 0 5 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 8 1 6 0;
+#X connect 9 0 12 0;
+#X connect 10 0 13 0;
+#X connect 10 1 6 0;
+#X connect 11 0 16 0;
+#X connect 11 1 6 0;
+#X connect 12 0 19 0;
+#X connect 13 0 12 0;
+#X connect 14 0 10 0;
+#X connect 15 0 17 0;
+#X connect 15 1 6 0;
+#X connect 16 0 12 0;
+#X connect 18 0 11 0;
+#X connect 19 0 17 0;
+#X connect 20 0 15 0;
+#X coords 0 -1 1 1 2 2 2 0 0;
+#X restore 1173 586 pd mágica;
+#X text 100 195 Para ilustrar como se dá essa reconstrução \, considere
+o seguinte sinal senoidal "analógico" de 3 Hz \, visualizado durante
+1 segundo \, e sua versão digital \, amostrada com R = 7Hz. Vale lembrar
+que o sinal amostrado não possui trechos constantes como a figura
+\, e sim amostras isoladas \, não estando definido entre uma amostra
+e outra., f 85;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_analógico_ 1024 float 0;
+#X coords 0 1 1023 -1 200 140 1 0 0;
+#X restore 974 82 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_digital_ 7 float 2;
+#X coords 0 1 7 -1 200 140 1 0 0;
+#X restore 975 244 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_sinc 8192 float 0;
+#X coords 0 1 8191 -0.2 850 100 1 0 0;
+#X restore 103 397 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_sinc_ 8192 float 0;
+#X coords 0 1 8191 -0.2 850 100 1 0 0;
+#X restore 103 397 graph;
+#X text 523 452 0;
+#X text 547 452 1;
+#X text 570 452 2;
+#X text 523 466 |;
+#X text 546 466 |;
+#X text 570 466 |;
+#X text 592 452 3... (/R);
+#X text 592 466 |;
+#X text 298 410 sinc(t) = sen(πRt);
+#X text 397 413 ________;
+#X text 419 433 πRt;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_reconstruído 1024 float 2;
+#X coords 0 1 1024 -1 200 140 1 0 0;
+#X restore 975 446 graph;
+#X obj 978 393 hradio 28 1 0 7 \$0B_índice empty empty 0 -8 0 10 -262144
+-1 -1 6;
+#X obj 707 522 bng 20 250 50 0 \$0B_3períodos empty empty 17 7 0 10
+-262130 -1 -1;
+#X obj 761 522 bng 20 250 50 0 \$0B_7períodos empty empty 17 7 0 10
+-262130 -1 -1;
+#X obj 812 522 bng 20 250 50 0 \$0B_21períodos empty empty 17 7 0
+10 -262130 -1 -1;
+#X floatatom 707 614 8 0 0 2 erro_da_reconstrução_(dB) #0B_erro -
+;
+#X obj 707 548 bng 20 250 50 0 \$0B_limpa empty empty 17 7 0 10 -262130
+-1 -1;
+#X text 733 545 limpa reconstrução;
+#X text 838 519 21 períodos;
+#X text 733 519 3;
+#X text 787 519 7;
+#X text 100 285 Um INTERPOLADOR IDEAL substitui cada amostra por uma
+função sinc(t) \, que satisfaz sinc(t)=1 para t=0 \, e sinc(t)=0
+para t=n/R com n inteiro. Cada amostra x[n] dá origem a um termo da
+forma x_n(t) = x[n]·sinc(t-n/R) \, de tal forma que x_n(t)=x[n] em
+t=n/R e x_n(t)=0 nos instantes t=m/R correspondentes às outras amostras
+(m!=n)., f 85;
+#X text 100 515 Você pode experimentar reconstruir o sinal acumulando
+os sinc's que correspondem a cada amostra através do seletor horizontal
+abaixo da representação digital \, ou usar os botões ao lado para
+incluir sinc's correspondentes a um número maior de períodos completos
+\, de forma circular (observe que tanto o sinal analógico quanto o
+digital possuem DURAÇÃO INFINITA nesse exemplo).;
+#X coords 0 0 1 1 100 100 0;
+#X restore 150 0 pd icsm16B;
+#N canvas 0 0 1280 700 icsm16C 0;
+#X obj 1100 650 icsm_anterior icsm16C icsm16B;
+#X obj 1150 650 icsm_sobe icsm16C icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16C icsm16D;
+#X obj 100 80 cnv 15 14 14 empty empty Exemplos_visuais_de_rebatimento
+0 0 0 24 -262144 -38 0;
+#X obj 103 227 icsm16_grafico \$0 1;
+#X obj 324 227 icsm16_grafico \$0 2;
+#X obj 542 227 icsm16_grafico \$0 3;
+#X obj 760 227 icsm16_grafico \$0 4;
+#X obj 978 227 icsm16_grafico \$0 5;
+#X obj 103 337 icsm16_grafico \$0 6;
+#X obj 324 337 icsm16_grafico \$0 7;
+#X obj 542 337 icsm16_grafico \$0 8;
+#X obj 760 337 icsm16_grafico \$0 9;
+#X obj 978 337 icsm16_grafico \$0 10;
+#N canvas 0 0 1035 635 \$0_interface 0;
+#X obj 283 317 ofelia f \; a[1] = math.floor(a[1]) \; for k=1 \, 10
+do \; local v=ofArray("\$0_"..k.."_"..a[1]) \; local N=v:getSize()
+\; for i=0 \, N-1 do \; if a[3]==1 then \; v[i]=a[2]*math.cos(2*math.pi*k*i/N)
+\; else v[i]=a[2]*math.sin(2*math.pi*k*i/N) \; end \; end \; end \;
+;
+#X obj 9 9 tgl 20 0 empty \$0_R10_init R=10_Hz 22 10 0 18 -262130 -1
+-1 1 1;
+#X obj 109 273 list append;
+#X obj 283 273 list append;
+#X obj 383 149 t b b f f;
+#X msg 109 233 10 1;
+#X msg 283 233 100 1;
+#X msg 109 188 set 10 \$1 \, bang;
+#X msg 283 188 set 100 \$1 \, bang;
+#X obj 9 39 tgl 20 0 empty empty R=100_Hz 22 10 0 18 -262130 -1 -1
+1 1;
+#X obj 9 69 tgl 20 0 empty empty sin/cos 22 10 0 18 -262130 -1 -1 1
+1;
+#X text 473 188 a mensagem |set ...< inicializa uma lista (bang força
+o disparo da lista recém-inicializada), f 41;
+#X text 408 275 <- veja o help dos objetos para manipulação de listas
+;
+#X text 156 12 Preenche os 20 vetores;
+#X obj 521 24 loadbang;
+#X msg 521 53 1;
+#X obj 521 82 s \$0_R10_init;
+#X connect 1 0 7 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 5 0;
+#X connect 4 1 6 0;
+#X connect 4 2 2 1;
+#X connect 4 3 3 1;
+#X connect 5 0 2 0;
+#X connect 6 0 3 0;
+#X connect 7 0 5 0;
+#X connect 8 0 6 0;
+#X connect 9 0 8 0;
+#X connect 10 0 4 0;
+#X connect 14 0 15 0;
+#X connect 15 0 16 0;
+#X coords 0 -1 1 1 125 100 2 0 0;
+#X restore 1055 107 pd \$0_interface;
+#N canvas 0 0 697 216 \$0C_quadradinhos 0;
+#X obj 222 10 hradio 20 1 0 20 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 112 126 + 1;
+#X obj 13 86 f;
+#X floatatom 139 9 5 0 0 0 Freq - -;
+#X obj 13 10 tgl 20 0 empty empty LIGA 22 10 0 16 -262144 -1 -1 0 1
+;
+#X obj 13 46 metro 100;
+#X obj 112 165 mod 20;
+#X text 57 83 contador circular de 0 a 19;
+#X obj 399 59 loadbang;
+#X msg 399 88 1;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 0 0;
+#X connect 3 0 1 1;
+#X connect 4 0 5 0;
+#X connect 5 0 2 0;
+#X connect 6 0 2 1;
+#X connect 8 0 9 0;
+#X connect 9 0 3 0;
+#X coords 0 -1 1 1 640 40 2 0 0;
+#X restore 295 550 pd \$0C_quadradinhos;
+#X text 261 223 1 Hz;
+#X text 482 223 2 Hz;
+#X text 700 223 3 Hz;
+#X text 918 223 4 Hz;
+#X text 1136 223 5 Hz;
+#X text 261 333 6 Hz;
+#X text 482 333 7 Hz;
+#X text 700 333 8 Hz;
+#X text 918 333 9 Hz;
+#X text 1126 333 10 Hz;
+#X text 100 460 Este outro exemplo é similar ao efeito de roda de
+carro em filme que parece "girar ao contrário" quando está muito
+rápida. O quadradinho abaixo percorre circularmente o vetor de R=20
+posições numa velocidade de "freq" quadradinhos por atualização
+(nesse caso a atualização ocorre 10 vezes por segundo \, mas isso
+não é relevante para o efeito). Veja o que ocorre a partir de freq>=R/2=10
+quadradinhos por quadro:, f 107;
+#X text 100 110 Esse exemplo ilustra sinais senoidais com frequências
+1 \, 2 \, ... \, 10 Hz \, amostrados no intervalo [0 \, 1] com R=10
+Hz. Conte as "idas e vindas" de cada figura \, e observe o que ocorre
+a partir da frequência de R/2=5 Hz. Perceba as correspondências entre
+1 Hz e 9 Hz \, 2 Hz e 8 Hz e assim por diante. Você pode checar as
+"formas de onda analógicas" correspondentes clicando em R=100 Hz \,
+e também pode observar o que ocorre com a função cosseno., f 94
+;
+#X coords 0 0 1 1 100 100 0;
+#X restore 300 0 pd icsm16C;
+#N canvas 0 0 1280 700 icsm16D 0;
+#X obj 1100 650 icsm_anterior icsm16D icsm16C;
+#X obj 1150 650 icsm_sobe icsm16D icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16D icsm16E;
+#X obj 100 80 cnv 15 14 14 empty empty Cobertura_da_amostragem_em_função_da_frequência
+0 0 0 24 -262144 -38 0;
+#X text 100 130 A satisfação da condição de Nyquist \, que estabelece
+a necessidade e suficiência da relação F<R/2 para a representação
+digital de uma componente senoidal de frequência F sob a taxa de amostragem
+R \, é normalmente forçada durante a conversão AD \, mas pode eventualmente
+ser violada durante a síntese e processamento de sinais. Uma componente
+senoidal de frequência F produzida durante esses processos é classificada
+como:, f 107;
+#X text 160 220 - SUPERAMOSTRADA \, quando verifica a condição de
+Nyquist F<R/2. Componentes superamostradas são representadas corretamente
+no sinal digital \, o que implica que sua reconstrução na conversão
+DA será perfeita (ao menos em teoria) \, mesmo que sua "aparência"
+no sinal digital sugira o contrário. Esse é o caso dos sinais do
+exemplo anterior com frequências F<5 Hz., f 93;
+#X text 160 310 - CRITICAMENTE AMOSTRADA \, quando satisfaz F=R/2.
+Uma componente com a frequência de Nyquist pode ser representada corretamente
+ou não \, estando sujeita a alterações de amplitude em função
+da fase inicial \, como ocorre com F=5 Hz no exemplo anterior com seno
+e cosseno., f 93;
+#X text 160 380 - SUBAMOSTRADA \, quando satisfaz F>R/2. Nesse caso
+\, a componente sofrerá o processo de REBATIMENTO (ALIASING) pois
+sua representação será idêntica a uma outra frequência F'=F-kR
+no intervalo [-R/2 \, +R/2) \, e será REBATIDA (convertida) em uma
+componente de frequência F' na conversão DA (pela impossibilidade
+de diferenciar as versões digitais de F e F'). No exemplo anterior
+\, F=6 \, 7 \, 8 \, 9 \, 10 são rebatidas respectivamente em F'=-4
+\, -3 \, -2 \, -1 \, 0 Hz (as frequências negativas explicam o espelhamento
+horizontal das formas do seno no exemplo anterior., f 93;
+#X text 100 520 OBSERVAÇÃO: não confundir os termos acima (OVER/UNDER-SAMPLING)
+com os processos de SUPER/SUB-AMOSTRAGEM (UP/DOWN-SAMPLING) de sinais
+\, que correspondem a MUDANÇAS DE TAXA DE AMOSTRAGEM (por exemplo
+ao converter um sinal digital com R=44100 Hz em sinais digitais com
+R=96000 Hz ou R=8000 Hz)., f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 450 0 pd icsm16D;
+#N canvas 0 0 1280 700 icsm16E 0;
+#X obj 1100 650 icsm_anterior icsm16E icsm16D;
+#X obj 1150 650 icsm_sobe icsm16E icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16E icsm16F;
+#X obj 100 80 cnv 15 14 14 empty empty Rebatimento_do_ponto_de_vista_algébrico
+0 0 0 24 -262144 -38 0;
+#X text 100 130 Uma senoide digitalizada é uma função de tempo discreto
+com expressão x[n] = α·cos(2πfn/R+φ). Se considerarmos uma frequência
+g=f+kR (com k inteiro) \, a expressão anterior fica:, f 107;
+#X text 490 199 y[n] = α·cos(2πgn/R+φ);
+#X text 540 219 = α·cos(2π(f+kR)n/R+φ) = α·cos(2πfn/R+2πkn+φ)
+= α·cos(2πfn/R+φ), f 22;
+#X text 540 277 = x[n], f 22;
+#X text 100 330 Isso mostra que é IMPOSSÍVEL distinguir as senoides
+x[n] e y[n] de frequências f e f+kR \, pois elas geram exatamente
+os mesmos valores quando são amostradas R vezes por segundo. Podemos
+dizer que as senoides com frequências ... \, f-3R \, f-2R \, f-R \,
+f \, f+R \, f+2R \, f+3R \, ... pertencem a uma mesma CLASSE DE EQUIVALÊNCIA
+\, no sentido de gerarem todas o mesmo sinal digital quando amostradas
+a R Hz., f 107;
+#X text 780 238 (2πkn = kn períodos completos);
+#X text 100 440 Para garantir que a representação digital tenha uma
+interpretação unívoca em termos de qual SINAL ANALÓGICO é representado
+por uma lista de amostras qualquer \, convenciona-se selecionar como
+FREQUÊNCIA PRINCIPAL ou REPRESENTANTE da classe de equivalência acima
+a única frequência da lista que pertence ao intervalo [-R/2 \, +R/2].
+Essa convenção é parte integrante da conversão DA \, que recria
+sinais analógicos sempre a partir das frequências principais. Assim
+\, dada uma frequência real f qualquer \, podemos calcular a sua frequência
+equivalente que será reconstruída no sinal analógico como f-kR usando
+k=round(f/R)., f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 600 0 pd icsm16E;
+#N canvas 0 0 1280 700 icsm16F 0;
+#X obj 1100 650 icsm_anterior icsm16F icsm16E;
+#X obj 1150 650 icsm_sobe icsm16F icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16F icsm16G;
+#X obj 100 80 cnv 15 14 14 empty empty Rebatimento_do_ponto_de_escuta_perceptual
+0 0 0 24 -262144 -38 0;
+#X text 100 130 Uma componente senoidal de frequência f \, possivelmente
+rebatida em uma frequência equivalente f-kR \, será percebida de
+acordo com a quantidade de períodos por segundo \, independentemente
+de ser uma frequência positiva ou negativa. Por exemplo \, uma componente
+senoidal com frequência acima do limite de Nyquist R/2 \, digamos
+R/2+ε \, será equivalente algebricamente à frequência R/2+ε-R
+= -R/2+ε \, e perceptualmente indistinguível de um sinal com frequência
+R/2-ε (no caso do cosseno a identidade cos(-x)=cos(x) faz com que
+os sinais de frequência -R/2+ε e R/2-ε sejam idênticos \, enquanto
+no caso do seno \, que satisfaz sen(-x)=-sen(x) \, teríamos sen(2π(-R/2+ε)n/R)
+= -sen(2π(R/2-ε)n/R) \, onde a troca de sinal também é perceptualmente
+irrelevante)., f 107;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_frequências_rebatidas 1000 float 2;
+#X coords 0 250 1000 0 1070 140 1 0 0;
+#X restore 103 435 graph;
+#X text 89 575 -R;
+#X text 349 575 -R/2;
+#X text 633 575 0;
+#X text 892 575 R/2;
+#X text 1166 575 R;
+#N canvas 0 0 641 226 \$0F_calcula_frequências_rebatidas 0;
+#X obj 41 21 loadbang;
+#X obj 41 50 ofelia f \; local x=ofArray("\$0F_frequências_rebatidas")
+\; local N=x:getSize() \; for i = 0 \, N-1 do \; --[[ considera R=N/2
+e percorre intervalo de 0 a 2R ]] \; x[i]=math.abs(i-math.floor(0.5+i/(N/2))*(N/2))
+\; end;
+#X connect 0 0 1 0;
+#X restore 809 411 pd \$0F_calcula_frequências_rebatidas;
+#X text 100 300 Em outras palavras \, a partir de R/2 Hz as componentes
+senoidais são rebatidas em frequências equivalentes progressivamente
+mais baixas do ponto de vista perceptual \, até chegar na frequência
+R Hz que é rebatida em 0 Hz. A partir desse ponto \, as frequências
+voltam a subir progressivamente (R+ε é rebatida em ε). O gráfico
+abaixo mostra como as frequências f entre -R e R são rebatidas em
+seus equivalentes perceptuais através da fórmula f-round(f/R)·R
+(esse padrão se repete periodicamente fora desse intervalo)., f 107
+;
+#X coords 0 0 1 1 100 100 0;
+#X restore 750 0 pd icsm16F;
+#N canvas 0 0 1280 700 icsm16G 0;
+#X obj 1100 650 icsm_anterior icsm16G icsm16F;
+#X obj 1150 650 icsm_sobe icsm16G icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16G icsm16H;
+#X obj 100 80 cnv 15 14 14 empty empty Experimento_com_rebatimento_de_sinais_senoidais
+0 0 0 24 -262144 -38 0;
+#X obj 106 463 hsl 1065 15 -44100 44100 0 0 \$0G_freq_r2 \$0G_freq_r
+empty -2 -8 0 10 -262144 -1 -1 53200 1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0G_frequências_rebatidas 1000 float 2;
+#X coords 0 250 1000 0 1070 200 1 0 0;
+#X restore 103 235 graph;
+#X text 633 436 0;
+#N canvas 0 0 641 302 \$0G_calcula_frequências_rebatidas 0;
+#X obj 41 21 loadbang;
+#X obj 139 46 r \$0G_subamostra;
+#X msg 41 50 1;
+#X obj 41 90 ofelia f \; local x=ofArray("\$0G_frequências_rebatidas")
+\; local N=x:getSize() \; --[[ adequa taxa de amostragem à subamostragem
+]] \; R = (N/2)/(a+1) \; for i = 0 \, N-1 do \; x[i]=math.abs(i-math.floor(0.5+i/R)*R)
+\; end;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 2 0 3 0;
+#X restore 809 211 pd \$0G_calcula_frequências_rebatidas;
+#X text 69 436 -44100;
+#X text 339 436 -22050;
+#X text 882 436 22050;
+#X text 1146 436 44100;
+#X text 59 375 5512;
+#X text 89 420 0;
+#X obj 799 551 vradio 20 1 0 4 \$0G_subamostra \$0G_subamostra_r Amostragem
+0 -16 0 16 -262144 -1 -1 0;
+#X text 821 569 22050;
+#X text 821 549 44100;
+#X obj 103 510 icsm_dsp;
+#N canvas 0 0 661 706 \$0G_sintetiza 0;
+#X obj 63 118 osc~;
+#X obj 63 592 dac~;
+#X obj 173 304 declare -lib zexy;
+#X obj 63 304 multiplex~;
+#X obj 140 158 r \$0G_subamostra;
+#X text 397 157 recebe valor do seletor: n=0: não reamostra n=1/2/3/4:
+define R=44100/(n+1), f 25;
+#X obj 63 433 *~;
+#X obj 108 344 r \$0G_vol;
+#X obj 108 373 pack f 100;
+#X obj 108 402 line~;
+#X obj 63 53 pack f 100;
+#X obj 63 82 line~;
+#X obj 63 24 r \$0G_freq;
+#X text 220 24 suaviza os valores de frequência recebidos pelo slider
+\, criando variações "contínuas" (interpolação no nível das amostras).
+, f 35;
+#X text 250 344 suaviza os valores de volume recebidos pelo slider.
+, f 28;
+#X obj 160 254 icsm16_subamostrador;
+#X obj 140 187 expr if ($f1==0 \, 0 \, 1) \; 44100/($f1+1);
+#X obj 63 542 *~;
+#X obj 90 475 r \$0G_mute;
+#X obj 90 504 expr 1-$f1;
+#X connect 0 0 3 0;
+#X connect 0 0 15 0;
+#X connect 3 0 6 0;
+#X connect 4 0 16 0;
+#X connect 6 0 17 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 6 1;
+#X connect 10 0 11 0;
+#X connect 11 0 0 0;
+#X connect 12 0 10 0;
+#X connect 15 0 3 1;
+#X connect 16 0 3 0;
+#X connect 16 1 15 1;
+#X connect 17 0 1 0;
+#X connect 17 0 1 1;
+#X connect 18 0 19 0;
+#X connect 19 0 17 1;
+#X restore 103 587 pd \$0G_sintetiza;
+#X obj 980 97 declare -lib iemlib;
+#X text 980 56 dependência adicional:, f 11;
+#X floatatom 603 484 8 0 0 1 Hz #0G_freq_r2 #0G_freq;
+#X obj 381 534 hsl 128 20 0.001 1 1 0 empty \$0G_vol_r Volume -2 -8
+0 16 -262144 -1 -1 0 0;
+#X floatatom 378 558 8 0 1 0 - - #0G_vol;
+#X text 364 533 0;
+#X text 512 533 1;
+#X text 821 609 11025;
+#X text 821 589 14700;
+#X text 49 223 22050;
+#X text 49 327 11025;
+#X text 59 355 7350;
+#X text 100 130 Aqui uma estratégia de subamostragem do tipo "SAMPLE
+AND HOLD" é usada de forma análoga à da conversão DA para simular
+o efeito de subamostragem \, resultando em taxas de amostragem da forma
+R=44100/N \, a fim de ilustrar os padrões de rebatimento e as frequências
+aparentes nesses cenários., f 107;
+#N canvas 0 0 338 259 init 0;
+#X obj 57 44 loadbang;
+#X obj 57 73 f \$0;
+#X obj 210 11 r pd;
+#X obj 210 40 route dsp;
+#X obj 210 69 sel 0;
+#X msg 57 113 \; \$1G_freq_r 0 \; \$1G_vol_r 0 \; \$1G_mute_r 0 \;
+\$1G_subamostra_r 0;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X coords 0 -1 1 1 2 2 2 0 0;
+#X restore 1171 478 pd init;
+#X obj 196 513 tgl 24 0 \$0G_mute \$0G_mute_r MUTE 28 12 0 18 -262130
+-1 -1 0 1;
+#X connect 22 0 23 0;
+#X coords 0 0 1 1 100 100 0;
+#X restore 900 0 pd icsm16G;
+#N canvas 0 0 1280 700 icsm16H 0;
+#X obj 1100 650 icsm_anterior icsm16H icsm16G;
+#X obj 1150 650 icsm_sobe icsm16H icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16H icsm16I;
+#X obj 100 80 cnv 15 14 14 empty empty Experimento_com_rebatimento_de_harmônicos_de_sinais_sintéticos
+0 0 0 24 -262144 -38 0;
+#X obj 106 463 hsl 1065 15 -22050 22050 0 0 \$0H_freq_r2 \$0H_freq_r
+empty -2 -8 0 10 -262144 -1 -1 53200 1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0H_frequências_rebatidas 1000 float 2;
+#X coords 0 500 1000 0 1070 200 1 0 0;
+#X restore 103 235 graph;
+#X text 633 436 0;
+#X text 59 375 5512;
+#X text 89 420 0;
+#X obj 879 551 vradio 20 1 0 4 \$0H_subamostra \$0H_subamostra_r Amostragem
+0 -16 0 16 -262144 -1 -1 0;
+#X text 901 569 22050;
+#X text 901 549 44100;
+#X obj 103 510 icsm_dsp;
+#X floatatom 603 484 8 0 0 1 Hz #0H_freq_r2 #0H_freq;
+#X obj 321 524 hsl 128 20 0.001 1 1 0 empty \$0H_vol_r Volume -2 -8
+0 16 -262144 -1 -1 0 0;
+#X floatatom 318 548 8 0 1 0 - - #0H_vol;
+#X text 304 523 0;
+#X text 452 523 1;
+#X text 901 609 11025;
+#X text 901 589 14700;
+#X text 49 223 22050;
+#X text 49 327 11025;
+#X text 59 355 7350;
+#N canvas 0 0 1159 467 \$0H_calcula_frequências_rebatidas 0;
+#X obj 41 21 loadbang;
+#X msg 41 50 1;
+#X obj 139 46 r \$0H_subamostra;
+#X obj 581 26 r \$0H_freq;
+#X obj 739 26 r \$0H_subamostra;
+#X obj 581 135 pack f 0;
+#X msg 692 116 \; \$1H_frequências_rebatidas_ const 0;
+#X obj 581 55 t f b;
+#X obj 692 87 f \$0;
+#X obj 41 90 ofelia f \; local x=ofArray("\$0H_frequências_rebatidas")
+\; local N=x:getSize() \; --[[ adequa taxa de amostragem à subamostragem
+]] \; R = N/(a+1) \; for i = 0 \, N-1 do \; f=i-N/2 \; x[i]=math.abs(f-math.floor(0.5+f/R)*R)
+\; end;
+#X obj 581 170 ofelia f \; local x=ofArray("\$0H_frequências_rebatidas_")
+\; local N=x:getSize() \; --[[ adequa taxa de amostragem à subamostragem
+]] \; R = N/(a[2]+1) \; for i = 1 \, 40 do \; f=N*i*a[1]/44100 \; f=f-math.floor(0.5+f/R)*R
+\; x[N/2+math.floor(f)]=(N/2)/i \; x[N/2-math.floor(f)]=(N/2)/i \;
+end;
+#X connect 0 0 1 0;
+#X connect 1 0 9 0;
+#X connect 2 0 9 0;
+#X connect 3 0 7 0;
+#X connect 4 0 5 1;
+#X connect 5 0 10 0;
+#X connect 7 0 5 0;
+#X connect 7 1 8 0;
+#X connect 8 0 6 0;
+#X restore 769 211 pd \$0H_calcula_frequências_rebatidas;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0H_frequências_rebatidas_ 1000 float 0;
+#X coords 0 500 999 0 1070 200 1 0 0;
+#X restore 103 235 graph;
+#N canvas 0 0 661 708 \$0H_sintetiza 0;
+#X obj 63 622 dac~;
+#X obj 173 334 declare -lib zexy;
+#X obj 63 334 multiplex~;
+#X text 398 187 recebe valor do seletor: n=0: não reamostra n=1/2/3/4:
+define R=44100/(n+1), f 25;
+#X obj 63 463 *~;
+#X obj 108 403 pack f 100;
+#X obj 108 432 line~;
+#X obj 63 53 pack f 100;
+#X obj 63 82 line~;
+#X text 220 24 suaviza os valores de frequência recebidos pelo slider
+\, criando variações "contínuas" (interpolação no nível das amostras).
+, f 35;
+#X text 250 374 suaviza os valores de volume recebidos pelo slider.
+, f 28;
+#X obj 63 111 osc~;
+#X obj 63 148 sgn~;
+#X text 120 150 onda quadrada;
+#X obj 63 24 r \$0H_freq;
+#X obj 108 374 r \$0H_vol;
+#X obj 141 188 r \$0H_subamostra;
+#X obj 261 441 loadbang;
+#X obj 261 470 metro 200;
+#X obj 261 499 tabwrite~ \$0H_sinal;
+#X obj 161 278 icsm16_subamostrador;
+#X obj 141 217 expr if ($f1==0 \, 0 \, 1) \; 44100/($f1+1);
+#X obj 63 582 *~;
+#X obj 98 512 r \$0H_mute;
+#X obj 98 541 expr 1-$f1;
+#X connect 2 0 4 0;
+#X connect 4 0 19 0;
+#X connect 4 0 22 0;
+#X connect 5 0 6 0;
+#X connect 6 0 4 1;
+#X connect 7 0 8 0;
+#X connect 8 0 11 0;
+#X connect 11 0 12 0;
+#X connect 12 0 2 0;
+#X connect 12 0 20 0;
+#X connect 14 0 7 0;
+#X connect 15 0 5 0;
+#X connect 16 0 21 0;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 20 0 2 1;
+#X connect 21 0 2 0;
+#X connect 21 1 20 1;
+#X connect 22 0 0 0;
+#X connect 22 0 0 1;
+#X connect 23 0 24 0;
+#X connect 24 0 22 1;
+#X restore 103 597 pd \$0H_sintetiza;
+#X text 1146 436 22050;
+#X text 882 436 11025;
+#X text 339 436 -11025;
+#X text 69 436 -22050;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0H_sinal 441 float 0;
+#X coords 0 1 440 -1 300 140 1 0 0;
+#X restore 513 541 graph;
+#X text 100 110 Aqui podemos explorar um sinal sintético de onda quadrada
+\, cuja composição senoidal (seu "espectro") é distribuída sobre
+uma série harmônica da forma F0 \, 2F0 \, 3F0 \, ... e é visualizada
+sobreposta ao padrão de rebatimento das frequências. Mesmo sem subamostragem
+\, é possível perceber que ao variar a frequência F0 \, partes do
+som (os harmônicos) parecem se deslocar de forma independente., f
+107;
+#N canvas 0 0 368 293 init 0;
+#X obj 57 44 loadbang;
+#X obj 57 73 f \$0;
+#X obj 210 11 r pd;
+#X obj 210 40 route dsp;
+#X obj 210 69 sel 0;
+#X msg 57 113 \; \$1H_freq_r 0 \; \$1H_vol_r 0 \; \$1H_mute_r 0 \;
+\$1H_subamostra_r 0 \; \$1H_sinal const 0 \; \$1H+_freq_r 0 \; \$1H+_vol_r
+0 \;;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X coords 0 -1 1 1 2 2 2 0 0;
+#X restore 1171 478 pd init;
+#N canvas 0 0 1280 700 icsm16H+ 0;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm16H+ vis 1;
+#N canvas 0 0 852 631 (subpatch) 0;
+#X array \$0H+_quadrada 1027 float 2;
+#X coords 0 1 1027 -1 280 180 1 0 0;
+#X restore 884 349 graph;
+#X text 6 801 +detalhes(*):;
+#X text 90 44 Como poderemos constatar futuramente \, uma forma de
+onda quadrada de frequência fundamental f Hz possui uma representação
+senoidal da forma:, f 107;
+#X text 390 104 x(t) = Σ (1/k)·sen(2πkft) para k=1 \, 3 \, 5 \,
+...;
+#X text 90 144 Assim \, independentemente da frequência f \, essa
+forma de onda possui infinitos harmônicos e não pode ser representada
+de forma exata de forma digital: sempre é possível amostrar a expressão
+analógica fazendo, f 107;
+#X text 390 204 x[n] = x(n/R) para n=0 \, 1 \, 2 \, ...;
+#X text 90 244 mas o resultado é aquele observado anteriormente: todos
+os harmônicos que extrapolem a condição de Nyquist (|kf|>=R/2) serão
+representados incorretamente \, sendo indistinguíveis de seus representantes
+"naturais" no intervalo [-R/2 \, +R/2)., f 107;
+#N canvas 0 0 1252 339 \$0H+_interface 0;
+#X obj 302 185 icsm_dsp;
+#X obj 70 262 *~;
+#X obj 70 291 dac~;
+#X obj 73 195 hsl 128 20 0.001 1 1 0 empty \$0H+_vol_r Volume -2 -8
+0 16 -262144 -1 -1 0 0;
+#X obj 73 150 hsl 128 20 20 20000 1 0 empty \$0H+_freq_r Frequência
+-2 -8 0 16 -262144 -1 -1 0 0;
+#X floatatom 211 149 8 0 0 1 Hz - -;
+#X obj 70 234 tabosc4~ \$0H+_quadrada;
+#X text 653 244 versão com 3 harmônicos ímpares (até 4410 Hz):
+;
+#X text 651 150 versão com 5 harmônicos ímpares (até 2450 Hz):
+;
+#X obj 70 65 vradio 20 1 0 3 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 99 63 10 harmônicos (até 1160 Hz);
+#X text 99 83 5 harmônicos (até 2450 Hz);
+#X text 99 103 3 harmônicos (até 4410 Hz);
+#X obj 454 51 route 0 1 2;
+#X obj 70 9 loadbang;
+#X msg 70 35 0;
+#X text 651 40 versão com 10 harmônicos ímpares (até 1160 Hz):
+;
+#X obj 454 19 pack f \$0;
+#X msg 653 63 \; \$1H+_quadrada sinesum 1024 1 0 0.3333 0 0.2 0 0.14286
+0 0.11111 0 0.090909 0 0.076923 0 0.066667 0 0.058824 0 0.052632 \;
+, f 54;
+#X msg 653 173 \; \$1H+_quadrada sinesum 1024 1 0 0.3333 0 0.2 0 0.14286
+0 0.11111 \;, f 54;
+#X msg 653 266 \; \$1H+_quadrada sinesum 1024 1 0 0.3333 0 0.2;
+#X connect 1 0 2 0;
+#X connect 1 0 2 1;
+#X connect 3 0 1 1;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;
+#X connect 9 0 17 0;
+#X connect 13 0 18 0;
+#X connect 13 1 19 0;
+#X connect 13 2 20 0;
+#X connect 14 0 15 0;
+#X connect 15 0 9 0;
+#X connect 17 0 13 0;
+#X coords 0 -1 1 1 340 180 2 50 50;
+#X restore 534 349 pd \$0H+_interface;
+#X text 90 324 A única forma "limpa" de lidar com sinais sintéticos
+que possuem infinitos harmônicos em contexto digital é substituí-los
+por suas versões de "banda limitada" \, ou seja \, incluindo na representação
+apenas aqueles harmônicos que respeitam a condição |kf|<R/2. O exemplo
+a seguir mostra três versões de banda limitada da onda quadrada \,
+com 10 harmônicos ímpares (k=1 \, 3 \, ... \, 19) \, 5 (k=1 \, 3
+\, 5 \, 7 \, 9) e com 3 (k=1 \, 3 \, 5) \, e seus respectivos "limites
+de segurança" (R/2)/max(k). Quanto mais harmônicos pudermos incluir
+"corretamente" \, mais próximo de uma onda quadrada "verdadeira" será
+o timbre resultante., f 41;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 1000 550 pd icsm16H+;
+#X obj 196 513 tgl 24 0 \$0H_mute \$0H_mute_r MUTE 28 12 0 18 -262130
+-1 -1 0 1;
+#X connect 14 0 15 0;
+#X coords 0 0 1 1 100 100 0;
+#X restore 1050 0 pd icsm16H;
+#N canvas 0 0 1280 700 icsm16I 0;
+#X obj 1100 650 icsm_anterior icsm16I icsm16H;
+#X obj 1150 650 icsm_sobe icsm16I icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16I icsm16J;
+#X obj 100 80 cnv 15 14 14 empty empty Experimento_com_rebatimento_de_harmônicos_de_sinais_distorcidos
+0 0 0 24 -262144 -38 0;
+#X obj 106 463 hsl 1065 15 -22050 22050 0 0 \$0I_freq_r2 \$0I_freq_r
+empty -2 -8 0 10 -262144 -1 -1 53200 1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_frequências_rebatidas 1000 float 2;
+#X coords 0 500 1000 0 1070 200 1 0 0;
+#X restore 103 235 graph;
+#X text 633 436 0;
+#X text 59 375 5512;
+#X text 89 420 0;
+#X obj 529 551 vradio 20 1 0 4 \$0I_subamostra \$0I_subamostra_r Amostragem
+0 -16 0 16 -262144 -1 -1 0;
+#X text 551 569 22050;
+#X text 551 549 44100;
+#X obj 103 510 icsm_dsp;
+#X floatatom 603 484 8 0 0 1 Hz #0I_freq_r2 #0I_freq;
+#X obj 362 524 hsl 128 20 0.001 1 1 0 empty \$0I_vol_r Volume -2 -8
+0 16 -262144 -1 -1 0 0;
+#X floatatom 359 548 8 0 1 0 - - #0I_vol;
+#X text 345 523 0;
+#X text 493 523 1;
+#X text 551 589 14700;
+#X text 49 223 22050;
+#X text 49 327 11025;
+#X text 59 355 7350;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_frequências_rebatidas_ 2048 float 0;
+#X coords 0 0.5 2047 0 1070 200 1 0 0;
+#X restore 103 235 graph;
+#X text 1146 436 22050;
+#X text 882 436 11025;
+#X text 339 436 -11025;
+#X text 69 436 -22050;
+#N canvas 0 0 610 309 \$0I_calcula_frequências_rebatidas 0;
+#X obj 41 21 loadbang;
+#X msg 41 50 1;
+#X obj 139 46 r \$0I_subamostra;
+#X obj 41 90 ofelia f \; local x=ofArray("\$0I_frequências_rebatidas")
+\; local N=x:getSize() \; --[[ adequa taxa de amostragem à subamostragem
+]] \; R = N/(a+1) \; for i = 0 \, N-1 do \; f=i-N/2 \; x[i]=math.abs(f-math.floor(0.5+f/R)*R)
+\; end;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 2 0 3 0;
+#X restore 809 211 pd \$0I_calcula_frequências_rebatidas;
+#N canvas 0 0 663 708 \$0I_sintetiza 0;
+#X obj 63 639 dac~;
+#X obj 173 371 declare -lib zexy;
+#X obj 63 371 multiplex~;
+#X text 398 224 recebe valor do seletor: n=0: não reamostra n=1/2/3/4:
+define R=44100/(n+1), f 25;
+#X obj 63 500 *~;
+#X obj 108 440 pack f 100;
+#X obj 108 469 line~;
+#X obj 63 53 pack f 100;
+#X obj 63 82 line~;
+#X text 220 24 suaviza os valores de frequência recebidos pelo slider
+\, criando variações "contínuas" (interpolação no nível das amostras).
+, f 35;
+#X text 250 411 suaviza os valores de volume recebidos pelo slider.
+, f 28;
+#X obj 63 148 osc~;
+#X obj 63 24 r \$0I_freq;
+#X obj 141 225 r \$0I_subamostra;
+#X obj 108 411 r \$0I_vol;
+#X obj 63 185 expr~ pow($v1 \, $f2);
+#X obj 250 119 r \$0I_distorção;
+#X obj 351 491 loadbang;
+#X obj 351 520 metro 200;
+#X obj 351 549 tabwrite~ \$0I_sinal;
+#N canvas 0 0 589 341 mágica 0;
+#X obj 41 91 fft~;
+#X obj 41 120 cyclone/cartopol~;
+#X obj 41 199 tabwrite~ \$0I_frequências_rebatidas_;
+#X obj 261 62 loadbang;
+#X obj 261 91 metro 200;
+#X obj 41 62 inlet~;
+#X obj 398 59 block~ 2048;
+#X obj 41 149 /~ 2048;
+#X msg 261 127 start 1024;
+#X obj 41 239 tabwrite~ \$0I_frequências_rebatidas__;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 1 0 7 0;
+#X connect 3 0 4 0;
+#X connect 4 0 8 0;
+#X connect 5 0 0 0;
+#X connect 7 0 2 0;
+#X connect 7 0 9 0;
+#X connect 8 0 2 0;
+#X connect 8 0 9 0;
+#X restore 62 816 pd mágica;
+#X obj 250 148 expr round($f1)*2+1;
+#X obj 161 312 icsm16_subamostrador;
+#X obj 141 254 expr if ($f1==0 \, 0 \, 1) \; 44100/($f1+1);
+#X obj 63 599 *~;
+#X obj 104 543 r \$0I_mute;
+#X obj 104 572 expr 1-$f1;
+#X connect 2 0 4 0;
+#X connect 4 0 19 0;
+#X connect 4 0 20 0;
+#X connect 4 0 24 0;
+#X connect 5 0 6 0;
+#X connect 6 0 4 1;
+#X connect 7 0 8 0;
+#X connect 8 0 11 0;
+#X connect 11 0 15 0;
+#X connect 12 0 7 0;
+#X connect 13 0 23 0;
+#X connect 14 0 5 0;
+#X connect 15 0 2 0;
+#X connect 15 0 22 0;
+#X connect 16 0 21 0;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 21 0 15 1;
+#X connect 22 0 2 1;
+#X connect 23 0 2 0;
+#X connect 23 1 22 1;
+#X connect 24 0 0 0;
+#X connect 24 0 0 1;
+#X connect 25 0 26 0;
+#X connect 26 0 24 1;
+#X restore 103 567 pd \$0I_sintetiza;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_sinal 441 float 0;
+#X coords 0 1 440 -1 300 140 1 0 0;
+#X restore 663 531 graph;
+#X obj 362 604 hsl 128 20 0 10 0 0 \$0I_distorção \$0I_distorção_r
+Distorção -2 -8 0 16 -262144 -1 -1 0 1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_frequências_rebatidas__ 2048 float 0;
+#X coords 2047 0.5 0 0 1070 200 1 0 0;
+#X restore 103 235 graph;
+#X text 344 624 min;
+#X text 474 624 max;
+#N canvas 0 0 527 332 init 0;
+#X obj 57 44 loadbang;
+#X obj 57 73 f \$0;
+#X obj 210 11 r pd;
+#X obj 210 40 route dsp;
+#X obj 210 69 sel 0;
+#X msg 57 103 \; \$1I_freq_r 0 \; \$1I_vol_r 0 \; \$1I_mute_r 0 \;
+\$1I_subamostra_r 0 \; \$1I_distorção_r 0 \; \$1I_sinal const 0 \;
+\$1I_frequências_rebatidas_ const 0 \; \$1I_frequências_rebatidas__
+const 0;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X coords 0 -1 1 1 2 2 2 0 0;
+#X restore 1171 478 pd init;
+#X text 551 609 11025;
+#X text 100 110 Nesse experimento um sinal senoidal é submetido a
+uma transformação da forma y[n] = x[n]^k \, onde k é um expoente
+ímpar definido pelo controle deslizante "Distorção". Observe como
+a distorção da forma de onda faz surgir harmônicos novos no sinal
+\, que por sua vez estão sujeitos aos efeitos do rebatimento à medida
+em que extrapolam a faixa de frequências representáveis., f 107
+;
+#N canvas 0 0 818 309 icsm16I+ 0;
+#X obj 139 803 bng 30 250 50 0 empty empty empty 17 7 0 10 -262130
+-1 -1;
+#X msg 189 801 \; pd-icsm16I+ vis 1;
+#X text 66 51 No caso da distorção de uma forma de onda \, embora
+seja fácil prever o efeito do rebatimento dos harmônicos \, não
+é tão fácil preveni-los (como no caso da síntese da onda quadrada).
+Uma solução sofisticada poderia superamostrar o sinal original (por
+exemplo com uma taxa de amostragem de 200000 Hz) \, realizar a distorção
+nesse domínio (onde os harmônicos até 100000 Hz não teriam sido
+rebatidos \, e os demais teriam amplitudes inaudíveis após o rebatimento)
+\, para em seguida filtrar (com um passa-baixas em 20000 Hz) \, e finalmente
+subamostrar o resultado na taxa desejada (por exemplo R=44100)., f
+67;
+#X text 6 801 +detalhes(*):;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 180 36 2 0 800;
+#X restore 103 605 pd icsm16I+;
+#X obj 196 513 tgl 24 0 \$0I_mute \$0I_mute_r MUTE 28 12 0 18 -262130
+-1 -1 0 1;
+#X connect 14 0 15 0;
+#X coords 0 0 1 1 100 100 0;
+#X restore 0 50 pd icsm16I;
+#N canvas 0 0 1280 700 icsm16J 0;
+#X obj 1100 650 icsm_anterior icsm16J icsm16I;
+#X obj 1150 650 icsm_sobe icsm16J icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16J icsm17.pd;
+#X obj 885 353 adc~;
+#X obj 807 556 dac~;
+#X obj 474 251 hsl 128 20 200 20000 1 1 empty empty Frequência_de_Corte
+-2 -8 0 16 -262144 -1 -1 1000 1;
+#X floatatom 471 278 8 0 0 1 Hz - #0J_freq;
+#X obj 980 511 declare -lib iemlib;
+#X obj 807 511 iemlib/lp8_butt~;
+#X obj 100 80 cnv 15 14 14 empty empty Sinais_com_faixa_de_frequência_limitada
+0 0 0 24 -262144 -38 0;
+#X text 100 110 Ao submeter um sinal analógico a um circuito ADC \,
+o primeiro passo consiste em REMOVER todas as componentes que violem
+a condição de Nyquist \, a fim de evitar seu rebatimento e consequente
+descaracterização na representação digital. Essa remoção é realizada
+por um FILTRO PASSA-BAIXAS com frequência de corte Fc abaixo de R/2
+Hz. O sinal resultante só possui componentes senoidais de frequências
+dentro da faixa representável digitalmente \, ou seja \, ele se converte
+em um SINAL DE FAIXA DE FREQUÊNCIAS LIMITADA (ou SINAL DE BANDA LIMITADA).
+, f 107;
+#X obj 807 391 multiplex~ _ _ _;
+#X obj 980 391 declare -lib zexy;
+#X obj 963 297 openpanel;
+#X msg 963 327 open \$1 \, 1;
+#X obj 963 357 readsf~;
+#X obj 225 323 bng 24 250 50 0 \$0J_wav empty abre_arquivo_WAV 32 12
+0 16 -262130 -1 -1;
+#X obj 225 243 vradio 24 1 1 3 \$0J_mux empty empty 0 -8 0 10 -262130
+-1 -1 1;
+#X text 257 243 SILÊNCIO;
+#X obj 103 241 icsm_dsp;
+#X text 257 268 MICROFONE;
+#X text 257 291 ARQUIVO DE ÁUDIO;
+#X obj 807 317 r \$0J_mux;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0J_sinal 882 float 0;
+#X coords 0 1.1 881 -1.1 300 200 1 0 0;
+#X restore 106 387 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0J_espectro 512 float 0;
+#X coords 0 0.1 511 0 300 200 1 0 0;
+#X restore 446 387 graph;
+#X obj 963 263 r \$0J_wav;
+#N canvas 0 0 396 314 mágica 0;
+#X obj 46 71 r~ \$0_magic;
+#N canvas 0 0 572 350 \$0_mais_mágica 0;
+#X obj 41 91 fft~;
+#X obj 41 120 cyclone/cartopol~;
+#X obj 241 213 loadbang;
+#X obj 241 242 metro 200;
+#X obj 398 59 block~ 2048;
+#X obj 41 149 /~ 2048;
+#X obj 41 62 inlet~;
+#X obj 41 280 tabwrite~ \$0J_espectro;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 7 0;
+#X connect 5 0 7 0;
+#X connect 6 0 0 0;
+#X restore 46 110 pd \$0_mais_mágica;
+#X obj 111 162 loadbang;
+#X obj 111 191 metro 200;
+#X obj 47 229 tabwrite~ \$0J_sinal;
+#X connect 0 0 1 0;
+#X connect 0 0 4 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X coords 0 -1 1 1 2 2 2 0 0;
+#X restore 979 580 pd mágica;
+#X obj 867 556 s~ \$0_magic;
+#X obj 885 476 r \$0J_freq;
+#X connect 3 0 11 1;
+#X connect 3 1 11 1;
+#X connect 5 0 6 0;
+#X connect 8 0 4 0;
+#X connect 8 0 4 1;
+#X connect 8 0 27 0;
+#X connect 11 0 8 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X connect 15 0 11 2;
+#X connect 22 0 11 0;
+#X connect 25 0 13 0;
+#X connect 28 0 8 1;
+#X coords 0 0 1 1 100 100 0;
+#X restore 150 50 pd icsm16J;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 2 2 2 0 0;
+#X restore 0 0 pd icsm16_;
+#X obj 1100 650 icsm_anterior icsm16.pd icsm15I;
+#X obj 1150 650 icsm_sobe icsm16.pd icsm1.pd;
+#X obj 1200 650 icsm_proximo icsm16.pd icsm16A;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 1.6_Teorema_de_Nyquist_e_rebatimento
+0 0 0 34 -262144 -38 0;
+#X text 100 250 Nesta seção discutiremos os impactos da definição
+do parâmetro TAXA DE AMOSTRAGEM (R \, medida em Hz) na digitalização
+do sinal \, e veremos como essa escolha define o CONJUNTO DOS SINAIS
+REPRESENTÁVEIS no domínio digital \, em particular o conjunto representável
+de FREQUÊNCIAS associadas a COMPONENTES SENOIDAIS., f 107;
+#X text 100 350 Um efeito relacionado à taxa de amostragem é o REBATIMENTO
+\, um tipo de erro de representação que ocorre quando \, consciente
+ou inconscientemente \, introduzimos componentes não representáveis
+dentro de um sinal digital a SR Hz. Isso pode acontecer tanto ao sintetizarmos
+formas de onda diretamente (como fizemos com os sinais elementares
+correspondentes às formas de onda DENTE DE SERRA e QUADRADA) \, quanto
+após algum processamento de sinal que produz \, direta ou indiretamente
+\, componentes senoidais não representáveis., f 107;
+#X coords 0 0 1 1 100 100 0;

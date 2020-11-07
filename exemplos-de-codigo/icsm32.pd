@@ -1,0 +1,870 @@
+#N canvas 0 0 1280 700 16;
+#X declare -lib zexy;
+#X declare -lib zexy;
+#N canvas 0 0 450 300 icsm32_ 0;
+#X obj 0 100 loadbang;
+#X msg 0 150 \; pd-icsm32.pd vis 1 \; pd-icsm32_ vis 0 \; pd-icsm32A
+vis 0 \; pd-icsm32B vis 0 \; pd-icsm32C vis 0 \; pd-icsm32D vis 0 \;
+pd-icsm32E vis 0 \; pd-icsm32F vis 0 \; pd-icsm32G vis 0 \; pd-icsm32H
+vis 0 \; pd-icsm32I vis 0;
+#N canvas 0 0 1280 700 icsm32A 0;
+#X obj 1100 650 icsm_anterior icsm32A icsm32.pd;
+#X obj 1150 650 icsm_sobe icsm32A icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32A icsm32B;
+#X obj 100 100 cnv 15 14 14 empty empty Resposta_ao_Impulso_e_Resposta_em_Frequência
+0 0 0 28 -262144 -38 0;
+#X text 100 150 Uma das formas de caracterização de um filtro linear
+se dá pela equação de convolução e pelos coeficientes do sinal
+h \, também chamado de RESPOSTA DO FILTRO AO IMPULSO \, por ser exatamente
+a saída correspondente à entrada δ[n] = 1 se n=0 e δ[n] = 0 caso
+contrário (um sinal chamado de IMPULSO ou DELTA DE DIRAC DISCRETO):
+, f 107;
+#X obj 477 274 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 486 280 m;
+#X text 410 254 y[n] =;
+#X text 512 254 h[m]·δ[n-m] = h[n]·δ[n-n] = h[n].;
+#X text 100 320 Observe que a verificação acima mostra simultaneamente
+que o Impulso Discreto é o ELEMENTO NEUTRO da operação de convolução
+\, ou seja \, satisfaz x*δ = x para qualquer sinal x., f 107;
+#X text 100 410 A segunda forma de caracterização de um filtro linear
+usa o teorema da convolução e a equivalência da equação y = h*x
+no domínio do tempo em relação à equação Y = H·X no domínio
+da frequência. O sinal H \, que é a transformada de Fourier da resposta
+ao impulso h \, é denominado RESPOSTA DO FILTRO EM FREQUÊNCIA. Lembrando
+da interpretação polar da multiplicação complexa \, que corresponde
+ao produto das magnitudes e à soma das fases \, vemos que cada coeficiente
+H[k] da resposta em frequência descreve a ação do filtro na componente
+X[k]·exp_k[n] do sinal da entrada., f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 0 0 pd icsm32A;
+#N canvas 0 0 1280 700 icsm32B 0;
+#X obj 1100 650 icsm_anterior icsm32B icsm32A;
+#X obj 1150 650 icsm_sobe icsm32B icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32B icsm32C;
+#X obj 100 100 cnv 15 14 14 empty empty Filtros_FIR_e_Causalidade 0
+0 0 28 -262144 -38 0;
+#X obj 557 254 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 490 234 y[n] =;
+#X text 100 150 Os termos FIR (Finite Impulse Response) e IIR (Infinite
+Impulse Response) são frequentemente utilizados para discriminar entre
+filtros que podem ser implementados de forma direta por uma equação
+do tipo, f 107;
+#X text 556 260 m=L;
+#X text 592 234 h[m]·x[n-m];
+#X text 100 300 de outros filtros em que a duração de h é infinita
+\, e que demandariam algum outro mecanismo computacional para viabilizar
+a produção da saída em tempo finito. Frequentemente consideramos
+a forma particular da equação do filtro FIR acima como, f 107;
+#X obj 557 394 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 490 374 y[n] =;
+#X text 592 374 h[m]·x[n-m];
+#X text 556 400 m=0;
+#X text 556 350 N-1;
+#X text 556 210 N-1;
+#X text 950 225 L...N-1 são os índices em que h[m] é não-nulo,
+f 22;
+#X text 100 430 em que todos os termos não-nulos de h[m] estão nos
+índices m>=0 \, de onde a expressão de y[n] combina linearmente apenas
+as amostras x[n] \, x[n-1] \, ... \, x[n-N+1] do PRESENTE e do PASSADO
+do sinal \, o que caracteriza a propriedade de CAUSALIDADE do filtro.
+Filtros não-causais \, ou seja \, que dependem do FUTURO do sinal
+\, podem ser implementados facilmente quando o sinal é todo conhecido
+(por exemplo quando está em um ARQUIVO) \, mas oferecem dificuldades
+nas implementações em TEMPO REAL (onde introduzem LATÊNCIA na resposta).
+, f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 150 0 pd icsm32B;
+#N canvas 0 0 1280 700 icsm32C 0;
+#X obj 1100 650 icsm_anterior icsm32C icsm32B;
+#X obj 1150 650 icsm_sobe icsm32C icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32C icsm32D;
+#X obj 100 100 cnv 15 14 14 empty empty Filtros_IIR_e_Recursão 0 0
+0 28 -262144 -38 0;
+#X obj 487 224 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 416 204 y[n] =;
+#X text 486 230 m=0;
+#X text 486 180 N-1;
+#X obj 667 224 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 522 204 a[m]·x[n-m] +;
+#X text 666 230 l=1;
+#X text 100 150 Uma das formas frequentes de definição de filtros
+IIR é o uso de TERMOS DE RECURSÃO ou de RETROALIMENTAÇÃO na equação
+do filtro:, f 107;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0C_resposta 100 float 0;
+#X coords 0 1 99 -1 400 140 1 0 0;
+#X restore 103 486 graph;
+#N canvas 0 0 450 300 \$0C_exemplo 0;
+#X obj 50 30 loadbang;
+#X obj 50 79 ofelia f \; local x=ofArray("\$0C_resposta") \; x[0] =
+1 \; local yn_1 = 1 \; for n=1 \, x:getSize()-1 do \; x[n] = -0.95*yn_1
+\; yn_1 = x[n] \; end \;;
+#X connect 0 0 1 0;
+#X restore 543 602 pd \$0C_exemplo;
+#X text 540 463 Observe que a presença de termos de recursão não
+implica neces- sariamente que a resposta do filtro terá duração
+infinita. Em situações particulares pode ocorrer o cancelamento de
+termos de feedback \, como na equação y[n] = x[n]-x[n-1]+y[n-1] \,
+cuja resposta ao impulso h[n] é o próprio impulso δ[n] (verifique).
+, f 63;
+#X text 100 375 Filtros IIR podem exibir a característica de INSTABILIDADE
+\, que ocorre quando a resposta ao impulso não tende a zero quando
+a entrada se anula \, e que também se relaciona com a eventualidade
+de OVERFLOW no cômputo do sinal de saída. Uma condição de ESTABILIDADE
+corresponde à FINITUDE da expressão Σ|h[n]|., f 107;
+#X text 676 180 M;
+#X text 702 204 b[l]·y[n-l];
+#X text 100 260 onde o último somatório inclui no cômputo de y[n]
+os valores y[n-1] \, y[n-2] \, ... \, y[n-M] que já estão disponíveis
+na avaliação sequencial do sinal de saída \, tornando o tempo de
+cálculo de cada amostra y[n] linear no número de coeficientes (N+M).
+É importante destacar que os coeficientes a[m] e b[l] dessa equação
+não correspondem mais à resposta ao impulso h[n] \, que continua
+sendo definida como a resposta à entrada x[n] = δ[n]. O gráfico
+abaixo mostra a resposta ao impulso do filtro com equação y[n] =
+x[n]-0.95·y[n-1]., f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 300 0 pd icsm32C;
+#N canvas 0 0 1280 700 icsm32D 0;
+#X obj 1100 650 icsm_anterior icsm32D icsm32C;
+#X obj 1150 650 icsm_sobe icsm32D icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32D icsm32E;
+#X obj 100 100 cnv 15 14 14 empty empty Filtragem_no_Domínio_do_Tempo
+0 0 0 28 -262144 -38 0;
+#X obj 307 264 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 240 244 y[n] =;
+#X text 306 270 m=L;
+#X text 342 244 h[m]·x[n-m];
+#X obj 717 264 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 646 244 y[n] =;
+#X text 716 270 m=0;
+#X text 716 220 N-1;
+#X obj 897 264 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 752 244 a[m]·x[n-m] +;
+#X text 896 270 l=1;
+#X text 306 220 N-1;
+#X text 242 194 FILTRO FIR (GENÉRICO);
+#X text 692 194 FILTRO IIR (CASO RECURSIVO);
+#X text 100 150 A filtragem no domínio do tempo consiste no cômputo
+do sinal y[n] diretamente a partir de uma das equações, f 107;
+#X text 532 244 ou;
+#X text 100 330 No caso dos filtros FIR não-causais (L<0) o cômputo
+de y[n] depende do conhecimento da amostra futura x[n-L] \, o que no
+caso de processamento em tempo real demanda uma latência de L amostras
+na resposta., f 107;
+#X text 100 490 No caso dos filtros IIR deve-se ter o cuidado de estabelecer
+a priori sua ESTABILIDADE \, ou alternativamente implementar algum
+método de controle de danos (por exemplo reinicializando todas as
+variáveis auxiliares quando a saída extrapolar algum limiar de amplitude
+previamente estabelecido)., f 107;
+#X text 100 400 No caso de implementações que computam y[n] NO LUGAR
+do vetor x[n] \, essas equações dependem de N+M variáveis auxiliares
+para os valores x[n] \, x[n-1] \, ... \, x[n-N+1] e y[n-1] \, y[n-2]
+\, ... \, y[n-M] \, atualizadas de forma ROTATIVA ou implementadas
+como um BUFFER CIRCULAR., f 107;
+#X text 906 220 M;
+#X text 932 244 b[l]·y[n-l].;
+#X coords 0 0 1 1 100 100 0;
+#X restore 450 0 pd icsm32D;
+#N canvas 0 0 1280 700 icsm32E 0;
+#X obj 1100 650 icsm_anterior icsm32E icsm32D;
+#X obj 1150 650 icsm_sobe icsm32E icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32E icsm32F;
+#X obj 100 100 cnv 15 14 14 empty empty Implementação_no_domínio_do_tempo_usando_fexpr~
+0 0 0 28 -262144 -38 0;
+#X obj 102 312 fexpr~ 0.1*($x1[0]+$x1[-1]+$x1[-2]+$x1[-3]+$x1[-4]+$x1[-5]+$x1[-6]+$x1[-7]+$x1[-8]+$x1[-9])
+, f 44;
+#X text 353 246 produz um impulso discreto;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0E_resp_imp_iir1 64 float 0;
+#X coords 0 1 63 -1 200 140 1 0 0;
+#X restore 740 431 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0E_resp_freq_iir1 64 float 0;
+#X coords 0 1 63 0 200 140 1 0 0;
+#X restore 980 431 graph;
+#X obj 102 226 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10
+-262144 -262144 -1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0E_resp_imp_fir1 64 float 0;
+#X coords 0 1 63 -1 200 140 1 0 0;
+#X restore 740 249 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0E_resp_freq_fir1 64 float 0;
+#X coords 0 1 63 0 200 140 1 0 0;
+#X restore 980 249 graph;
+#X text 115 286 Exemplo FIR: y[n] = (x[n]+x[n-1]+···+x[n-9])/10
+;
+#X text 155 406 Exemplo IIR: y[n] = (x[n]-y[n-1]+x[n-2]-y[n-3]···+x[n-8]-y[n-9])/10
+;
+#X obj 152 452 fexpr~ 0.1*($x1[0]-$y1[-1]+$x1[-2]-$y1[-3]+$x1[-4]-$y1[-5]+$x1[-6]-$y1[-7]+$x1[-8]-$y1[-9])
+, f 44;
+#X text 100 150 Esse patch ilustra o uso do objeto [fexpr~] para a
+construção de um filtro FIR e um filtro IIR de exemplo. Os gráficos
+mostram as respostas ao impulso e em frequência destes filtros.,
+f 91;
+#N canvas 0 0 874 300 \$0E_plota_respostas 0;
+#X obj 64 157 fft~;
+#X obj 64 186 cyclone/cartopol~;
+#X obj 444 157 fft~;
+#X obj 444 186 cyclone/cartopol~;
+#X obj 83 107 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#X obj 73 217 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#X obj 463 107 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10
+-262144 -262144 -1;
+#X obj 453 217 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10
+-262144 -262144 -1;
+#X obj 65 70 inlet~;
+#X obj 445 70 inlet~;
+#X text 63 32 recebe impulso filtrado pelo FIR;
+#X text 442 32 recebe impulso filtrado pelo IIR;
+#X obj 455 125 tabwrite~ \$0E_resp_imp_iir1;
+#X obj 445 235 tabwrite~ \$0E_resp_freq_iir1;
+#X obj 65 235 tabwrite~ \$0E_resp_freq_fir1;
+#X obj 75 125 tabwrite~ \$0E_resp_imp_fir1;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 1 0 14 0;
+#X connect 2 0 3 0;
+#X connect 2 1 3 1;
+#X connect 3 0 13 0;
+#X connect 4 0 15 0;
+#X connect 5 0 14 0;
+#X connect 6 0 12 0;
+#X connect 7 0 13 0;
+#X connect 8 0 0 0;
+#X connect 8 0 15 0;
+#X connect 9 0 2 0;
+#X connect 9 0 12 0;
+#X restore 103 551 pd \$0E_plota_respostas;
+#X obj 102 247 tabplay~ \$0E_impulso;
+#N canvas 0 0 533 325 \$0E_init 0;
+#X obj 36 108 loadbang;
+#X obj 36 165 metro 100;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0E_impulso 2 float 2;
+#X coords 0 1 2 -1 200 140 1 0 0;
+#X restore 297 70 graph;
+#X obj 36 136 t b b;
+#X obj 83 195 f \$0;
+#X obj 36 195 bng 15 250 50 0 \$0D_atualiza empty empty 17 7 0 10 -262144
+-262144 -1;
+#X text 296 16 impulso discreto;
+#X text 38 16 inicializa impulso discreto e gera 10 bangs/segundo (send/rec
+atualiza), f 21;
+#X msg 83 224 \; \$1E_impulso 0 1 0 \; \$1E_liga_r 0 \; pd dsp 1;
+#X connect 0 0 3 0;
+#X connect 1 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 1 4 0;
+#X connect 4 0 8 0;
+#X restore 1066 191 pd \$0E_init;
+#X obj 1106 126 tgl 24 0 empty \$0E_liga_r LIGA 28 12 0 18 -262130
+-1 -1 0 1;
+#X obj 1106 155 switch~;
+#X connect 4 0 15 0;
+#X connect 8 0 16 0;
+#X connect 13 0 15 1;
+#X connect 16 0 4 0;
+#X connect 16 0 13 0;
+#X connect 18 0 19 0;
+#X coords 0 0 1 1 100 100 0;
+#X restore 600 0 pd icsm32E;
+#N canvas 0 0 1280 700 icsm32F 1;
+#X obj 1100 650 icsm_anterior icsm32F icsm32E;
+#X obj 1150 650 icsm_sobe icsm32F icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32F icsm32G;
+#X obj 100 100 cnv 15 14 14 empty empty Implementação_no_domínio_do_tempo_usando_ofelia
+0 0 0 28 -262144 -38 0;
+#X text 121 223 produz um impulso discreto;
+#X obj 103 228 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10
+-262144 -262144 -1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_resp_imp 64 float 0;
+#X coords 0 1 63 -1 200 140 1 0 0;
+#X restore 980 261 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_resp_freq 64 float 0;
+#X coords 0 1 63 0 200 140 1 0 0;
+#X restore 980 431 graph;
+#X msg 171 427 a 0.1 0 0.1 0 0.1 0 0.1 0 0.1 \, b 0 -0.1 0 -0.1 0 -0.1
+0 -0.1 0 -0.1, f 30;
+#X msg 171 322 a 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 \, b 0, f
+42;
+#N canvas 0 0 1280 700 filtro_ofelia 0;
+#X obj 105 79 inlet~;
+#X text 106 44 sinal a ser filtrado;
+#X obj 704 74 inlet;
+#X text 705 40 mensagens de inicialização;
+#X obj 104 635 outlet~;
+#X obj 104 112 ofelia d -s11 \$0_filtro_ofelia \; --[[ a e b são os
+coeficientes do filtro \; x_ é o buffer circular de memória da entrada
+\; y_ é o buffer circular de memória da saída \; px \, py são os
+índices nos buffers circulares ]] \; M.a \, M.b \, M.x_ \, M.px \,
+M.y_ \, M.py = ofTable(1) \, ofTable(0) \, ofTable(0) \, 1 \, ofTable(0)
+\, 1 \; --[[ função auxiliar: corrige o mod para 1..N ]] \; local
+function mod(p \, N) return 1+(p-1)%N end \; --[[ calcula equação
+geral do filtro recursivo ]] \; function ofelia.perform(x) \; for n=1
+\, #x do \; M.x_[M.px] = x[n] M.px = mod(M.px+1 \, #M.x_) \; x[n] =
+0 \; for m=1 \, #M.a do \; x[n] = x[n]+M.a[m]*M.x_[mod(M.px-m \, #M.x_)]
+\; end \; for l=1 \, #M.b do \; x[n] = x[n]+M.b[l]*M.y_[mod(M.py-l
+\, #M.y_)] \; end \; M.y_[M.py] = x[n] M.py = mod(M.py+1 \, #M.y_)
+\; end \; return x \; end \;;
+#X obj 704 112 ofelia d \; --[[ acessa variáveis do módulo ao lado]]
+\; local m=require("\$0_filtro_ofelia") \; --[[ processa mensagens
+de inicialização ]] \; --[[ coeficientes do sinal de entrada ]] \;
+function ofelia.a(l) \; m.a \, m.x_ \, m.px = ofTable() \, ofTable()
+\, 5 \; if type(l)=="number" then l = ofTable(l) end \; for n=1 \,
+#l do \; m.a[n] \, m.x_[n] = l[n] \, 0 \; end \; end \; --[[ coeficientes
+de retroalimentação ]] \; function ofelia.b(l) \; m.b \, m.y_ \,
+m.py = ofTable() \, ofTable() \, 5 \; if type(l)=="number" then l =
+ofTable(l) end \; for n=1 \, #l do \; m.b[n] \, m.y_[n] = l[n] \, 0
+\; end \; end \;;
+#X connect 0 0 5 0;
+#X connect 2 0 6 0;
+#X connect 5 0 4 0;
+#X restore 103 512 pd filtro_ofelia;
+#X text 271 512 calcula a equação geral do filtro recursivo;
+#X obj 103 247 tabplay~ \$0F_impulso;
+#N canvas 0 0 450 300 \$0F_plota 0;
+#X obj 73 147 fft~;
+#X obj 73 176 cyclone/cartopol~;
+#X obj 94 84 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#X obj 82 207 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#X obj 84 105 tabwrite~ \$0F_resp_imp;
+#X obj 74 225 tabwrite~ \$0F_resp_freq;
+#X obj 74 31 inlet~;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 6 0 4 0;
+#X connect 6 0 0 0;
+#X restore 103 541 pd \$0F_plota;
+#X text 100 150 Esse patch ilustra o uso do objeto [ofelia] para a
+construção de filtros FIR e IIR genéricos a partir de listas de
+coeficientes. Os gráficos mostram as respostas ao impulso e em frequência
+dos filtros de exemplo., f 94;
+#X obj 1106 126 tgl 24 0 empty \$0F_liga_r LIGA 28 12 0 18 -262130
+-1 -1 0 1;
+#X obj 1106 155 switch~;
+#N canvas 0 0 533 342 \$0F_init 0;
+#X obj 36 108 loadbang;
+#X obj 36 165 metro 100;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_impulso 2 float 2;
+#X coords 0 1 2 -1 200 140 1 0 0;
+#X restore 287 70 graph;
+#X obj 36 136 t b b;
+#X obj 83 195 f \$0;
+#X obj 36 195 bng 15 250 50 0 \$0D_atualiza empty empty 17 7 0 10 -262144
+-262144 -1;
+#X text 286 16 impulso discreto;
+#X text 38 16 inicializa impulso discreto e gera 10 bangs/segundo (send/rec
+atualiza), f 21;
+#X msg 83 224 \; \$1F_impulso 0 1 0 \; \$1F_liga_r 0 \; pd dsp 1;
+#X connect 0 0 3 0;
+#X connect 1 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 1 4 0;
+#X connect 4 0 8 0;
+#X restore 1066 191 pd \$0F_init;
+#X msg 501 465 a 1 \, b -0.95, f 13;
+#X text 498 440 2° Exemplo IIR: y[n] = x[n]-0.95*y[n-1];
+#X text 618 277 2° Exemplo FIR: filtro da média, f 16;
+#X text 168 296 y[n] = (x[n]+x[n-1]+···+x[n-9])/10;
+#X text 168 276 Exemplo FIR:;
+#X text 168 397 y[n] = (x[n]-y[n-1]+x[n-2]-y[n-3]···+x[n-8]-y[n-9])/10
+;
+#X text 168 377 Exemplo IIR:;
+#X text 778 277 2° Exemplo FIR: diferença norm., f 15;
+#X msg 621 322 a 0.5 0.5 \, b 0;
+#X msg 781 322 a 0.5 -0.5 \, b 0;
+#X connect 5 0 12 0;
+#X connect 8 0 10 1;
+#X connect 9 0 10 1;
+#X connect 10 0 13 0;
+#X connect 12 0 10 0;
+#X connect 15 0 16 0;
+#X connect 18 0 10 1;
+#X connect 26 0 10 1;
+#X connect 27 0 10 1;
+#X coords 0 0 1 1 100 100 0;
+#X restore 750 0 pd icsm32F;
+#N canvas 0 0 1280 700 icsm32G 0;
+#X obj 1100 650 icsm_anterior icsm32G icsm32F;
+#X obj 1150 650 icsm_sobe icsm32G icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32G icsm32H;
+#X obj 100 100 cnv 15 14 14 empty empty Filtragem_no_domínio_da_frequência
+0 0 0 28 -262144 -38 0;
+#X text 550 244 X = FFT(x);
+#X text 550 264 H = FFT(h);
+#X text 550 284 Y = X·Η;
+#X text 550 444 H = FFT([h zeros(|x|-|h|)]);
+#N canvas 0 0 708 227 icsm32G+ 0;
+#X obj 0 0 bng 15 250 50 0 empty empty * 4 9 0 14 -262144 -1 -1;
+#X msg 200 0 \; icsm_alterna icsm32G icsm123E;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 15 15 2 0 0;
+#X restore 369 553 pd icsm32G+;
+#X text 100 340 O terceiro passo do algoritmo acima pressupõe que
+os espectros X e H têm o mesmo tamanho \, o que equivale a dizer que
+os sinais originais x e h têm o mesmo tamanho. Essa condição geralmente
+não vale \, mas pode ser forçada através da superamostragem do menor
+dentre os espectros (geralmente H) \, o que equivale ao PREENCHIMENTO
+POR ZEROS do vetor de coeficientes h \, como já vimos na análise
+do efeito do janelamento na DFT. Em outras palavras \, o passo 2 do
+algoritmo acima fica, f 107;
+#X text 100 150 O processo de filtragem no domínio da frequência
+se apoia no TEOREMA DA CONVOLUÇÃO \, que estabelece que o resultado
+da filtragem y = x*h é equivalente à transformação espectral Y
+= X·H. Isso sugere o seguinte algoritmo \, que recebe o nome de convolução
+(circular) rápida por se apoiar na implementação rápida da DFT:
+, f 107;
+#X text 100 490 A implementação desse processo em UM ÚNICO BLOCO
+DSP pode ser feita trivialmente em Pd com os objetos [fft~] \, [ifft~]
+\, [tabplay~ h] para gerar o vetor h com preenchimento por zeros e
+cuidando-se de implementar a multiplicação complexa corretamente.
+De fato essa implementação já foi usada no exemplo "Interpretação
+Geométrica da Convolução" (_). Como veremos a seguir \, ela NÃO
+FUNCIONA se for aplicada independentemente em vários blocos seguidos
+\, pois a circularidade da FT introduzirá ARTEFATOS nas emendas dos
+blocos., f 107;
+#X text 510 224 ConvoluçãoRápida (x \, h);
+#X text 550 304 devolve y = IFFT(Y);
+#X coords 0 0 1 1 100 100 0;
+#X restore 900 0 pd icsm32G;
+#N canvas 0 0 1280 700 icsm32H 0;
+#X obj 1100 650 icsm_anterior icsm32H icsm32G;
+#X obj 1150 650 icsm_sobe icsm32H icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32H icsm32I;
+#X obj 100 100 cnv 15 14 14 empty empty Implementação_no_domínio_da_frequência
+0 0 0 28 -262144 -38 0;
+#X text 100 150 Uma implementação para UM FLUXO DURANDO VÁRIOS BLOCOS
+DSP deve levar em consideração que o produto dos espectros corresponde
+à CONVOLUÇÃO CIRCULAR \, que substitui os termos x[-1] \, x[-2]
+\, ... pelas amostras DO FINAL DO MESMO BLOCO \, e não DO BLOCO ANTERIOR
+\, como seria de se esperar pela equação da CONVOLUÇÃO LINEAR.
+Para resolver esse problema \, a técnica de OVERLAP-SAVE aproveita
+a parte boa dos resultados das convoluções rápidas em cada bloco
+\, e recalcula a parte "contaminada" pela circularidade da FFT:, f
+107;
+#X text 638 289 | | | | | | | | | | | | | | | | | | | | |;
+#X text 642 273 ________________________________________;
+#X text 642 290 ________________________________________;
+#X text 228 289 | | | | | | | | | | | | | | | | | | | | |;
+#X text 232 273 ________________________________________;
+#X text 232 290 ________________________________________;
+#X text 642 393 ________________________________________;
+#X text 642 410 ________________________________________;
+#X text 578 319 | | | | |;
+#X text 582 303 ________;
+#X text 191 290 x:;
+#X text 598 339 | | | | |;
+#X text 602 323 ________;
+#X text 618 359 | | | | |;
+#X text 622 343 ________;
+#X text 638 379 | | | | |;
+#X text 642 363 ________;
+#X text 582 320 ________ -> (x*h)[0];
+#X text 602 340 ________ -> (x*h)[1];
+#X text 622 360 ________ -> (x*h)[2];
+#X text 642 380 ________ -> (x*h)[3];
+#X text 638 459 | | | | | | | | | | | | | | | | | | | | |;
+#X text 642 443 ________________________________________;
+#X text 642 460 ________________________________________;
+#X text 641 440 bloco n;
+#X text 642 563 ________________________________________;
+#X text 642 580 ________________________________________;
+#X text 191 460 x:;
+#X text 642 490 __ -> (x*h)[0];
+#X text 642 473 __;
+#X text 638 489 | |;
+#X text 638 549 | | | | |;
+#X text 642 533 ________;
+#X text 642 510 ____ -> (x*h)[1];
+#X text 638 509 | | |;
+#X text 642 493 ____;
+#X text 982 490 ______;
+#X text 978 489 | | | |;
+#X text 982 473 ______;
+#X text 1002 510 ____;
+#X text 998 509 | | |;
+#X text 1002 493 ____;
+#X text 642 513 ______;
+#X text 638 529 | | | |;
+#X text 642 530 ______ -> (x*h)[2];
+#X text 1022 530 __;
+#X text 1018 529 | |;
+#X text 1022 513 __;
+#X text 642 550 ________ -> (x*h)[3];
+#X text 191 490 h:;
+#X text 191 320 h:;
+#X text 191 390 CONVOLUÇÃO LINEAR: x*h[n]=Σh[m]x[n-m], f 18;
+#X text 191 560 CONVOLUÇÃO CIRCULAR: x*h[n]=Σh[m]x[(n-m)%N], f
+22;
+#X text 638 409 |a|b|c|d|e|f|·|·|·| | | | | | | | | | | |;
+#X text 638 579 |X|X|X|d|e|f|·|·|·| | | | | | | | | | | |;
+#X text 641 270 bloco i;
+#X text 232 270 bloco i-1;
+#X coords 0 0 1 1 100 100 0;
+#X restore 1050 0 pd icsm32H;
+#N canvas 0 0 1280 700 icsm32I 0;
+#X obj 1100 650 icsm_anterior icsm32I icsm32H;
+#X obj 1150 650 icsm_sobe icsm32I icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32I icsm33.pd;
+#X obj 100 100 cnv 15 14 14 empty empty Convolução_rápida_usando_OVERLAP-SAVE
+0 0 0 28 -262144 -38 0;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_espectro_ampl 1025 float 0;
+#X coords 0 0.05 1024 0 300 200 1 0 0;
+#X restore 874 228 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_filtro 33 float 0;
+#X coords 0 2 32 0 300 200 1 0 0;
+#X restore 564 228 graph;
+#X text 550 314 1;
+#X text 550 218 2;
+#N canvas 0 0 548 558 \$0I_interface 0;
+#X obj 127 160 hsl 128 20 0 1 0 0 empty \$0I_vol_r Volume -2 -8 0 16
+-262144 -1 -1 0 0;
+#X floatatom 124 184 8 0 1 0 - - #0I_vol;
+#X text 110 159 0;
+#X text 258 159 1;
+#X obj 24 173 tgl 24 0 \$0I_mute \$0I_mute_r MUTE 28 12 0 18 -262130
+-1 -1 0 1;
+#X obj 24 13 vradio 24 1 1 5 \$0I_mux \$0I_mux_r empty 0 -8 0 10 -262130
+-1 -1 0;
+#X text 56 13 SILÊNCIO;
+#X text 56 85 MICROFONE;
+#X text 56 109 ARQUIVO;
+#X obj 135 112 bng 20 250 50 0 \$0I_load empty empty 17 7 0 10 -262130
+-1 -1;
+#X text 56 62 RUÍDO;
+#X obj 407 104 bng 20 250 50 0 \$0I_filtronulo empty Filtro=0: -90
+10 0 16 -262144 -1 -1;
+#N canvas 0 0 641 458 init 0;
+#X obj 322 123 loadbang;
+#X obj 32 230 f \$0;
+#X obj 172 101 r pd;
+#X obj 172 130 route dsp;
+#X obj 172 159 sel 0;
+#X obj 322 212 f \$0;
+#X msg 172 188 0;
+#X obj 172 217 s \$0I_liga_r;
+#X obj 32 151 r \$0I_liga;
+#X msg 32 180 bang;
+#X text 36 23 inicializa interfaces gráficas no início e a cada alteração
+do estado DSP ou do [switch~], f 44;
+#X msg 32 259 \; \$1I_mute_r 0 \; \$1I_filtro const 1 \; \$1I_espectro_ampl
+const 0 \; \$1I_sinal const 0 \; \$1I_vol_r 0 \; \$1I_freq_r 0 \; \$1I_mux_r
+0 \; \$1I_mux2_r 0;
+#X msg 322 241 \; \$1I_liga_r 0 \; \$1I_mute_r 0 \; \$1I_filtro const
+1 \; \$1I_espectro_ampl const 0 \; \$1I_sinal const 0 \; \$1I_vol_r
+0 \; \$1I_freq_r 0 \; \$1I_mux_r 0 \; \$1I_mux2_r 0;
+#X connect 0 0 5 0;
+#X connect 1 0 11 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 6 0;
+#X connect 5 0 12 0;
+#X connect 6 0 7 0;
+#X connect 8 0 9 0;
+#X connect 9 0 1 0;
+#X restore 24 293 pd init;
+#N canvas 0 0 479 421 \$0I_síntese 0;
+#X obj 250 325 declare -lib zexy;
+#X obj 127 209 *~;
+#X obj 202 70 pack f 50;
+#X obj 202 99 line~;
+#X obj 174 207 adc~;
+#X obj 226 190 openpanel;
+#X obj 226 248 readsf~;
+#X obj 226 287 *~;
+#X obj 174 256 *~;
+#X msg 226 219 open \$1 \, 1;
+#X obj 28 353 outlet~;
+#X obj 127 171 noise~;
+#X obj 202 41 r \$0I_vol;
+#X obj 226 161 r \$0I_load;
+#X obj 28 261 r \$0I_mux;
+#X obj 28 324 multiplex~ _ _ _ _ _;
+#X obj 77 169 *~;
+#X obj 77 131 osc~;
+#X obj 77 70 pack f 50;
+#X obj 77 99 line~;
+#X obj 77 41 r \$0I_freq;
+#X connect 1 0 15 2;
+#X connect 2 0 3 0;
+#X connect 3 0 1 1;
+#X connect 3 0 7 1;
+#X connect 3 0 8 1;
+#X connect 3 0 16 1;
+#X connect 4 0 8 0;
+#X connect 4 1 8 0;
+#X connect 5 0 9 0;
+#X connect 6 0 7 0;
+#X connect 7 0 15 4;
+#X connect 8 0 15 3;
+#X connect 9 0 6 0;
+#X connect 11 0 1 0;
+#X connect 12 0 2 0;
+#X connect 13 0 5 0;
+#X connect 14 0 15 0;
+#X connect 15 0 10 0;
+#X connect 16 0 15 1;
+#X connect 17 0 16 0;
+#X connect 18 0 19 0;
+#X connect 19 0 17 0;
+#X connect 20 0 18 0;
+#X restore 24 329 pd \$0I_síntese;
+#N canvas 0 0 244 340 \$0I_saída 0;
+#X obj 51 272 dac~;
+#X obj 51 241 *~;
+#X obj 98 156 expr 1-$f1;
+#X obj 51 33 inlet~;
+#X msg 98 185 \$1 100;
+#X obj 98 214 line~;
+#X obj 98 127 r \$0I_mute;
+#X connect 1 0 0 0;
+#X connect 1 0 0 1;
+#X connect 2 0 4 0;
+#X connect 3 0 1 0;
+#X connect 4 0 5 0;
+#X connect 5 0 1 1;
+#X connect 6 0 2 0;
+#X restore 24 400 pd \$0I_saída;
+#N canvas 0 0 981 642 \$0I_overlap_save 0;
+#X obj 37 89 inlet~;
+#X obj 47 201 cyclone/cartopol~;
+#X obj 47 159 rfft~;
+#X obj 38 567 outlet~;
+#X obj 382 83 bang~;
+#X obj 355 294 *~;
+#X obj 355 323 cyclone/poltocar~;
+#X obj 355 352 rifft~;
+#X text 379 32 RESSÍNTESE: multiplica espectros X e H e usa FT inversa
+, f 32;
+#X text 34 30 ANÁLISE: computa espectros de magnitude e fase pela
+FT, f 27;
+#X obj 667 321 f \$0;
+#X msg 667 353 \; \$1I_filtro const 1;
+#X obj 667 123 block~ 2048;
+#X obj 382 141 rfft~;
+#X obj 382 170 cyclone/cartopol~;
+#X obj 521 292 +~;
+#X text 389 258 multiplicação complexa (forma polar), f 13;
+#X obj 217 493 declare -lib zexy;
+#X obj 382 112 tabplay~ \$0I_coefs;
+#X obj 37 493 multiplex~ _ _ _;
+#X obj 57 446 r \$0I_mux2;
+#N canvas 0 0 905 707 \$0I_overlap_save 0;
+#X obj 37 105 inlet~;
+#X obj 37 663 outlet~;
+#X obj 594 105 inlet~;
+#X text 38 23 Recebe o sinal original x e o sinal ressintetizado pela
+convolução circular y=IDFT(X·H) usando a resposta em frequência
+H \, e recalcula as primeiras |h|-1 amostras pela convolução no domínio
+do tempo (y=x*h).;
+#X obj 639 146 loadbang;
+#X msg 639 175 init;
+#X obj 37 134 ofelia d -s21 \$0I_olapsave \; --[[ resposta ao impulso
+e memória do bloco anterior ]] \; local h \, L \, x \; function ofelia.init()
+\; h=ofArray("\$0I_coefs") \; L=h:getSize() \; x=ofTable() \; for n=1
+\, L do x[n]=0 end \; end \; --[[ reindexação usada na equação
+de convolução ]] \; local function xn_m(a \, n \, m) \; if n-m>0
+then return a[n-m] else return x[L+n-m] end \; end \; --[[ processa
+cada novo bloco DSP ]] \; function ofelia.perform(a1 \, a2) \; for
+n=1 \, L do \; --[[ convolução no domínio do tempo \; para as primeiras
+L amostras: \; y_n = h(0)x(n)+h(1)x_(n-1)+···+h(L-1)x(n-L+1) ]]
+\; a2[n]=0 \; for m=0 \, L-1 do \; a2[n] = a2[n]+h[m]*xn_m(a1 \, n
+\, m) \; end \; x[n] = a1[#a1-L+n] \; end \; return a2 \; end;
+#X connect 0 0 6 0;
+#X connect 2 0 6 1;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;
+#X restore 195 445 pd \$0I_overlap_save;
+#X text 663 152 usa um bloco bem maior do que |h| para aproveitar a
+vantagem do overlap-save, f 26;
+#N canvas 0 0 580 344 \$0I_plota_espectro 0;
+#X obj 81 221 loadbang;
+#X obj 81 250 metro 100 64 samp;
+#X obj 47 283 tabwrite~ \$0I_espectro_ampl;
+#X obj 47 193 multiplex~ _ _;
+#X obj 57 133 r \$0I_mux2;
+#X obj 57 162 expr if ($f1<2 \, $f1 \, 1);
+#X obj 47 59 inlet~;
+#X obj 332 59 inlet~;
+#X text 46 28 sinal original;
+#X text 329 28 sinal filtrado;
+#X text 300 143 se mux2=1 ou 2 mostra o sinal filtrado, f 21;
+#X obj 47 88 /~ 2048;
+#X obj 332 88 /~ 2048;
+#X text 136 88 normaliza espectro;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 11 0;
+#X connect 7 0 12 0;
+#X connect 11 0 3 0;
+#X connect 12 0 3 1;
+#X restore 47 323 pd \$0I_plota_espectro;
+#X text 400 443 <- aqui está o código do OVERLAP-SAVE, f 21;
+#X obj 355 381 /~ 2048;
+#X obj 122 567 tabwrite~ \$0I_sinal;
+#X obj 122 538 bang~;
+#X text 664 255 Filtros constantes:;
+#X obj 667 290 r \$0I_filtroidentidade;
+#X obj 667 451 f \$0;
+#X obj 667 420 r \$0I_filtronulo;
+#X msg 667 483 \; \$1I_filtro const 0;
+#X connect 0 0 2 0;
+#X connect 0 0 19 0;
+#X connect 0 0 21 0;
+#X connect 1 0 5 0;
+#X connect 1 0 23 0;
+#X connect 1 1 15 0;
+#X connect 2 0 1 0;
+#X connect 2 1 1 1;
+#X connect 4 0 18 0;
+#X connect 5 0 6 0;
+#X connect 5 0 23 1;
+#X connect 6 0 7 0;
+#X connect 6 1 7 1;
+#X connect 7 0 25 0;
+#X connect 10 0 11 0;
+#X connect 13 0 14 0;
+#X connect 13 1 14 1;
+#X connect 14 0 5 1;
+#X connect 14 1 15 1;
+#X connect 15 0 6 1;
+#X connect 18 0 13 0;
+#X connect 19 0 3 0;
+#X connect 19 0 26 0;
+#X connect 20 0 19 0;
+#X connect 21 0 19 2;
+#X connect 25 0 21 1;
+#X connect 25 0 19 1;
+#X connect 27 0 26 0;
+#X connect 29 0 10 0;
+#X connect 30 0 32 0;
+#X connect 31 0 30 0;
+#X restore 24 364 pd \$0I_overlap_save;
+#X obj 184 13 vradio 24 1 1 3 \$0I_mux2 \$0I_mux2_r empty 0 -8 0 10
+-262130 -1 -1 0;
+#X text 216 13 SINAL ORIGINAL;
+#X text 216 38 CONVOLUÇÃO POR BLOCOS;
+#X text 216 61 OVERLAP-SAVE;
+#X obj 297 160 hsl 128 20 0 20000 0 0 empty \$0I_freq_r Frequência
+-2 -8 0 16 -262144 -1 -1 0 0;
+#X floatatom 294 184 8 0 1 0 - - #0I_freq;
+#X text 56 37 SENOIDE;
+#N canvas 0 0 962 707 \$0I_computa_coefs 0;
+#X obj 105 443 cyclone/poltocar~;
+#X obj 105 472 rifft~;
+#X obj 104 369 tabplay~ \$0I_filtro;
+#X obj 46 237 loadbang;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_coefs 64 float 2;
+#X coords 0 1 64 -1 300 200 1 0 0;
+#X restore 619 209 graph;
+#X obj 75 531 tabwrite~ \$0I_coefs;
+#X obj 46 295 t b b b b;
+#X obj 105 501 /~ 64;
+#X obj 46 266 metro 100;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_fases 33 float 0;
+#X coords 0 3.14 32 0 300 200 1 0 0;
+#X restore 620 473 graph;
+#X obj 286 518 loadbang;
+#X text 287 490 inicializa o vetor de fases, f 31;
+#X obj 271 406 tabplay~ \$0I_fases;
+#X obj 286 554 ofelia f \; local x=ofArray("\$0I_fases") \; local M=x:getSize()
+\; local p=math.pi \; for n=0 \, M-1 \, 2 do x[n]=0 end \; for n=1
+\, M-1 \, 2 do x[n]=p end;
+#X text 306 242 Trocar o sinal das componentes ímpares equivale a
+girar π radianos essas componentes. As fases (0 \, π \, 0 \, π \,
+...) são lidas do vetor \$0I_fase:, f 21;
+#X text 46 33 Atualiza coeficientes do filtro no domínio do tempo
+(10x/seg). O filtro H definido no patch principal pela interface gráfica
+é um espectro de magnitude \, teoricamente associado a uma resposta
+ao impulso h=IDFT(H). Entretanto \, qualquer filtro com resposta REAL
+(considerando que as fases são todas =0) teria uma resposta ao impulso
+SIMÉTRICA (essa é a mesma propriedade da simetria do espectro de
+sinais reais \, pelo ponto de vista DUAL). Para converter h em um filtro
+CAUSAL é necessário fazer um shift de N/2 amostras \, o que equivale
+a multiplicar H por (-1)^k (exercício)., f 86;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 1 0 7 0;
+#X connect 2 0 0 0;
+#X connect 3 0 8 0;
+#X connect 6 0 5 0;
+#X connect 6 1 5 0;
+#X connect 6 2 2 0;
+#X connect 6 3 12 0;
+#X connect 7 0 5 0;
+#X connect 8 0 6 0;
+#X connect 10 0 13 0;
+#X connect 12 0 0 1;
+#X restore 257 451 pd \$0I_computa_coefs;
+#X text 255 319 a resposta em frequência (vetor \$0I_filtro) é convertida
+aqui em resposta impulsiva para recômputo das primeiras |h|-1 amostras
+da saída:, f 24;
+#X obj 277 104 bng 20 250 50 0 \$0I_filtroidentidade empty Filtro=1:
+-90 10 0 16 -262144 -1 -1;
+#X connect 0 0 1 0;
+#X connect 13 0 15 0;
+#X connect 15 0 14 0;
+#X connect 20 0 21 0;
+#X coords 0 -1 1 1 440 220 2 0 0;
+#X restore 103 208 pd \$0I_interface;
+#X obj 1100 142 tgl 24 0 \$0I_liga \$0I_liga_r LIGA 28 12 0 18 -262130
+-1 -1 0 1;
+#X obj 1100 171 switch~;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0I_sinal 2048 float 2;
+#X coords 0 1 2048 -1 1071 140 1 0 0;
+#X restore 103 459 graph;
+#X text 100 140 Nessa implementação você poderá comparar a implementação
+"ingênua" da convolução no domínio da frequência (indicada por
+CONVOLUÇÃO POR BLOCOS) e a implementação usando OVERLAP-SAVE em
+diversos sinais de entrada., f 97;
+#X connect 9 0 10 0;
+#X coords 0 0 1 1 100 100 0;
+#X restore 0 50 pd icsm32I;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 2 2 2 0 0;
+#X restore 0 0 pd icsm32_;
+#X obj 1100 650 icsm_anterior icsm32.pd icsm31E;
+#X obj 1150 650 icsm_sobe icsm32.pd icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm32.pd icsm32A;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 3.2_Equação_Geral_do_Filtro
+0 0 0 34 -262144 -38 0;
+#X obj 577 344 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 586 350 m;
+#X text 100 250 A EQUAÇÃO GERAL de um FILTRO LINEAR vem diretamente
+da equação de convolução \, através da interpretação de um dos
+sinais (x) como sinal de entrada e do outro (h) como coeficientes do
+filtro:, f 107;
+#X text 612 324 h[m]·x[n-m].;
+#X text 100 390 Veremos como essa equação se relaciona com os conceitos
+de RESPOSTA AO IMPULSO \, que por sua vez permite distinguir FILTROS
+COM RESPOSTA AO IMPULSO FINITA (FIR) e INFINITA (IIR) \, e como estes
+últimos podem ser eficientemente implementados na forma de FILTROS
+RECURSIVOS., f 107;
+#X text 510 324 y[n] =;
+#X text 100 500 Finalmente \, veremos como filtros podem ser implementados
+nos DOMÍNIOS DO TEMPO E DA FREQUÊNCIA \, bem como a forma de implementação
+de filtros através da CONVOLUÇÃO RÁPIDA (usando a FFT)., f 107
+;
+#X coords 0 0 1 1 100 100 0;

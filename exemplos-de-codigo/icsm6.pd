@@ -1,0 +1,9 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 6_-_Aplicações 0 0 0 34 -262144 -1601 0;
+#X obj 100 280 icsm_topico icsm51.pd 6.1_Acústica_de_Salas icsm6.pd;
+#X obj 100 360 icsm_topico icsm52.pd 6.2_Modelagem_Física icsm6.pd;
+#X obj 100 440 icsm_topico icsm53.pd 6.3_Sonificação icsm6.pd;
+#X obj 100 520 icsm_topico icsm54.pd 6.4_Tarefas_em_MIR icsm6.pd;
+#X obj 1100 650 icsm_anterior icsm6.pd icsm5.pd;
+#X obj 1150 650 icsm_sobe icsm6.pd icsmII.pd;

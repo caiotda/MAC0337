@@ -1,0 +1,17 @@
+#N canvas 0 0 372 223 12;
+#X obj 0 0 bng 31 250 50 0 empty empty < 4 14 0 36 -262130 -1 -1;
+#X text 46 7 uso: icsm_proximo essepatch patchanterior;
+#X obj 0 141 s icsm_alterna;
+#X obj 0 63 symbol \$1;
+#X obj 70 63 symbol \$2;
+#X obj 0 89 pack s s;
+#X obj 0 38 t b b;
+#X obj 0 114 list;
+#X connect 0 0 6 0;
+#X connect 3 0 5 0;
+#X connect 4 0 5 1;
+#X connect 5 0 7 0;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 7 0 2 0;
+#X coords 0 -1 1 1 31 31 2 0 0;

@@ -1,0 +1,16 @@
+#N canvas 0 0 1280 700 24;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty Parte_I_-_Representações
+0 0 0 34 -262144 -1601 0;
+#X text 99 238 OBJETIVO: estudar as representações usadas em áudio
+digital \, particularmente as noções de SINAL ANALÓGICO \, SINAL
+DIGITAL \, suas representações nos DOMÍNIOS DO TEMPO E DA FREQUÊNCIA
+\, e o uso de FILTROS para modificar estes sinais., f 76;
+#X obj 100 380 icsm_topico icsm1.pd 1_-_Representação_Temporal icsmI.pd
+;
+#X obj 100 460 icsm_topico icsm2.pd 2_-_Representação_Espectral icsmI.pd
+;
+#X obj 100 540 icsm_topico icsm3.pd 3_-_Filtros icsmI.pd;
+#X obj 1100 650 icsm_anterior icsmI.pd icsm0.pd;
+#X obj 1150 650 icsm_sobe icsmI.pd icsm.pd;
+#X obj 1200 650 icsm_proximo icsmI.pd icsmII.pd;

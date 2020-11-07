@@ -2,7 +2,7 @@
 #X obj 0 0 icsm_cabecalho;
 #X obj 100 200 cnv 15 14 14 empty empty Requisitos_Técnicos 0 0 0
 34 -262144 -147457 0;
-#N canvas 0 0 421 498 dependencias 0;
+#N canvas 0 0 425 513 dependencias 0;
 #X obj 539 616 textfile;
 #X obj 71 93 bng 30 250 50 0 \$0_linux empty Linux 40 15 0 24 -262130
 -1 -1;
@@ -80,7 +80,29 @@ a falta de bibliotecas \, quando for o caso., f 31;
 zexy \, fim, f 30;
 #X obj 739 818 + 30;
 #X msg 663 292 70;
-#X connect 0 1 7 0;
+#N canvas 0 0 681 422 \$0_checalicence 0;
+#X obj 42 28 inlet;
+#X obj 172 28 inlet;
+#X obj 172 67 unpack s s s;
+#X obj 172 156 pack s s s;
+#X msg 337 113 symbol /LICENCE.txt;
+#X obj 42 306 textfile;
+#X msg 42 263 clear \, read \$2\$1\$3 \, rewind \, bang;
+#X obj 42 211 list;
+#X obj 151 356 outlet;
+#X connect 0 0 7 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 1 3 1;
+#X connect 2 2 4 0;
+#X connect 3 0 7 1;
+#X connect 4 0 3 2;
+#X connect 5 1 8 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 0;
+#X restore 663 616 pd \$0_checalicence;
+#X text 927 616 iemlib usa LICENCE, f 7;
+#X connect 0 1 60 0;
 #X connect 2 0 8 1;
 #X connect 3 0 23 0;
 #X connect 3 1 2 1;
@@ -102,6 +124,7 @@ zexy \, fim, f 30;
 #X connect 17 1 49 0;
 #X connect 21 0 32 0;
 #X connect 22 0 26 0;
+#X connect 23 0 60 1;
 #X connect 23 0 29 0;
 #X connect 24 0 25 0;
 #X connect 27 0 23 2;
@@ -130,13 +153,9 @@ zexy \, fim, f 30;
 #X connect 57 0 4 0;
 #X connect 58 0 8 2;
 #X connect 59 0 5 0;
+#X connect 60 0 7 0;
 #X coords 0 -1 1 1 400 480 2 0 0;
-#X restore 793 185 pd dependencias;
-#X text 100 275 Esse material depende de algumas bibliotecas do Pd
-\, que devem ser instaladas pelo deken. Para isso \, acesse o menu
-"Ajuda" \, depois "Procurar por externals" \, e instale as bibliotecas
-a seguir \, dando preferência às versões mais novas:, f 45;
-#X text 140 480 cyclone ggee ofelia windowing zexy, f 10;
+#X restore 793 155 pd dependencias;
 #N canvas 0 0 1280 700 detalhes_ofelia 0;
 #X text 100 120 Clique aqui para testar a criação de um objeto ofelia:
 ;
@@ -209,4 +228,12 @@ o seu sistema operacional:, f 77;
 #X obj 597 554 icsm_url https://github.com/cuinjune/Ofelia/;
 #X text 100 553 Para mais informações \, clique aqui:, f 35;
 #X coords 0 -1 1 1 368 34 2 0 800;
-#X restore 239 537 pd detalhes_ofelia;
+#X restore 317 525 pd detalhes_ofelia;
+#X text 98 235 Esse livro depende do Pd >= 0.50-2 e de algumas bibliotecas
+que devem ser instaladas pelo deken. Para isso \, acesse o menu "Ajuda"
+\, depois "Procurar por externals" \, e instale as bibliotecas a seguir
+\, dando preferência às versões mais novas:, f 45;
+#X obj 1100 650 icsm_anterior icsm01.pd icsm00.pd;
+#X obj 1150 650 icsm_sobe icsm01.pd icsm0.pd;
+#X obj 1200 650 icsm_proximo icsm01.pd icsm02.pd;
+#X text 213 439 cyclone ggee iemlib ofelia windowing zexy, f 10;

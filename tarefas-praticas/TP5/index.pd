@@ -1,0 +1,166 @@
+#N canvas 961 56 959 984 12;
+#N canvas 0 576 959 463 filtro 1;
+#X text 38 16 produz um impulso discreto;
+#X obj 22 20 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_resp_imp 64 float 0;
+#X coords 0 1 63 -1 200 140 1 0 0;
+#X restore 24 186 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_resp_freq 64 float 0;
+#X coords 0 1 63 0 200 140 1 0 0;
+#X restore 257 189 graph;
+#N canvas 0 56 1280 700 filtro_ofelia 0;
+#X obj 105 79 inlet~;
+#X text 106 44 sinal a ser filtrado;
+#X obj 704 74 inlet;
+#X text 705 40 mensagens de inicialização;
+#X obj 104 635 outlet~;
+#X obj 104 112 ofelia d -s11 \$0_filtro_ofelia \; --[[ a e b são os
+coeficientes do filtro \; x_ é o buffer circular de memória da entrada
+\; y_ é o buffer circular de memória da saída \; px \, py são os
+índices nos buffers circulares ]] \; M.a \, M.b \, M.x_ \, M.px \,
+M.y_ \, M.py = ofTable(1) \, ofTable(0) \, ofTable(0) \, 1 \, ofTable(0)
+\, 1 \; --[[ função auxiliar: corrige o mod para 1..N ]] \; local
+function mod(p \, N) return 1+(p-1)%N end \; --[[ calcula equação
+geral do filtro recursivo ]] \; function ofelia.perform(x) \; for n=1
+\, #x do \; M.x_[M.px] = x[n] M.px = mod(M.px+1 \, #M.x_) \; x[n] =
+0 \; for m=1 \, #M.a do \; x[n] = x[n]+M.a[m]*M.x_[mod(M.px-m \, #M.x_)]
+\; end \; for l=1 \, #M.b do \; x[n] = x[n]+M.b[l]*M.y_[mod(M.py-l
+\, #M.y_)] \; end \; M.y_[M.py] = x[n] M.py = mod(M.py+1 \, #M.y_)
+\; end \; return x \; end \;;
+#X obj 704 112 ofelia d \; --[[ acessa variáveis do módulo ao lado]]
+\; local m=require("\$0_filtro_ofelia") \; --[[ processa mensagens
+de inicialização ]] \; --[[ coeficientes do sinal de entrada ]] \;
+function ofelia.a(l) \; m.a \, m.x_ \, m.px = ofTable() \, ofTable()
+\, 5 \; if type(l)=="number" then l = ofTable(l) end \; for n=1 \,
+#l do \; m.a[n] \, m.x_[n] = l[n] \, 0 \; end \; end \; --[[ coeficientes
+de retroalimentação ]] \; function ofelia.b(l) \; m.b \, m.y_ \,
+m.py = ofTable() \, ofTable() \, 5 \; if type(l)=="number" then l =
+ofTable(l) end \; for n=1 \, #l do \; m.b[n] \, m.y_[n] = l[n] \, 0
+\; end \; end \;;
+#X connect 0 0 5 0;
+#X connect 2 0 6 0;
+#X connect 5 0 4 0;
+#X restore 22 91 pd filtro_ofelia;
+#X obj 20 40 tabplay~ \$0F_impulso;
+#N canvas 0 0 450 300 \$0F_plota 0;
+#X obj 73 147 fft~;
+#X obj 73 176 cyclone/cartopol~;
+#X obj 94 84 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#X obj 82 207 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#X obj 84 105 tabwrite~ \$0F_resp_imp;
+#X obj 74 225 tabwrite~ \$0F_resp_freq;
+#X obj 74 31 inlet~;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 6 0 4 0;
+#X connect 6 0 0 0;
+#X restore 22 120 pd \$0F_plota;
+#X obj 302 23 tgl 24 0 empty \$0F_liga_r LIGA 28 12 0 18 -262130 -1
+-1 1 1;
+#X obj 302 52 switch~;
+#N canvas 0 0 533 342 \$0F_init 0;
+#X obj 36 108 loadbang;
+#X obj 36 165 metro 100;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_impulso 2 float 2;
+#X coords 0 1 2 -1 200 140 1 0 0;
+#X restore 287 70 graph;
+#X obj 36 136 t b b;
+#X obj 83 195 f \$0;
+#X obj 36 195 bng 15 250 50 0 \$0D_atualiza empty empty 17 7 0 10 -262144
+-262144 -1;
+#X text 286 16 impulso discreto;
+#X text 38 16 inicializa impulso discreto e gera 10 bangs/segundo (send/rec
+atualiza), f 21;
+#X msg 83 224 \; \$1F_impulso 0 1 0 \; \$1F_liga_r 0 \; pd dsp 1;
+#X connect 0 0 3 0;
+#X connect 1 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 1 4 0;
+#X connect 4 0 8 0;
+#X restore 262 88 pd \$0F_init;
+#X obj 170 71 r coefs;
+#X text 347 340 Nyq;
+#X text 253 341 DC;
+#X connect 1 0 5 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 7 0 8 0;
+#X connect 10 0 4 1;
+#X restore 50 129 pd filtro;
+#N canvas 961 576 959 463 item3 1;
+#X floatatom 78 42 5 -1 1 0 zeta - -;
+#X floatatom 421 54 5 -0.99 0.99 0 polo - -;
+#X obj 96 282 pack f f f;
+#X obj 97 335 s coefs;
+#X msg 163 251 0;
+#X text 77 107 a0 = 1/max(1-zeta \, 1+zeta);
+#X obj 77 131 expr 1/max(1-$f1 \, 1+$f1);
+#X obj 129 231 *;
+#X obj 75 161 t f f;
+#X text 201 254 b1;
+#X obj 77 73 t f f b;
+#X msg 97 310 a \$1 \$2 \, b \$3;
+#X text 155 224 -ao * zeta;
+#X obj 105 203 * -1;
+#X obj 432 258 s coefs;
+#X msg 432 233 a \$1 \, b \$2;
+#X obj 431 205 pack f f;
+#X obj 427 163 expr min(1-$f1 \, 1+$f1);
+#X text 602 171 a0 = min(1-polo \, 1+polo);
+#X obj 426 112 t f f;
+#X connect 0 0 10 0;
+#X connect 1 0 19 0;
+#X connect 2 0 11 0;
+#X connect 4 0 2 2;
+#X connect 6 0 8 0;
+#X connect 7 0 2 1;
+#X connect 8 0 2 0;
+#X connect 8 1 13 0;
+#X connect 10 0 6 0;
+#X connect 10 1 7 1;
+#X connect 10 2 4 0;
+#X connect 11 0 3 0;
+#X connect 13 0 7 0;
+#X connect 15 0 14 0;
+#X connect 16 0 15 0;
+#X connect 17 0 16 0;
+#X connect 19 0 17 0;
+#X connect 19 1 16 1;
+#X restore 52 163 pd item3;
+#N canvas 961 576 959 463 item4 1;
+#X floatatom 75 41 5 0 1 0 A - -;
+#X floatatom 149 40 5 0 3.14 0 Phi - -;
+#X obj 75 103 pack f f;
+#X obj 75 65 f;
+#X obj 149 64 t b f;
+#X msg 95 345 a \$1 \$2 \$3 \, b 0;
+#X obj 95 370 s coefs;
+#X text 589 133 a[1] é o A \; a[2] é o phi \;;
+#X text 566 186 Como fixamos xi 2 = conjugado de xi 1 \, expr_a1 é
+a parte real de xi 1 + xi 2;
+#X text 232 74 recebe (A \, phi);
+#X obj 93 170 ofelia f \; t1 = (1 - a[1]* math.cos(a[2])^2 + (a[1]
+* math.sin(a[2]))^2 \; t2 = (1 + a[1] * math.cos(a[2]))^2 + (a[1] *
+math.sin(a[2]))^2 \; expr_a0 = 1/math.max(t1 \, t2) \; expr_a1 = a[1]
+* math.cos(phi) \; expr_a2 = (a[1] * math.coscos(a[2])^2 + math.sin(a[2])^2
+return ofTable(expr_a0 \, expr_a1 \, expr_a2);
+#X connect 0 0 3 0;
+#X connect 1 0 4 0;
+#X connect 2 0 10 0;
+#X connect 3 0 2 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 1;
+#X connect 5 0 6 0;
+#X connect 10 0 5 0;
+#X restore 52 202 pd item4;
+#X text 48 47 Nome: Caio Túlio de Deus Andrade;
+#X text 53 78 NUSP:979723;

@@ -1,0 +1,420 @@
+#N canvas 0 0 1280 700 16;
+#N canvas 0 0 450 300 icsm33_ 0;
+#X obj 0 100 loadbang;
+#X msg 0 150 \; pd-icsm33.pd vis 1 \; pd-icsm33_ vis 0 \; pd-icsm33A
+vis 0 \; pd-icsm33B vis 0 \; pd-icsm33C vis 0 \; pd-icsm33D vis 0 \;
+pd-icsm33E vis 0 \; pd-icsm33F vis 0 \; pd-icsm33G vis 0 \; pd-icsm33H
+vis 0 \; pd-icsm33I vis 0 \; pd-icsm33J vis 0 \; pd-icsm33K vis 0;
+#N canvas 0 0 1280 700 icsm33A 0;
+#X obj 1100 650 icsm_anterior icsm33A icsm33.pd;
+#X obj 1150 650 icsm_sobe icsm33A icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33A icsm33B;
+#X obj 100 100 cnv 15 14 14 empty empty Filtros_de_1_Zero_Real 0 0
+0 28 -262144 -38 0;
+#X text 100 150 Os filtros da média e da diferença possuem equações
+semelhantes \, podendo ambos serem representados como, f 107;
+#X text 474 190 y[n] = a·x[n]+b·x[n-1];
+#X obj 392 330 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 324 310 W[k] =;
+#X obj 522 330 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X obj 672 330 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 100 230 com a=b=½ (filtro da média) e a=-b=1 (filtro da diferença).
+Usando a notação z = e, f 82;
+#X text 919 220 i2πk/N;
+#X text 391 336 n=0;
+#X text 521 336 n=0;
+#X text 521 286 N-1;
+#X text 391 286 N-1;
+#X text 478 300 -n;
+#X text 627 300 -n;
+#X text 757 300 -1;
+#X text 790 300 -m;
+#X text 838 300 -1;
+#X text 666 336 m=-1;
+#X text 671 286 N-2;
+#X text 637 400 -1;
+#X text 787 400 -1;
+#X text 474 410 Y[k] = a·X[k]+b·z ·X[k] = (a+b·z )·X[k].;
+#X text 434 520 -1;
+#X text 100 450 Lembrando da equação de convolução, f 107;
+#X text 474 490 Y[k] = H[k]·X[k];
+#X text 704 310 x[m]·z ·z;
+#X text 424 310 w[n]·z;
+#X text 505 310 =;
+#X text 554 310 x[n-1]·z;
+#X text 654 310 =;
+#X text 814 310 = z ·X[k] (usando periodicidade) \,;
+#X text 990 230 podemos relacionar;
+#X text 100 250 a TF do termo w[n]=x[n-1] (FILTRO DE ATRASO UNITÁRIO)
+com a TF X através da expressão, f 107;
+#X text 100 370 conhecida como PROPRIEDADE DO ATRASO NA TF. A equação
+do filtro pode então ser re-escrita como, f 107;
+#X text 100 530 vemos que a expressão H[k] = a+b·z está associada
+a à RESPOSTA EM FREQUÊNCIA do filtro \, onde cada k está associado
+a um valor de z complexo que é o k-ésimo ponto na subdivisão do
+círculo unitário em N partes., f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 0 0 pd icsm33A;
+#N canvas 0 0 1280 700 icsm33B 0;
+#X obj 1100 650 icsm_anterior icsm33B icsm33A;
+#X obj 1150 650 icsm_sobe icsm33B icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33B icsm33C;
+#X obj 100 100 cnv 15 14 14 empty empty Filtros_de_1_Zero_Real_(cont.)
+0 0 0 28 -262144 -38 0;
+#X text 335 150 -1;
+#X text 301 300 -1;
+#X text 461 300 -1;
+#X text 154 310 |H(z)| = |a+b·z;
+#X text 324 310 | = |a·(z-ζ)·z;
+#X text 100 160 A expressão H(z) = a+b·z, f 107;
+#X text 360 160 é chamada de FUNÇÃO DE TRANSFERÊNCIA associada
+à equação y[n] = a·x[n]+b·x[n-1] e, f 107;
+#X text 100 340 Observe que o filtro da média possui um ZERO em ζ
+= -½/½ = -1 \, que corresponde a k = N/2 \, ou seja \, à frequência
+de Nyquist. Isso mostra como aquela equação possui a característica
+de PASSA-BAIXAS \, atenuando as frequências próximas de Nyquist e
+deixando passar com maior amplitude as frequências próximas de DC.
+, f 81;
+#X text 100 430 O filtro da diferença \, por outro lado \, possui
+um ZERO em ζ = -(-1)/1 = +1 \, que corresponde a k = 0 \, ou seja
+\, à frequência DC. Isso evidencia sua característica de PASSA-ALTAS
+\, atenuando as frequências baixas e deixando passar com maior amplitude
+as frequências próximas de Nyquist., f 81;
+#N canvas 0 0 879 523 \$0B_interface 0;
+#X obj 28 26 hsl 196 15 -1 1 0 0 empty empty Posição_do_Zero_(ζ)
+-2 -10 0 16 -262144 -1 -1 19500 1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_resposta 33 float 0;
+#X coords 0 1 32 0 200 140 1 0 0;
+#X restore 25 88 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0B_resposta_e_espectro 33 float 0;
+#X coords 0 8 32 0 200 140 1 0 0;
+#X restore 25 88 graph;
+#X obj 25 266 tgl 20 0 empty empty Toca_ruído_branco_filtrado 22 10
+0 12 -262144 -1 -1 0 1;
+#X obj 25 341 switch~;
+#X obj 322 260 noise~;
+#X obj 322 318 rfft~;
+#X obj 322 347 cyclone/cartopol~;
+#X obj 220 347 metro 100;
+#X obj 270 318 dac~;
+#X obj 322 376 tabwrite~ \$0B_resposta_e_espectro;
+#X text 13 227 DC;
+#X text 210 227 Nyq;
+#X text 1 21 -1;
+#X text 227 21 +1;
+#X text 227 39 DC;
+#X text 2 39 Nyq;
+#X obj 25 311 t f f f;
+#X obj 111 391 pack f \$0;
+#X msg 111 420 \; \$2B_resposta_e_espectro const \$1;
+#X obj 322 41 ofelia f \; local x=ofArray("\$0B_resposta") \; local
+N=x:getSize() \; local zreal \, zimag \; for n=0 \, N-1 do \; zreal
+= math.cos(math.pi*n/(N-1)) \; zimag = math.sin(math.pi*n/(N-1)) \;
+x[n] = math.sqrt((zreal-a)^2+(zimag)^2)/math.max(1-a \, a+1) \; end
+\;;
+#X f 35;
+#X obj 322 289 fexpr~ ($x1[0]-$f2*$x1[-1])/max(1-$f2 \, $f2+1);
+#X connect 0 0 20 0;
+#X connect 0 0 21 1;
+#X connect 3 0 17 0;
+#X connect 5 0 21 0;
+#X connect 6 0 7 0;
+#X connect 6 1 7 1;
+#X connect 7 0 10 0;
+#X connect 8 0 10 0;
+#X connect 17 0 4 0;
+#X connect 17 1 8 0;
+#X connect 17 2 18 0;
+#X connect 18 0 19 0;
+#X connect 21 0 6 0;
+#X connect 21 0 9 0;
+#X connect 21 0 9 1;
+#X coords 0 -1 1 1 256 300 2 0 0;
+#X restore 918 296 pd \$0B_interface;
+#X text 100 238 Resolvendo-se a equação H(z) = 0 obtemos ζ = -b/a
+\, que é o ponto que ANULA a função de transferência \, chamado
+de ZERO do filtro. Próximo desse ponto H(z) terá valores pequenos
+\, crescendo de forma proporcional à distância de ζ para qualquer
+z unitário (associados aos coeficientes H[k]):, f 107;
+#X text 481 310 | = |a|·|z-ζ| (|a| é o GANHO do filtro).;
+#X text 100 517 Mais do que reaprender o que já sabíamos \, podemos
+usar o zero ζ = -b/a para prever o comportamento de QUALQUER FILTRO
+com equação y[n] = a·(x[n]-ζ·x[n-1]) \, ou para escolher os coeficientes
+a e b de acordo com um propósito na construção do filtro. A interface
+ao lado ilustra o filtro normalizado y[n] = x[n]-ζ·x[n-1]., f 81
+;
+#X text 770 577 _____________;
+#X text 770 595 max(1-ζ \, ζ+1);
+#X text 100 180 pode ser interpretada como uma FUNÇÃO DA VARIÁVEL
+COMPLEXA z \, estendendo sua utilidade para além da resposta em frequência
+do filtro H \, obtida quando |z| = 1, f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 150 0 pd icsm33B;
+#N canvas 0 0 1280 700 icsm33C 0;
+#X obj 1100 650 icsm_anterior icsm33C icsm33B;
+#X obj 1150 650 icsm_sobe icsm33C icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33C icsm33D;
+#X obj 100 100 cnv 15 14 14 empty empty Filtros_de_1_Polo_Real 0 0
+0 28 -262144 -38 0;
+#X text 905 200 -1;
+#X text 100 150 Vimos anteriormente o exemplo de filtro IIR com equação
+y[n] = x[n]-0.95·y[n-1]. Considerando a equação, f 107;
+#X text 474 180 y[n] = a·x[n]+b·y[n-1] \,;
+#X text 527 238 -1;
+#X text 474 248 (1-b·z )·Y[k] = a·X[k];
+#X text 100 268 e portanto, f 107;
+#X text 717 307 -1;
+#X text 674 317 1-b·z;
+#X text 698 280 a;
+#X text 474 288 H[k] = Y[k]/X[k] = ________.;
+#X text 417 537 -1;
+#X text 388 510 |a|;
+#X text 364 547 |1-b·z |;
+#X text 513 510 |a|;
+#X text 547 537 -1;
+#X text 474 547 |z-π|·|z |;
+#X text 604 547 |z-π|;
+#X text 613 510 |a|;
+#X text 274 518 |H(z)| = ________ = __________ = _____.;
+#X text 100 348 Podemos estender a expressão acima como H(z) para
+um z genérico \, obtendo a função de transferência do filtro \,
+que nesse caso será um QUOCIENTE com uma expressão linear no DENOMINADOR.
+Nesse caso \, o zero do denominador será o ponto π = b \, denominado
+de POLO da função de transferência e associado a um PONTO DE INSTABILIDADE
+do filtro \, já que o GANHO |H(z)| ali é INFINITO. Isso evidencia
+que essa equação não pode ser usada com b = -1 (frequência de Nyquist)
+ou b = 1 (DC) \, e que as frequências z do círculo unitário terão
+ganho INVERSAMENTE PROPORCIONAL À DISTÂNCIA AO POLO:, f 76;
+#X text 100 210 podemos repetir os passos da dedução anterior para
+concluir que Y[k] = a·X[k]+b·z ·Y[k] \, de onde, f 107;
+#N canvas 0 0 879 523 \$0B_interface 0;
+#X obj 39 26 hsl 196 15 -0.99 0.99 0 0 empty empty Posição_do_Polo_(π)
+-2 -10 0 16 -262144 -1 -1 0 1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0C_resposta 33 float 0;
+#X coords 0 1 32 0 200 140 1 0 0;
+#X restore 36 88 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0C_resposta_e_espectro 33 float 0;
+#X coords 0 8 32 0 200 140 1 0 0;
+#X restore 36 88 graph;
+#X obj 36 266 tgl 20 0 empty empty Toca_ruído_branco_filtrado 22 10
+0 12 -262144 -1 -1 0 1;
+#X obj 36 341 switch~;
+#X obj 333 260 noise~;
+#X obj 333 318 rfft~;
+#X obj 333 347 cyclone/cartopol~;
+#X obj 231 347 metro 100;
+#X obj 281 318 dac~;
+#X text 24 227 DC;
+#X text 221 227 Nyq;
+#X text 248 39 DC;
+#X text 3 39 Nyq;
+#X obj 36 311 t f f f;
+#X obj 122 391 pack f \$0;
+#X msg 122 420 \; \$2C_resposta_e_espectro const \$1;
+#X obj 333 376 tabwrite~ \$0C_resposta_e_espectro;
+#X obj 333 41 ofelia f \; local x=ofArray("\$0C_resposta") \; local
+N=x:getSize() \; local zreal \, zimag \; for n=0 \, N-1 do \; zreal
+= math.cos(math.pi*n/(N-1)) \; zimag = math.sin(math.pi*n/(N-1)) \;
+x[n] = math.min(1-a \, a+1)/ math.sqrt((zreal-a)^2+(zimag)^2) \; end
+\;;
+#X obj 333 289 fexpr~ min(1-$f2 \, $f2+1)*$x1[0]+$f2*$y1[-1];
+#X text 238 21 <+1;
+#X text 2 21 -1>;
+#X connect 0 0 18 0;
+#X connect 0 0 19 1;
+#X connect 3 0 14 0;
+#X connect 5 0 19 0;
+#X connect 6 0 7 0;
+#X connect 6 1 7 1;
+#X connect 7 0 17 0;
+#X connect 8 0 17 0;
+#X connect 14 0 4 0;
+#X connect 14 1 8 0;
+#X connect 14 2 15 0;
+#X connect 15 0 16 0;
+#X connect 19 0 6 0;
+#X connect 19 0 9 0;
+#X connect 19 0 9 1;
+#X coords 0 -1 1 1 276 300 2 0 0;
+#X restore 898 317 pd \$0B_interface;
+#X text 100 578 A implementação ao lado ilustra o filtro normalizado
+y[n] = a·x[n]+π·y[n-1] \, onde a = min(1-π \, π+1)., f 76;
+#X coords 0 0 1 1 100 100 0;
+#X restore 300 0 pd icsm33C;
+#N canvas 0 0 1280 700 icsm33D 0;
+#X obj 1100 650 icsm_anterior icsm33D icsm33C;
+#X obj 1150 650 icsm_sobe icsm33D icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33D icsm33E;
+#X obj 100 100 cnv 15 14 14 empty empty Função_de_Transferência_de_Filtros_Recursivos
+0 0 0 28 -262144 -38 0;
+#X obj 487 224 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 416 204 y[n] =;
+#X text 486 230 m=0;
+#X text 486 180 N-1;
+#X obj 667 224 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 522 204 a[m]·x[n-m] +;
+#X text 666 230 l=1;
+#X text 676 180 M;
+#X text 702 204 b[l]·y[n-l];
+#X text 100 150 Considerando a equação geral do filtro recursivo
+(e também dos filtros FIR \, onde b=0):, f 107;
+#X obj 487 334 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 486 340 m=0;
+#X text 486 290 N-1;
+#X obj 667 334 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 666 340 l=1;
+#X text 676 290 M;
+#X text 416 314 Y[k] =;
+#X text 522 314 a[m]·z ·X[k] +;
+#X text 702 314 b[l]·z ·Y[k];
+#X text 576 304 -m;
+#X text 756 304 -l;
+#X obj 596 444 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 595 450 m=0;
+#X text 595 400 N-1;
+#X obj 614 520 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 613 526 l=1;
+#X text 623 476 M;
+#X text 685 414 -m;
+#X text 703 490 -l;
+#X text 100 370 e definir a FUNÇÃO DE TRANSFERÊNCIA DO FILTRO estendendo
+a expressão H[k] = Y[k]/X[k] como, f 107;
+#X text 631 424 a[m]·z;
+#X text 649 500 b[l]·z;
+#X text 591 500 1-;
+#X text 516 454 H(z) = ______________.;
+#X text 100 570 Note que essa expressão geral de H(z) é um QUOCIENTE
+DE POLINÔMIOS NA VARIÁVEL z ., f 107;
+#X text 894 558 -1;
+#X text 100 260 podemos usar a PROPRIEDADE DO ATRASO NA TF para reescrever
+a equação acima como, f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 450 0 pd icsm33D;
+#N canvas 0 0 1280 700 icsm33E 0;
+#X obj 1100 650 icsm_anterior icsm33E icsm33D;
+#X obj 1150 650 icsm_sobe icsm33E icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33E icsm33F;
+#X obj 100 100 cnv 15 14 14 empty empty Polos_e_Zeros_do_Filtro_Recursivo_Geral
+0 0 0 28 -262144 -38 0;
+#X obj 476 244 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 475 250 m=0;
+#X text 475 200 N-1;
+#X obj 494 320 cnv 15 10 10 empty empty Σ 0 0 2 48 -262144 -1 0;
+#X text 493 326 l=1;
+#X text 503 276 M;
+#X text 565 214 -m;
+#X text 583 290 -l;
+#X text 511 224 a[m]·z;
+#X text 529 300 b[l]·z;
+#X text 471 300 1-;
+#X text 100 150 Considerando que todo polinômio (real ou complexo)
+de grau P admite P raízes (reais ou complexas) \, podemos escrever
+a função de transferência H(z) na FORMA FATORADA:, f 107;
+#X obj 662 244 cnv 15 10 10 empty empty Π 0 0 2 48 -262144 -1 0;
+#X obj 662 320 cnv 15 10 10 empty empty Π 0 0 2 48 -262144 -1 0;
+#X text 661 326 l=1;
+#X text 673 276 M;
+#X text 396 254 H(z) = ______________;
+#X text 697 224 (1-ζ[m]·z );
+#X text 779 214 -1;
+#X text 697 300 (1-π[l]·z );
+#X text 780 290 -1;
+#X text 661 250 m=1;
+#X text 673 200 N;
+#X text 606 254 = C·_______________ \,;
+#X obj 505 474 cnv 15 10 10 empty empty Π 0 0 2 48 -262144 -1 0;
+#X obj 505 550 cnv 15 10 10 empty empty Π 0 0 2 48 -262144 -1 0;
+#X text 504 556 l=1;
+#X text 516 506 M;
+#X text 622 444 -1;
+#X text 623 520 -1;
+#X text 504 480 m=1;
+#X text 516 430 N;
+#X obj 725 474 cnv 15 10 10 empty empty Π 0 0 2 48 -262144 -1 0;
+#X text 724 480 m=1;
+#X text 736 430 N;
+#X obj 725 550 cnv 15 10 10 empty empty Π 0 0 2 48 -262144 -1 0;
+#X text 724 556 l=1;
+#X text 736 506 M;
+#X text 540 454 |1-ζ[m]·z |;
+#X text 540 530 |1-π[l]·z |;
+#X text 760 454 |z-ζ[m]|;
+#X text 760 530 |z-π[l]|;
+#X text 369 484 |H(z)| = |C|·_______________ = |C|·____________;
+#X text 704 580 -1;
+#X text 100 360 onde C é uma constante real e ζ[1] \, ... \, ζ[N]
+são ZEROS (reais com complexos) e π[1] \, ... \, π[M] são POLOS
+(reais ou complexos). Cada zero ou polo determina uma influência de
+ATENUAÇÃO LOCAL ou AMPLIFICAÇÃO LOCAL na resposta de magnitude
+de acordo com sua distância à respectiva frequência z no círculo
+unitário \, pois, f 107;
+#X text 100 590 (a última passagem é análoga aos exemplos anteriores
+\, onde |z | = 1 para todas as frequências de Fourier)., f 107;
+#X coords 0 0 1 1 100 100 0;
+#X restore 600 0 pd icsm33E;
+#N canvas 0 0 1280 700 icsm33F 0;
+#X obj 1100 650 icsm_anterior icsm33F icsm33E;
+#X obj 1150 650 icsm_sobe icsm33F icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33F icsm33G;
+#X coords 0 0 1 1 100 100 0;
+#X restore 750 0 pd icsm33F;
+#N canvas 0 0 1280 700 icsm33G 0;
+#X obj 1100 650 icsm_anterior icsm33G icsm33F;
+#X obj 1150 650 icsm_sobe icsm33G icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33G icsm33H;
+#X coords 0 0 1 1 100 100 0;
+#X restore 900 0 pd icsm33G;
+#N canvas 0 0 1280 700 icsm33H 0;
+#X obj 1100 650 icsm_anterior icsm33H icsm33G;
+#X obj 1150 650 icsm_sobe icsm33H icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33H icsm33I;
+#X coords 0 0 1 1 100 100 0;
+#X restore 1050 0 pd icsm33H;
+#N canvas 0 0 1280 700 icsm33I 0;
+#X obj 1100 650 icsm_anterior icsm33I icsm33H;
+#X obj 1150 650 icsm_sobe icsm33I icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33I icsm33J;
+#X coords 0 0 1 1 100 100 0;
+#X restore 0 50 pd icsm33I;
+#N canvas 0 0 1280 700 icsm33J 0;
+#X obj 1100 650 icsm_anterior icsm33J icsm33I;
+#X obj 1150 650 icsm_sobe icsm33J icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33J icsm33K;
+#X coords 0 0 1 1 100 100 0;
+#X restore 150 50 pd icsm33J;
+#N canvas 0 0 1280 700 icsm33K 0;
+#X obj 1100 650 icsm_anterior icsm33K icsm33J;
+#X obj 1150 650 icsm_sobe icsm33K icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33K icsm34.pd;
+#X coords 0 0 1 1 100 100 0;
+#X restore 300 50 pd icsm33K;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 2 2 2 0 0;
+#X restore 0 0 pd icsm33_;
+#X obj 1100 650 icsm_anterior icsm33.pd icsm32I;
+#X obj 1150 650 icsm_sobe icsm33.pd icsm3.pd;
+#X obj 1200 650 icsm_proximo icsm33.pd icsm33A;
+#X obj 0 0 icsm_cabecalho;
+#X obj 100 200 cnv 15 14 14 empty empty 3.3_Polos_e_Zeros 0 0 0 34
+-262144 -38 0;
+#X text 100 250 POLOS e ZEROS fornecem uma alternativa de representação
+para filtros FIR e IIR e permitem respectivamente o controle de regiões
+de AMPLIFICAÇÃO e ATENUAÇÃO na resposta em frequência do filtro.
+Essa representação é útil tanto para a DESCRIÇÃO do comportamento
+de um filtro quanto para sua PRESCRIÇÃO \, ou seja \, polos e zeros
+fornecem um espaço útil de representação para o DESENHO DE FILTROS.
+, f 107;
+#X text 100 390 Uma ferramenta bastante útil para a análise de filtros
+em geral e para a obtenção de polos e zeros em particular é a TRANSFORMADA
+Z \, que será apresentada inicialmente através de exemplos simples
+com filtros FIR e IIR de apenas dois coeficientes \, para servir posteriormente
+à análise da EQUAÇÃO GERAL DO FILTRO \, dando origem à FUNÇÃO
+DE TRANSFERÊNCIA do filtro. Veremos então como polos e zeros se relacionam
+com a FORMA FATORADA da função de transferência \, e como usá-la
+para o desenho de filtros com características espectrais associadas
+às regiões de amplificação e atenuação desejadas., f 107;
+#X coords 0 0 1 1 100 100 0;

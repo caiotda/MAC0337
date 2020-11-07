@@ -1,11 +1,11 @@
-#N canvas 0 0 1280 125 16;
+#N canvas 0 0 1280 330 16;
 #N canvas 0 0 174 86 license 0;
 #X obj 78 34 ggee/image icsm_cc-by-nc-sa.ppm;
 #X coords 0 -1 1 1 154 67 2 0 0;
 #X restore 1103 17 pd license;
 #X obj 11 36 cnv 15 15 15 empty empty Introdução_à_Computação_Sonora_e_Musical
 0 0 0 45 -262144 -4160 0;
-#X obj 13 80 cnv 15 15 15 empty \$0_autor Marcelo_Queiroz_____Universidade_de_São_Paulo_____Versão_2020.9
+#X obj 13 80 cnv 15 15 15 empty \$0_autor Marcelo_Queiroz_____Universidade_de_São_Paulo____Versão_2020.10
 0 0 0 28 -262144 -66577 0;
 #X obj 266 91 cnv 15 125 10 empty empty empty 20 12 0 14 -262144 -66577
 0;
@@ -17,7 +17,7 @@
 0;
 #X obj 776 91 cnv 15 125 10 empty empty empty 20 12 0 14 -262144 -66577
 0;
-#X obj 964 91 cnv 15 30 10 empty empty empty 20 12 0 14 -262144 -66577
+#X obj 948 91 cnv 15 30 10 empty empty empty 20 12 0 14 -262144 -66577
 0;
 #X obj 128 91 cnv 15 30 10 empty empty empty 20 12 0 14 -262144 -66577
 0;
@@ -31,4 +31,14 @@
 0;
 #X obj 872 52 cnv 15 30 10 empty empty empty 20 12 0 14 -262144 -66577
 0;
-#X coords 0 -1 1 1 1274 110 2 0 0;
+#N canvas 0 0 599 300 magic 0;
+#X obj 26 87 loadbang;
+#X msg 26 198 \; pd open icsm_alterna.pd \$1;
+#X obj 26 167 pdcontrol;
+#X msg 26 137 dir;
+#X connect 0 0 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X coords 0 -1 1 1 10 10 2 0 0;
+#X restore 0 127 pd magic;
+#X coords 0 -1 1 1 1278 110 2 0 0;
