@@ -1,4 +1,4 @@
-#N canvas 0 576 959 463 12;
+#N canvas 0 56 959 984 12;
 #X obj 135 246 sintetizador~;
 #X msg 16 46 liga;
 #X msg 17 80 desliga;
@@ -18,7 +18,7 @@
 74 260.87 69 391.305 68 260.87 67 260.87 65 260.87 62 130.435 65 130.435
 67 130.435;
 #X obj 187 162 hsl 128 15 0 126 0 0 empty empty Frequencia -2 -8 0
-10 -262144 -1 -1 8600 1;
+10 -262144 -1 -1 5400 1;
 #X obj 220 197 sig~;
 #X floatatom 157 205 5 0 0 0 - - -;
 #X msg 24 213 finaliza;
