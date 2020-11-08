@@ -20,12 +20,12 @@
 74 260.87 69 391.305 68 260.87 67 260.87 65 260.87 62 130.435 65 130.435
 67 130.435;
 #X obj 196 163 hsl 128 15 0 126 0 0 empty empty Frequencia -2 -8 0
-10 -262144 -1 -1 6500 1;
+10 -262144 -1 -1 5400 1;
 #X obj 220 197 sig~;
 #X floatatom 157 205 5 0 0 0 - - -;
 #X msg 24 213 finaliza;
 #X obj 381 170 hsl 128 15 0 1 0 0 empty empty Amplitude -2 -8 0 10
--262144 -1 -1 7100 1;
+-262144 -1 -1 5400 1;
 #X obj 316 202 sig~;
 #X floatatom 428 104 5 0 0 0 - - -;
 #X text 522 366 processamento de notas temporariamente desligado;
