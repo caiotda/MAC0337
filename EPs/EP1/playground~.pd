@@ -1,4 +1,4 @@
-#N canvas 0 576 959 463 12;
+#N canvas 395 379 959 463 12;
 #X obj 135 246 sintetizador~;
 #X msg 16 46 liga;
 #X msg 17 80 desliga;
@@ -10,8 +10,6 @@
 #X msg 20 147 decaimento 50;
 #X msg 19 124 ataque 50;
 #X msg 124 11 onda desliga;
-#X msg 64 301 notas 62 130.435 62 130.435 74 260.87 69 391.305 68 260.87
-67 260.87 65 260.87 62 130.435 65 130.435 67 130.435 60;
 #X msg 49 338 notas 62 130.435 74 260.87 69 391.305 68 260.87 67 260.87
 65 260.87 62 130.435 65 130.435 67 130.435 60 130.435 60 130.435 74
 260.87 69 391.305 68 260.87 67 260.87 65 260.87 62 130.435 65 130.435
@@ -20,12 +18,12 @@
 74 260.87 69 391.305 68 260.87 67 260.87 65 260.87 62 130.435 65 130.435
 67 130.435;
 #X obj 196 163 hsl 128 15 0 126 0 0 empty empty Frequencia -2 -8 0
-10 -262144 -1 -1 5400 1;
+10 -262144 -1 -1 7500 1;
 #X obj 220 197 sig~;
 #X floatatom 157 205 5 0 0 0 - - -;
 #X msg 24 213 finaliza;
 #X obj 381 170 hsl 128 15 0 1 0 0 empty empty Amplitude -2 -8 0 10
--262144 -1 -1 5400 1;
+-262144 -1 -1 4500 1;
 #X obj 316 202 sig~;
 #X floatatom 428 104 5 0 0 0 - - -;
 #X text 522 366 processamento de notas temporariamente desligado;
@@ -42,13 +40,12 @@
 #X connect 9 0 0 0;
 #X connect 10 0 0 0;
 #X connect 11 0 0 0;
-#X connect 12 0 0 0;
-#X connect 13 0 14 0;
-#X connect 13 0 15 0;
-#X connect 14 0 0 1;
-#X connect 16 0 0 0;
-#X connect 17 0 18 0;
-#X connect 17 0 19 0;
-#X connect 18 0 0 2;
+#X connect 12 0 13 0;
+#X connect 12 0 14 0;
+#X connect 13 0 0 1;
+#X connect 15 0 0 0;
+#X connect 16 0 17 0;
+#X connect 16 0 18 0;
+#X connect 17 0 0 2;
+#X connect 20 0 0 0;
 #X connect 21 0 0 0;
-#X connect 22 0 0 0;
