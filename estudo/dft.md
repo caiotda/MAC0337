@@ -68,11 +68,11 @@ Note que teve uma mudança de sinal ali. Isso acontece pela definição de produ
 
 A **equação de síntese** (ou IDFT - Transformada discreta de fourier inversa ) simplesmente combina linearmente os coeficientes com as exponenciais complexas: 
 $$
-x[n] = \frac{1}{N}\sum_{f=0}^{N-1}x[f]*exp\_f[n]
+x[n] = \frac{1}{N}\sum_{f=0}^{N-1}y[f]*exp\_f[n]
 \\
 \therefore
 \\
-x[n] = \frac{1}{N}\sum_{f=0}^{N-1}x[f]*(cos\_f[n] + i * sen\_f[n])
+x[n] = \frac{1}{N}\sum_{f=0}^{N-1}y[f]*(cos\_f[n] + i * sen\_f[n])
 $$
 Assim, conseguimos montar uma representação **espectral** Y para qualquer sinal de entrada e reverter isso em uma representação **temporal** usando IDFT. A construção e reconstrução é perfeita.
 
