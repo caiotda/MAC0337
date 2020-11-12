@@ -1,10 +1,8 @@
-### Aula de 16/10
-
-Topicos abordados:
-
-
+### Convolução e filtros
 
 * Teorema da convolução
+* Diferentes tipos de janelamento
+* Breve introdução a filtros
 
 ***
 
