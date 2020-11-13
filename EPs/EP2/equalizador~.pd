@@ -1,4 +1,4 @@
-#N canvas 961 56 959 984 10;
+#N canvas 951 56 959 984 10;
 #X obj 46 264 inlet~;
 #X obj 47 556 outlet~;
 #X obj 46 333 *~ 1;
@@ -21,66 +21,35 @@
 #X obj 142 439 2polos2zeros~ 0.8223 2.3562;
 #X obj 174 483 2polos2zeros~ 0.6682 3.1416;
 #X obj 110 396 2polos2zeros~ 0.7836 1.5708;
-#X obj 305 124 loadbang;
-#X msg 305 147 args;
-#X obj 305 170 pdcontrol;
+#X obj 412 169 loadbang;
+#X msg 412 192 args;
+#X obj 412 215 pdcontrol;
 #X text 44 11 Nome: Caio Túlio de Deus Andrade;
 #X text 306 12 NUSP:9797232;
-#N canvas 101 355 450 300 calcula_phis 0;
+#N canvas 0 56 959 463 calcula_phis 0;
 #X obj 165 53 inlet;
 #X obj 165 76 ofelia f \; phi = ofTable() \; for i=1 \, #a do \; phi[i]
 = 2 * math.pi * a[i]/ 44000 \; end \; return phi \;;
 #X obj 166 164 outlet;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X restore 295 207 pd calcula_phis;
+#X restore 403 252 pd calcula_phis;
 #X text 467 97 Dado frequencias centrais \, calcula phi[f] = 2 pi *
 f / R;
-#X obj 741 758 Botimo;
-#N canvas 0 56 450 300 calcula_phi_medio 0;
-#X obj 128 95 ofelia f \; phis = a \; i = 2 \; phi1 = phis[i] \; if
-phi1 < math.pi/2 then \; phi2 = phis[i+1] \; else phi2 = phis[i-1]
-end \; phi_m = (phi1 + phi2)/2 \; print(phi1) \; print(phi2) \; print(phi_m)
-\;;
-#X obj 128 248 outlet;
-#X obj 122 59 inlet;
-#X connect 0 0 1 0;
-#X connect 2 0 0 0;
-#X restore 254 758 pd calcula_phi_medio;
-#X floatatom 588 249 5 0 0 0 - - -;
-#X msg 627 200 2;
-#X obj 624 168 loadbang;
-#X obj 477 764 array;
-#N canvas 0 56 450 300 seleciona-phi 0;
-#X msg 241 110 mode nth 1;
-#X obj 139 115 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 317 174 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 2 256;
-#X floatatom 213 228 5 0 0 0 - - -;
-#X obj 213 205 cyclone/zl nth 1;
-#X obj 197 14 inlet;
-#X obj 345 51 inlet;
-#X obj 34 30 inlet;
-#X obj 215 273 outlet;
-#X connect 0 0 4 0;
-#X connect 1 0 4 0;
-#X connect 2 0 4 1;
-#X connect 3 0 8 0;
-#X connect 4 0 3 0;
-#X connect 5 0 4 0;
-#X connect 6 0 2 0;
-#X connect 7 0 1 0;
-#X restore 254 687 pd seleciona-phi;
-#X obj 213 600 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X floatatom 372 628 5 0 0 0 - - -;
-#X floatatom 254 710 5 0 0 0 - - -;
-#X obj 364 277 pack;
-#X obj 364 300 print;
-#X floatatom 563 352 5 0 0 0 - - -;
-#X floatatom 763 351 5 0 0 0 - - -;
-#X obj 618 429 ofelia f -c21 print(a[0] \, a[1]) \;;
+#X obj 465 378 print;
+#X obj 403 294 trigger l l;
+#X obj 365 342 print;
+#X floatatom 412 534 5 0 0 0 - - -;
+#N canvas 921 56 959 463 calcula_media 0;
+#X obj 181 68 inlet;
+#X obj 157 299 outlet;
+#X obj 160 96 ofelia f \; media = ofTable() \; succ = 0 \; for i=1
+\, #a do \; if a[i] < math.pi/2 then \; succ = a[i+1] \; else \; succ
+= a[i-1] \; end \; media[i] = (a[i] + succ)/2 end \; return media \;
+;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X restore 466 331 pd calcula_media;
 #X connect 0 0 12 0;
 #X connect 0 0 13 0;
 #X connect 0 0 14 0;
@@ -104,15 +73,7 @@ end \; phi_m = (phi1 + phi2)/2 \; print(phi1) \; print(phi2) \; print(phi_m)
 #X connect 17 0 18 0;
 #X connect 18 0 19 0;
 #X connect 19 0 22 0;
-#X connect 22 0 30 1;
-#X connect 22 0 34 0;
-#X connect 26 0 34 1;
-#X connect 27 0 26 0;
-#X connect 28 0 27 0;
-#X connect 30 0 33 0;
-#X connect 31 0 30 0;
-#X connect 32 0 30 2;
-#X connect 34 0 35 0;
-#X connect 36 0 38 0;
-#X connect 37 0 38 1;
+#X connect 22 0 25 0;
+#X connect 25 1 28 0;
+#X connect 28 0 24 0;
 #X coords 0 -1 1 1 180 180 1 50 50;
