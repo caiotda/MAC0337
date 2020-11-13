@@ -1,2 +1,86 @@
-#N canvas 869 265 450 300 12;
-#X obj 45 82 equalizador~ 0 2756.25 5512.5 11025 22050;
+#N canvas 0 55 1920 985 12;
+#X declare -lib zexy;
+#X text 121 343 produz um impulso discreto;
+#X obj 103 348 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10
+-262144 -262144 -1;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_resp_imp 64 float 0;
+#X coords 0 1 63 -1 200 140 1 0 0;
+#X restore 405 566 graph;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_resp_freq 64 float 0;
+#X coords 0 10 63 0 200 140 1 0 0;
+#X restore 642 568 graph;
+#X obj 103 367 tabplay~ \$0F_impulso;
+#N canvas 0 0 450 300 \$0F_plota 0;
+#X obj 73 147 fft~;
+#X obj 73 176 cyclone/cartopol~;
+#X obj 94 84 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#X obj 82 207 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10 -262144
+-262144 -1;
+#X obj 84 105 tabwrite~ \$0F_resp_imp;
+#X obj 74 225 tabwrite~ \$0F_resp_freq;
+#X obj 74 31 inlet~;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 6 0 4 0;
+#X connect 6 0 0 0;
+#X restore 217 857 pd \$0F_plota;
+#X obj 171 188 tgl 24 0 empty \$0F_liga_r LIGA 28 12 0 18 -262130 -1
+-1 0 1;
+#X obj 171 217 switch~;
+#N canvas 1166 297 533 342 \$0F_init 0;
+#X obj 36 108 loadbang;
+#X obj 36 165 metro 100;
+#N canvas 0 0 450 250 (subpatch) 0;
+#X array \$0F_impulso 2 float 2;
+#X coords 0 1 2 -1 200 140 1 0 0;
+#X restore 287 70 graph;
+#X obj 36 136 t b b;
+#X obj 83 195 f \$0;
+#X obj 36 195 bng 15 250 50 0 \$0D_atualiza empty empty 17 7 0 10 -262144
+-262144 -1;
+#X text 286 16 impulso discreto;
+#X text 38 16 inicializa impulso discreto e gera 10 bangs/segundo (send/rec
+atualiza), f 21;
+#X msg 83 224 \; \$1F_impulso 0 1 0 \; \$1F_liga_r 0 \; pd dsp 1;
+#X connect 0 0 3 0;
+#X connect 1 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 1 4 0;
+#X connect 4 0 8 0;
+#X restore 171 240 pd \$0F_init;
+#X obj 170 264 declare -lib zexy;
+#X obj 103 458 multiplex~;
+#X obj 103 443 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 170 418 noise~;
+#X obj 186 752 dac~;
+#X obj 345 458 multiplex~;
+#X obj 345 443 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 412 418 noise~;
+#X obj 524 135 equalizador-orig~;
+#X obj 217 819 multiplex~;
+#X obj 217 803 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 102 529 equalizador~ 0 5512.5 11025 16537.5 22049;
+#X connect 1 0 4 0;
+#X connect 4 0 10 0;
+#X connect 6 0 7 0;
+#X connect 10 0 17 0;
+#X connect 10 0 20 0;
+#X connect 11 0 10 0;
+#X connect 12 0 10 1;
+#X connect 15 0 14 0;
+#X connect 16 0 14 1;
+#X connect 17 0 18 1;
+#X connect 18 0 5 0;
+#X connect 18 0 13 0;
+#X connect 19 0 18 0;
+#X connect 20 0 18 0;
+#X connect 20 1 13 1;
