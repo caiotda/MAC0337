@@ -1,4 +1,4 @@
-#N canvas 0 55 1920 985 12;
+#N canvas 0 56 1920 985 12;
 #X declare -lib zexy;
 #X text 121 343 produz um impulso discreto;
 #X obj 103 348 bng 15 250 50 0 empty \$0D_atualiza empty 17 7 0 10
@@ -56,7 +56,7 @@ atualiza), f 21;
 #X restore 171 240 pd \$0F_init;
 #X obj 170 264 declare -lib zexy;
 #X obj 103 458 multiplex~;
-#X obj 103 443 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 103 443 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 170 418 noise~;
 #X obj 186 752 dac~;
@@ -66,7 +66,7 @@ atualiza), f 21;
 #X obj 412 418 noise~;
 #X obj 524 135 equalizador-orig~;
 #X obj 217 819 multiplex~;
-#X obj 217 803 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 217 803 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 102 529 equalizador~ 0 5512.5 11025 16537.5 22049;
 #X connect 1 0 4 0;
