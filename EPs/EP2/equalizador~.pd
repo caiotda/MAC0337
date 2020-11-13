@@ -37,13 +37,14 @@
 #X text 549 25 Dado frequencias centrais \, calcula phi[f] = 2 pi *
 f / R;
 #X obj 513 176 trigger l l;
-#N canvas 921 56 959 463 calcula_media 0;
-#X obj 181 68 inlet;
-#X obj 157 299 outlet;
-#X obj 160 96 ofelia f \; media = ofTable() \; succ = 0 \; for i=1
+#N canvas 552 277 959 463 calcula_media 1;
+#X obj 336 43 inlet;
+#X obj 334 360 outlet;
+#X obj 336 80 ofelia f \; media = ofTable() \; succ = 0 \; for i=1
 \, #a do \; if a[i] < math.pi/2 then \; succ = a[i+1] \; else \; succ
-= a[i-1] \; end \; media[i] = (a[i] + succ)/2 end \; return media \;
-;
+= a[i-1] \; end \; media[i] = (a[i] + succ)/2 \; end \; if a[5] < math.pi/2
+then \; media[5] = (a[5] + math.pi)/2 end \; if a[1] >= math.pi/2 then
+\; media[1] = (a[1]/2) \; end \; return media \;;
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 670 201 pd calcula_media;
