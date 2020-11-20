@@ -1,0 +1,17 @@
+#N canvas 961 56 959 984 12;
+#N canvas 1178 123 725 454 metapatch 1;
+#X msg 46 60 \; pd-teclado.pd obj 109 129 tgl 15 0 empty empty empty
+17 7 0 10 -262144 -1 -1 0 1 \; pd-teclado.pd obj 109 149 sel 1 \; pd-teclado.pd
+msg 109 174 1 25 \; pd-teclado.pd obj 109 199 line~ \; pd-teclado.pd
+obj 109 224 *~ \; pd-teclado.pd obj 109 249 throw~ sinal \; pd-teclado.pd
+msg 167 175 0 250 \; pd-teclado.pd obj 167 198 osc~ 440 \; pd-teclado.pd
+obj 109 300 catch~ sinal \; pd-teclado.pd obj 109 400 dac~ \; pd-teclado.pd
+connect 1 0 2 0 \; pd-teclado.pd connect 2 1 7 0 \; pd-teclado.pd connect
+2 0 3 0 \; pd-teclado.pd connect 3 0 4 0 \; pd-teclado.pd connect 4
+0 5 0 \; pd-teclado.pd connect 5 0 6 0 \; pd-teclado.pd connect 7 0
+4 0 \; pd-teclado.pd connect 8 0 5 1 \; pd-teclado.pd connect 9 0 10
+0 \; pd-teclado.pd coords 0 -1 1 1 45 45 1 100 100 \;;
+#X obj 46 29 loadbang;
+#X connect 1 0 0 0;
+#X restore 366 540 pd metapatch;
+#X coords 0 -1 1 1 45 45 1 100 100;
