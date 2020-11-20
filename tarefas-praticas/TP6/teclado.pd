@@ -1,49 +1,50 @@
 #N canvas 0 56 959 984 12;
 #N canvas 961 56 959 984 metapatch 1;
-#X msg 93 109 1 109 440 1;
 #X text 402 77 M X F A: M = indice do toggle X = Posição X do toggle
 F = frequencia da tecla A = Amplitude da tecla;
-#X obj 49 221 print;
-#X obj 95 153 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
-\, a[2] + 60 \, a[1] + 1 \, a[1] + 2 \, a[1] + 3 \, a[1] + 4 \, a[1]
-+ 5 \, a[1] + 6 \, a[1] + 7 \, a[1] + 8 \, a[1] + 9 );
-#X f 100;
-#X obj 90 60 loadbang;
-#X msg 97 228 \; pd-teclado.pd obj \$2 129 tgl 15 0 empty empty empty
+#X obj 94 69 loadbang;
+#X obj 94 110 f \$1;
+#X floatatom 94 141 5 0 0 0 - - -;
+#X msg 414 409 \; pd-teclado.pd obj \$2 129 tgl 15 0 empty empty empty
 17 7 0 10 -262144 -1 -1 0 1 \; pd-teclado.pd obj \$2 149 sel 1 \; pd-teclado.pd
 msg \$2 174 \$4 25 \; pd-teclado.pd obj \$2 199 line~ \; pd-teclado.pd
 obj \$2 224 *~ \; pd-teclado.pd obj \$2 249 throw~ sinal \; pd-teclado.pd
 msg \$5 175 0 250 \; pd-teclado.pd obj \$5 198 osc~ \$3 \; pd-teclado.pd
-obj \$2 300 catch~ sinal \; pd-teclado.pd obj \$2 400 dac~ \; pd-teclado.pd
 connect \$1 0 \$6 0 \; pd-teclado.pd connect \$6 1 \$11 0 \; pd-teclado.pd
 connect \$6 0 \$7 0 \; pd-teclado.pd connect \$7 0 \$8 0 \; pd-teclado.pd
 connect \$8 0 \$9 0 \; pd-teclado.pd connect \$9 0 \$10 0 \; pd-teclado.pd
-connect \$11 0 \$8 0 \; pd-teclado.pd connect \$12 0 \$9 1 \; pd-teclado.pd
-connect \$13 0 \$14 0 \; pd-teclado.pd coords 0 -1 1 1 45 45 1 100
-100 \;;
-#X connect 0 0 3 0;
-#X connect 3 0 2 0;
-#X connect 3 0 5 0;
-#X connect 4 0 0 0;
-#X restore 366 540 pd metapatch;
-#X obj 109 129 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 109 149 sel 1;
-#X msg 109 174 1 25;
-#X obj 109 199 line~;
-#X obj 109 224 *~;
-#X obj 109 249 throw~ sinal;
-#X msg 169 175 0 250;
-#X obj 169 198 osc~ 440;
-#X obj 109 300 catch~ sinal;
-#X obj 109 400 dac~;
+connect \$11 0 \$8 0 \; pd-teclado.pd connect \$12 0 \$9 1 \;;
+#X obj 414 352 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
+\, a[2] + 60 \, a[1] + 1 \, a[1] + 2 \, a[1] + 3 \, a[1] + 4 \, a[1]
++ 5 \, a[1] + 6 \, a[1] + 7 \, a[1] + 8);
+#X f 100;
+#X msg 416 317 \$1 \$2 \$3 \$4;
+#X obj 414 161 ofelia f \; local out=ofOutlet(this) \; for k=1 \, a
+do \; m = 8*(k-1) + 1 \; X = 20 + 150*(k-1) \; F = 440*2^(k-1) \; A
+= 1/a \; out:outletList(0 \, ofTable(m \, X \, F \, A)) \; end \;;
+#X obj 65 185 t f f;
+#X obj 65 230 expr $f1*8 + 1;
+#X floatatom 68 261 5 0 0 0 - - -;
+#X obj 68 302 ofelia f \; return ofTable(a \, a+1);
+#X msg 74 359 \; pd-teclado.pd obj 277 330 catch~ sinal \; pd-teclado.pd
+obj 276 361 dac~ \; pd-teclado.pd connect \$1 0 \$2 0 \; pd-teclado.pd
+connect \$1 0 \$2 1 \;;
+#X msg 41 791 \; pd-teclado.pd coords 0 -1 1 1 \$1 45 1 15 100 \;;
+#X msg 230 66 5;
+#X obj 36 733 expr 35 + 150*($f1 - 1);
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
-#X connect 2 1 7 0;
-#X connect 3 0 4 0;
-#X connect 4 0 5 0;
-#X connect 5 0 6 0;
-#X connect 7 0 4 0;
-#X connect 8 0 5 1;
+#X connect 3 0 8 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 0;
+#X connect 8 0 9 0;
+#X connect 8 0 15 0;
+#X connect 8 1 7 0;
 #X connect 9 0 10 0;
-#X coords 0 -1 1 1 45 45 1 100 100;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 14 0 3 0;
+#X connect 15 0 13 0;
+#X restore 582 577 pd metapatch;
+#X coords 0 -1 1 1 635 45 1 15 100;
