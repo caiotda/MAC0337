@@ -1,2 +1,2 @@
 #N canvas 0 56 959 984 12;
-#X obj 161 84 teclado 5;
+#X obj 49 123 teclado 9;
