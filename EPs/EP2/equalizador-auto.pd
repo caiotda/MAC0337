@@ -1,73 +1,78 @@
 #N canvas 0 56 1920 985 12;
-#N canvas 598 148 959 984 meta 1;
+#N canvas 923 476 1920 985 meta 1;
 #X obj 317 29 loadbang;
 #X msg 316 55 args;
 #X obj 315 79 pdcontrol;
 #X obj 474 46 metro 500;
-#X obj 62 178 ofelia f \; phi = ofTable() \; for i=1 \, #a do \; phi[i]
+#X obj 53 152 ofelia f \; phi = ofTable() \; for i=1 \, #a do \; phi[i]
 = 2 * math.pi * a[i]/ 44000 \; end \; return phi \;;
 #X text 311 218 Calcula psis;
-#X obj 174 753 Botimo;
-#X obj 795 419 print labels;
+#X obj 172 847 Botimo;
 #X obj 315 109 t l l b;
 #X msg 679 119 \; pd-equalizador-auto.pd obj 12 253 inlet~ \; pd-equalizador-auto.pd
 obj 82 733 outlet~ \; pd-equalizador-auto.pd obj 163 733 outlet~ \;
 ;
+#X msg 743 399 \; pd-equalizador-auto.pd obj \$2 141 vsl 15 128 1e-05
+1 0 0 empty empty \$1khz 0 -9 0 10 -262144 -1 -1 0 1 \;;
+#X msg 89 823 \$2;
+#X msg 50 823 \$1;
+#X msg 129 825 \$4;
+#X msg 172 822 \$4 \$3;
+#X obj 428 646 t l l, f 61;
+#X msg 230 821 \$5;
+#X msg 852 672 \$1 \$2 \$5;
+#X msg 852 736 \; pd-equalizador-auto.pd obj \$1 \$2 *~ \; pd-equalizador-auto.pd
+connect \$3 0 2 0 \; pd-equalizador-auto.pd connect \$3 0 3 0 \;;
+#X obj 852 697 ofelia f \; return ofTable(a[1] - 30 \, a[2] + 50 \,
+a[3]);
 #X obj 743 248 ofelia f \; local o=ofOutlet(this) \; local x = 72 \;
 for i=1 \, #a do \; label = math.ceil(a[i]/1000) \; o:outletAnything(0
 \, ofTable(label \, x)) \; x = x + 35 \; end \;;
-#X msg 754 511 \; pd-equalizador-auto.pd obj \$2 141 vsl 15 128 1e-05
-1 0 0 empty empty \$1khz 0 -9 0 10 -262144 -1 -1 0 1 \;;
-#X obj 439 372 ofelia f \; return #a;
-#X msg 435 506 \$1, f 2;
-#X obj 54 288 ofelia f \; local media = 0 \; local succ = 0 \; local
-x = 92 \; local y = 320 \; local o=ofOutlet(this) \; local tamanho
-= #a \; for i=1 \, #a do \; if i==1 and a[1] >= math.pi/2 then \; media
-= (a[1]/2) \; end \; if a[i] < math.pi/2 then \; if i==tamanho then
-\; succ = math.pi else \; succ = a[i+1] \; end \; else \; if i==1 then
-\; succ = 0 else \; succ = a[i-1] \; end end \; media = (a[i] + succ)/2
-\; o:outletAnything(0 \, ofTable(x \, y \, media \, a[i])) \; x = x
-+ 30 \; y = y + 30 \; end \;;
-#X obj 78 791 pack 0 0 0 0;
-#X msg 92 723 \$2;
-#X msg 53 723 \$1;
-#X obj 54 687 t a a a a;
-#X msg 132 725 \$4;
-#X msg 172 728 \$4 \$3;
-#X msg 514 746 \; pd-equalizador-auto.pd obj \$1 \$2 2polos2zeros~
-\$4 \$3;
-#X obj 433 700 t l l;
-#X obj 355 838 pack;
-#X msg 355 863 \; pd-equalizador-auto.pd obj \$1 \$2 *~;
-#X obj 355 788 expr $f1-30 \; $f2 + 50 \;;
-#X obj 287 834 print;
+#X obj 67 762 t a a a a a a;
+#X msg 285 825 \$6;
+#X obj 96 947 pack 0 0 0 0 0 0;
+#X obj 428 669 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
+\, a[5] \, a[5] + 1 \, a[6]);
+#X msg 426 708 \; pd-equalizador-auto.pd obj \$1 \$2 2polos2zeros~
+\$4 \$3 \; pd-equalizador-auto.pd connect \$6 0 \$5 1 \; pd-equalizador-auto.pd
+connect 1 0 \$6 0 \; pd-equalizador-auto.pd connect \$7 0 \$5 0 \;
+;
+#X obj 45 272 ofelia f \; local media = 0 \; local succ = 0 \; local
+id = #a + 4 \; local vsl_id = 4 \; local x = 92 \; local y = 320 \;
+local o=ofOutlet(this) \; local tamanho = #a \; for i=1 \, #a do \;
+if i==1 and a[1] >= math.pi/2 then \; media = (a[1]/2) \; end \; if
+a[i] < math.pi/2 then \; if i==tamanho then \; succ = math.pi else
+\; succ = a[i+1] \; end \; else \; if i==1 then \; succ = 0 else \;
+succ = a[i-1] \; end end \; media = (a[i] + succ)/2 \; o:outletAnything(0
+\, ofTable(x \, y \, media \, a[i] \, id \, vsl_id)) \; x = x + 30
+\; y = y + 30 \; id = id + 2 \; vsl_id = vsl_id + 1 \; end \;;
 #X connect 0 0 1 0;
 #X connect 0 0 3 0;
 #X connect 1 0 2 0;
-#X connect 2 0 8 0;
-#X connect 4 0 14 0;
-#X connect 6 0 15 3;
-#X connect 8 0 4 0;
-#X connect 8 0 12 0;
-#X connect 8 1 10 0;
-#X connect 8 2 9 0;
-#X connect 10 0 7 0;
-#X connect 10 0 11 0;
-#X connect 12 0 13 0;
-#X connect 14 0 18 0;
-#X connect 15 0 22 0;
-#X connect 16 0 15 1;
-#X connect 17 0 15 0;
+#X connect 2 0 7 0;
+#X connect 4 0 25 0;
+#X connect 6 0 22 3;
+#X connect 7 0 4 0;
+#X connect 7 1 19 0;
+#X connect 7 2 8 0;
+#X connect 10 0 22 1;
+#X connect 11 0 22 0;
+#X connect 12 0 22 2;
+#X connect 13 0 6 0;
+#X connect 14 0 23 0;
+#X connect 14 1 16 0;
+#X connect 15 0 22 4;
+#X connect 16 0 18 0;
 #X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 18 2 19 0;
-#X connect 18 3 20 0;
-#X connect 19 0 15 2;
-#X connect 20 0 6 0;
-#X connect 22 0 25 0;
-#X connect 22 1 21 0;
+#X connect 19 0 9 0;
+#X connect 20 0 11 0;
+#X connect 20 1 10 0;
+#X connect 20 2 12 0;
+#X connect 20 3 13 0;
+#X connect 20 4 15 0;
+#X connect 20 5 21 0;
+#X connect 21 0 22 5;
+#X connect 22 0 14 0;
 #X connect 23 0 24 0;
-#X connect 25 0 23 0;
-#X connect 25 0 26 0;
-#X connect 25 1 23 1;
+#X connect 25 0 20 0;
 #X restore 8 4 pd meta;
