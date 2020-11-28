@@ -1,26 +1,13 @@
 #N canvas 961 56 959 984 12;
-#N canvas 961 56 959 984 meta 1;
-#X obj 64 22 loadbang;
-#X msg 68 116 args;
-#X obj 64 218 pdcontrol;
-#X obj 84 59 metro 500;
-#X obj 155 268 ofelia f \; return #a \;;
-#X floatatom 242 206 5 0 0 0 - - -;
-#X text 118 154 Quantidade de args;
-#X msg 576 84 \; pd-equalizador-auto.pd obj 200 300 unpack 0 0 0 0
-\;;
-#X obj 50 315 ofelia f \; phi = ofTable() \; for i=1 \, #a do \; phi[i]
+#N canvas 0 56 959 984 meta 1;
+#X obj 317 29 loadbang;
+#X msg 316 55 args;
+#X obj 315 79 pdcontrol;
+#X obj 474 46 metro 500;
+#X obj 62 178 ofelia f \; phi = ofTable() \; for i=1 \, #a do \; phi[i]
 = 2 * math.pi * a[i]/ 44000 \; end \; return phi \;;
-#X text 307 336 Calcula psis;
-#X msg 533 254 1.5 2.4 3.9 5.9;
-#X obj 532 307 ofelia f \; local o=ofOutlet(this) \; for n = 1 \, #a
-do \; o:outletAnything(0 \, ofTable(a[n] \, 2.33)) \; end \;;
-#X f 48;
-#X obj 273 279;
-#X obj 527 423 t a a;
-#X obj 588 470 print right;
-#X obj 509 480 print left;
-#X obj 51 445 ofelia f \; local media = 0 \; local succ = 0 \; local
+#X text 311 218 Calcula psis;
+#X obj 57 281 ofelia f \; local media = 0 \; local succ = 0 \; local
 x = 300 \; local y = 400 \; local o=ofOutlet(this) \; local tamanho
 = #a \; for i=1 \, #a do \; if i==1 and a[1] >= math.pi/2 then \; media
 = (a[1]/2) \; end \; if a[i] < math.pi/2 then \; if i==tamanho then
@@ -28,24 +15,41 @@ x = 300 \; local y = 400 \; local o=ofOutlet(this) \; local tamanho
 \; succ = 0 else \; succ = a[i-1] \; end end \; media = (a[i] + succ)/2
 \; o:outletAnything(0 \, ofTable(x \, y \, media \, a[i])) \; x = x
 + 300 \; end \;;
-#X obj 49 878 Botimo;
-#X obj 76 932 pack;
-#X obj 76 957 print;
-#X msg 49 839 \$4 \$3;
-#X msg 114 879 \$1;
+#X obj 114 760 Botimo;
+#X obj 88 792 pack;
+#X obj 88 874 print;
+#X msg 57 674 \$4 \$3;
+#X msg 59 752 \$1;
+#X obj 64 705 t a a;
+#X msg 89 835 \$2 \$1;
+#X text 137 833 (B \, phi);
+#X obj 87 84 print entrada;
+#X obj 541 434 print labels;
+#X obj 315 109 t l l b;
+#X msg 425 134 \; pd-equalizador-auto.pd obj 12 253 inlet~ \; pd-equalizador-auto.pd
+obj 82 733 outlet~ \; pd-equalizador-auto.pd obj 163 733 outlet~ \;
+;
+#X obj 489 263 ofelia f \; local o=ofOutlet(this) \; local x = 72 \;
+for i=1 \, #a do \; label = math.ceil(a[i]/1000) \; o:outletAnything(0
+\, ofTable(label \, x)) \; x = x + 35 \; end \;;
+#X msg 500 526 \; pd-equalizador-auto.pd obj \$2 141 vsl 15 128 1e-05
+1 0 0 empty empty \$1khz 0 -9 0 10 -262144 -1 -1 0 1 \;;
 #X connect 0 0 1 0;
 #X connect 0 0 3 0;
 #X connect 1 0 2 0;
-#X connect 2 0 4 0;
-#X connect 2 0 8 0;
-#X connect 4 0 5 0;
-#X connect 8 0 16 0;
-#X connect 10 0 11 0;
-#X connect 11 0 13 0;
-#X connect 16 0 20 0;
-#X connect 17 0 18 0;
-#X connect 18 0 19 0;
-#X connect 20 0 17 0;
-#X connect 20 0 21 0;
-#X connect 21 0 18 1;
+#X connect 1 0 15 0;
+#X connect 2 0 17 0;
+#X connect 6 0 10 0;
+#X connect 7 0 8 1;
+#X connect 8 0 13 0;
+#X connect 10 0 12 0;
+#X connect 11 0 8 0;
+#X connect 12 0 11 0;
+#X connect 12 1 7 0;
+#X connect 13 0 9 0;
+#X connect 17 0 4 0;
+#X connect 17 1 19 0;
+#X connect 17 2 18 0;
+#X connect 19 0 16 0;
+#X connect 19 0 20 0;
 #X restore 8 4 pd meta;
