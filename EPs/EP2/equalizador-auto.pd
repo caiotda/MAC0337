@@ -1,5 +1,5 @@
 #N canvas 0 56 1920 985 12;
-#N canvas 923 476 1920 985 meta 1;
+#N canvas 120 385 1920 985 meta 1;
 #X obj 317 29 loadbang;
 #X msg 316 55 args;
 #X obj 315 79 pdcontrol;
@@ -8,12 +8,10 @@
 = 2 * math.pi * a[i]/ 44000 \; end \; return phi \;;
 #X text 311 218 Calcula psis;
 #X obj 172 847 Botimo;
-#X obj 315 109 t l l b;
-#X msg 679 119 \; pd-equalizador-auto.pd obj 12 253 inlet~ \; pd-equalizador-auto.pd
+#X obj 340 110 t l l b;
+#X msg 1060 93 \; pd-equalizador-auto.pd obj 12 253 inlet~ \; pd-equalizador-auto.pd
 obj 82 733 outlet~ \; pd-equalizador-auto.pd obj 163 733 outlet~ \;
 ;
-#X msg 743 399 \; pd-equalizador-auto.pd obj \$2 141 vsl 15 128 1e-05
-1 0 0 empty empty \$1khz 0 -9 0 10 -262144 -1 -1 0 1 \;;
 #X msg 89 823 \$2;
 #X msg 50 823 \$1;
 #X msg 129 825 \$4;
@@ -25,9 +23,6 @@ obj 82 733 outlet~ \; pd-equalizador-auto.pd obj 163 733 outlet~ \;
 connect \$3 0 2 0 \; pd-equalizador-auto.pd connect \$3 0 3 0 \;;
 #X obj 852 697 ofelia f \; return ofTable(a[1] - 30 \, a[2] + 50 \,
 a[3]);
-#X obj 743 248 ofelia f \; local o=ofOutlet(this) \; local x = 72 \;
-for i=1 \, #a do \; label = math.ceil(a[i]/1000) \; o:outletAnything(0
-\, ofTable(label \, x)) \; x = x + 35 \; end \;;
 #X obj 67 762 t a a a a a a;
 #X msg 285 825 \$6;
 #X obj 96 947 pack 0 0 0 0 0 0;
@@ -46,33 +41,44 @@ a[i] < math.pi/2 then \; if i==tamanho then \; succ = math.pi else
 succ = a[i-1] \; end end \; media = (a[i] + succ)/2 \; o:outletAnything(0
 \, ofTable(x \, y \, media \, a[i] \, id \, vsl_id)) \; x = x + 30
 \; y = y + 30 \; id = id + 2 \; vsl_id = vsl_id + 1 \; end \;;
+#X msg 465 262 \; pd-equalizador-auto.pd coords 0 -1 1 1 \$1 180 1
+100 100 \;;
+#X msg 1081 331 \; pd-equalizador-auto.pd obj \$2 140 vsl 15 128 1e-05
+1 0 0 empty empty \$1khz 0 -9 0 10 -262144 -1 -1 0 1 \;;
+#X obj 465 215 ofelia f \; return #a*35 + 70 \;;
+#X obj 1081 180 ofelia f \; local o=ofOutlet(this) \; local x = 101
+\; for i=1 \, #a do \; label = math.ceil(a[i]/1000) \; o:outletAnything(0
+\, ofTable(label \, x)) \; x = x + 55 \; end \;;
 #X connect 0 0 1 0;
 #X connect 0 0 3 0;
 #X connect 1 0 2 0;
 #X connect 2 0 7 0;
-#X connect 4 0 25 0;
-#X connect 6 0 22 3;
+#X connect 4 0 23 0;
+#X connect 6 0 20 3;
 #X connect 7 0 4 0;
-#X connect 7 1 19 0;
+#X connect 7 1 26 0;
+#X connect 7 1 27 0;
 #X connect 7 2 8 0;
-#X connect 10 0 22 1;
-#X connect 11 0 22 0;
-#X connect 12 0 22 2;
-#X connect 13 0 6 0;
-#X connect 14 0 23 0;
-#X connect 14 1 16 0;
-#X connect 15 0 22 4;
-#X connect 16 0 18 0;
-#X connect 18 0 17 0;
-#X connect 19 0 9 0;
-#X connect 20 0 11 0;
-#X connect 20 1 10 0;
-#X connect 20 2 12 0;
-#X connect 20 3 13 0;
-#X connect 20 4 15 0;
-#X connect 20 5 21 0;
-#X connect 21 0 22 5;
-#X connect 22 0 14 0;
-#X connect 23 0 24 0;
-#X connect 25 0 20 0;
-#X restore 8 4 pd meta;
+#X connect 9 0 20 1;
+#X connect 10 0 20 0;
+#X connect 11 0 20 2;
+#X connect 12 0 6 0;
+#X connect 13 0 21 0;
+#X connect 13 1 15 0;
+#X connect 14 0 20 4;
+#X connect 15 0 17 0;
+#X connect 17 0 16 0;
+#X connect 18 0 10 0;
+#X connect 18 1 9 0;
+#X connect 18 2 11 0;
+#X connect 18 3 12 0;
+#X connect 18 4 14 0;
+#X connect 18 5 19 0;
+#X connect 19 0 20 5;
+#X connect 20 0 13 0;
+#X connect 21 0 22 0;
+#X connect 23 0 18 0;
+#X connect 26 0 24 0;
+#X connect 27 0 25 0;
+#X restore 8 5 pd meta;
+#X coords 0 985 1 984 245 180 0;
