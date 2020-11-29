@@ -1,5 +1,5 @@
 #N canvas 512 57 959 984 12;
-#N canvas 0 56 1920 985 meta 1;
+#N canvas 0 56 1920 985 meta 0;
 #X obj 317 29 loadbang;
 #X msg 316 55 args;
 #X obj 315 79 pdcontrol;
@@ -34,7 +34,7 @@ tambem o conecta com o objeto multiplicativo e recebe o inlet;
 connect 1 0 \$6 0 \; pd-equalizador-auto.pd connect \$7 0 \$5 1 \;
 ;
 #X obj 96 947 pack f f f f f f;
-#X msg 450 462 \; pd-2polos2zeros~.pd loadbang;
+#X msg 468 456 \; pd-2polos2zeros~.pd loadbang;
 #X msg 1385 552 \; pd-equalizador-auto.pd obj \$1 \$2 *~ 0 \; pd-equalizador-auto.pd
 connect \$3 0 2 0 \;;
 #X obj 45 272 ofelia f \; local media = 0 \; local succ = 0 \; local

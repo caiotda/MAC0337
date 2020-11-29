@@ -1,0 +1,46 @@
+#N canvas 0 371 661 708 10;
+#X obj 53 27 inlet;
+#X obj 53 667 outlet;
+#X msg 91 112 0 0.392699;
+#X floatatom 105 667 10 0 0 0 - - -;
+#X msg 171 112 0.785398 1.1781;
+#X msg 488 112 3.14159 2.74889;
+#X text 89 93 valores de exemplo usados para calibrar os filtros do
+[equalizador~] linear., f 76;
+#X text 423 164 implementação em Lua da busca binária para um valor
+B entre [0...0.999] que satisfaz o critério do decaimento estipulado
+pelo enunciado. B é a magnitude (tentativa) do polo \, fi_1 o ângulo
+do polo (associado à frequência central) e fi_medio o ângulo (associado
+à frequência intermediária) onde queremos que o filtro tenha metade
+da ganho relativo ao pico., f 24;
+#X msg 281 112 1.5708 1.1781;
+#X msg 381 112 2.35619 1.9635;
+#X obj 53 160 ofelia d -c11 \; --[[ função para calcular a diferença
+]] \; --[[ entre os dois lados da equação ]] \; function delta(B
+\, fi_1 \, fi_medio) \; local distZa \, distZb \; --[[ quando os 2
+zeros estão em -1 ]] \; if fi_1<0.001 then distZa \, distZb = 16 \,
+(2+2*math.cos(fi_medio))^2 \; --[[ quando os 2 zeros estão em +1 ]]
+\; elseif fi_1>3.14 then distZa \, distZb = 16 \, (2-2*math.cos(fi_medio))^2
+\; --[[ quando os 2 zeros estão em -1 e +1 ]] \; else distZa \, distZb
+= ((2-2*math.cos(fi_1))*(2+2*math.cos(fi_1))) \, ((2-2*math.cos(fi_medio))*(2+2*math.cos(fi_medio)))
+\; end \; return ((B*math.cos(fi_1)-math.cos(fi_medio))^2+(B*math.sin(fi_1)-math.sin(fi_medio))^2)*((B*math.cos(fi_1)-math.cos(fi_medio))^2+(B*math.sin(fi_1)+math.sin(fi_medio))^2)*distZa
+- 4*(1-B)^2*(1+B^2-2*B*math.cos(2*fi_1))*distZb \; end \; --[[ recebe
+os valores de fi_1 e fi_medio numa lista ]] \; --[[ e obtém B ótimo
+por busca binária ]] \; function ofelia.list(l) \; local fi_1=l[1]
+\; local fi_medio=l[2] \; local B0=0 \; local B1=0.999 \; local B2=0
+\; while math.abs(delta(B0 \, fi_1 \, fi_medio)-delta(B1 \, fi_1 \,
+fi_medio))>1e-4 do \; B2=(B0+B1)/2 \; if delta(B2 \, fi_1 \, fi_medio)<0
+then B0=B2 else B1=B2 end \; end \; return B2 \; end \;;
+#X text 106 27 USO: enviar uma mensagem contendo |fi_1 fi_medio< para
+o inlet \, onde fi_1 é a frequência angular do polo e fi_medio é
+a frequência intermediária onde desejamos que o decaimento produzido
+pelo polo seja 0.5. O outlet produzirá o valor de B que é a magnitude
+do polo que produz o decaimento desejado., f 84;
+#X connect 0 0 10 0;
+#X connect 2 0 10 0;
+#X connect 4 0 10 0;
+#X connect 5 0 10 0;
+#X connect 8 0 10 0;
+#X connect 9 0 10 0;
+#X connect 10 0 1 0;
+#X connect 10 0 3 0;
