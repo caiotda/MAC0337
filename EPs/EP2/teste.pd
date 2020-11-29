@@ -31,7 +31,7 @@
 #X connect 6 0 0 0;
 #X restore 1454 584 pd \$0F_plota;
 #X obj 541 81 tgl 24 0 empty \$0F_liga_r LIGA 28 12 0 18 -262130 -1
--1 1 1;
+-1 0 1;
 #X obj 541 110 switch~;
 #N canvas 1166 297 533 342 \$0F_init 0;
 #X obj 36 108 loadbang;
@@ -56,7 +56,7 @@ atualiza), f 21;
 #X restore 541 133 pd \$0F_init;
 #X obj 540 157 declare -lib zexy;
 #X obj 473 351 multiplex~;
-#X obj 473 336 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 473 336 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 540 311 noise~;
 #X obj 1372 576 dac~;
