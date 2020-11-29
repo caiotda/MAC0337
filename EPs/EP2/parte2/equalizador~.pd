@@ -1,43 +1,62 @@
-#N canvas 512 57 959 984 12;
-#N canvas 0 56 1920 985 meta 0;
-#X obj 317 29 loadbang;
-#X msg 316 55 args;
-#X obj 315 79 pdcontrol;
+#N canvas 961 56 959 984 12;
+#N canvas 0 56 959 984 meta 0;
+#X obj 61 35 loadbang;
+#X msg 60 61 args;
+#X obj 59 85 pdcontrol;
+#N canvas 0 55 1920 985 \$0_gera_IO 0;
+#X msg 89 128 \; pd-equalizador~.pd obj 12 253 inlet~ \; pd-equalizador~.pd
+obj 82 733 outlet~ \; pd-equalizador~.pd obj 600 733 outlet~ \; pd-equalizador~.pd
+obj 680 230 inlet~ \;;
+#X obj 89 97 inlet;
+#X text 140 100 Recebe um bang e gera toda entrada e saida do patch
+;
+#X connect 1 0 0 0;
+#X restore 237 142 pd \$0_gera_IO;
+#N canvas 0 55 1920 985 \$0_gera_VSLs 0;
+#X msg 72 264 \; pd-equalizador~.pd obj \$2 140 vsl 15 128 1e-05 1
+0 0 empty empty \$1khz 0 -9 0 10 -262144 -1 -1 0 1 \;;
+#X obj 72 113 ofelia f \; local o=ofOutlet(this) \; local x = 101 \;
+for i=1 \, #a do \; label = math.ceil(a[i]/1000) \; o:outletAnything(0
+\, ofTable(label \, x)) \; x = x + 35 \; end \;;
+#X obj 72 85 inlet;
+#X text 375 116 Recebe uma lista de frequencias centrais e para cada
+uma gera um slider vertical para controlar a intensidade dessa frequencia
+;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X restore 192 167 pd \$0_gera_VSLs;
+#N canvas 0 56 1920 985 \$0_gera_canvas 0;
+#X msg 51 191 \; pd-equalizador~.pd coords 0 -1 1 1 \$1 180 1 100 100
+\;;
+#X obj 51 144 ofelia f \; return #a*35 + 70 \;;
+#X obj 51 115 inlet;
+#X text 244 99 Recebe uma lista de frequencias. Com o numero de frequencias
+passado por parametro \, gera um canvas largo o bastante para conter
+todos os sliders;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X restore 147 193 pd \$0_gera_canvas;
+#N canvas 0 55 1920 985 \$0_gera_phis 0;
 #X obj 53 152 ofelia f \; phi = ofTable() \; for i=1 \, #a do \; phi[i]
 = 2 * math.pi * a[i]/ 44000 \; end \; return phi \;;
-#X text 311 218 Calcula psis;
-#X obj 172 847 Botimo;
-#X obj 340 110 t l l b;
-#X msg 89 823 \$2;
-#X msg 50 823 \$1;
-#X msg 129 825 \$4;
-#X msg 172 814 \$4 \$3;
-#X msg 230 821 \$5;
-#X msg 1389 481 \$1 \$2 \$5;
-#X obj 1389 506 ofelia f \; return ofTable(a[1] - 30 \, a[2] + 50 \,
-a[3]);
-#X obj 67 762 t a a a a a a;
-#X msg 285 825 \$6;
-#X msg 465 262 \; pd-equalizador~.pd coords 0 -1 1 1 \$1 180 1
-100 100 \;;
-#X msg 1081 331 \; pd-equalizador~.pd obj \$2 140 vsl 15 128 1e-05
-1 0 0 empty empty \$1khz 0 -9 0 10 -262144 -1 -1 0 1 \;;
-#X obj 465 215 ofelia f \; return #a*35 + 70 \;;
-#X obj 1081 180 ofelia f \; local o=ofOutlet(this) \; local x = 101
-\; for i=1 \, #a do \; label = math.ceil(a[i]/1000) \; o:outletAnything(0
-\, ofTable(label \, x)) \; x = x + 35 \; end \;;
-#X text 1398 626 Cria o objeto *~ e conecta-o com cada outlet;
-#X text 895 782 Cria o objeto 2polos2zeros com o botimo e seu phi \,
-tambem o conecta com o objeto multiplicativo e recebe o inlet;
-#X msg 897 699 \; pd-equalizador~.pd obj \$1 \$2 2polos2zeros~
-\$4 \$3 \; pd-equalizador~.pd connect \$6 0 \$5 0 \; pd-equalizador~.pd
-connect 1 0 \$6 0 \; pd-equalizador~.pd connect \$7 0 \$5 1 \;
-;
-#X obj 96 947 pack f f f f f f;
-#X msg 468 456 \; pd-2polos2zeros~.pd loadbang;
-#X msg 1385 552 \; pd-equalizador~.pd obj \$1 \$2 *~ 0 \; pd-equalizador~.pd
-connect \$3 0 2 0 \;;
-#X obj 45 272 ofelia f \; local media = 0 \; local succ = 0 \; local
+#X obj 53 122 inlet;
+#X obj 53 252 outlet;
+#X text 332 171 Recebe uma lista de frequencias centrais e devolve
+a lista correspondente de frequencias angulares;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X restore 102 246 pd \$0_gera_phis;
+#N canvas 0 55 1920 985 \$0_gera_parametros 0;
+#X obj 169 740 Botimo;
+#X msg 133 716 \$2;
+#X msg 114 795 \$1;
+#X msg 151 773 \$4;
+#X msg 169 707 \$4 \$3;
+#X msg 190 770 \$5;
+#X obj 116 655 t a a a a a a, f 14;
+#X msg 241 775 \$6;
+#X obj 114 847 pack f f f f f f, f 17;
+#X obj 116 165 ofelia f \; local media = 0 \; local succ = 0 \; local
 id = #a + 5 \; local vsl_id = 5 \; local x = 92 \; local y = 320 \;
 local o=ofOutlet(this) \; local tamanho = #a \; for i=1 \, #a do \;
 if i==1 and a[1] >= math.pi/2 then \; media = (a[1]/2) \; end \; if
@@ -46,60 +65,120 @@ a[i] < math.pi/2 then \; if i==tamanho then \; succ = math.pi else
 succ = a[i-1] \; end end \; media = (a[i] + succ)/2 \; o:outletAnything(0
 \, ofTable(x \, y \, media \, a[i] \, id \, vsl_id)) \; x = x + 30
 \; y = y + 30 \; id = id + 4 \; vsl_id = vsl_id + 1 \; end \;;
-#X obj 471 408 t b l l l l, f 125;
-#X msg 1038 485 \$1 \$2 \$5;
-#X obj 1038 510 ofelia f \; return ofTable(a[1] + 500 \, a[2] + 50
-\, a[3]+1);
-#X msg 1038 556 \; pd-equalizador~.pd obj \$1 \$2 *~ 0 \; pd-equalizador~.pd
-connect \$3 0 3 0 \;;
-#X obj 899 660 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
+#X obj 115 123 inlet;
+#X obj 114 881 outlet;
+#X text 201 124 Recebe a lista de phis e gera os parametros usados
+para a construção automatica do sintetizador .São eles:;
+#X text 496 177 1) x: Posição horizontal de cada bloco 2polos2zeros
+2) y: posição vertical de cada bloco 2polos2zeros 3) media: phi medio.
+4) a[i]: phi. É combinado com o phi medio para gerar o b otimo 5)
+id: id do bloco *~ que será conectado ao bloco 2polos2zeros 6) vsl_id:
+id do slider vertical que sera conectado ao *~;
+#X text 303 703 Aqui apenas combinamos phi medio com phi \, reorganizamos
+os parametros internos para devolver os parametros prontos para a sintese
+dos blocos;
+#X connect 0 0 8 3;
+#X connect 1 0 8 1;
+#X connect 2 0 8 0;
+#X connect 3 0 8 2;
+#X connect 4 0 0 0;
+#X connect 5 0 8 4;
+#X connect 6 0 2 0;
+#X connect 6 1 1 0;
+#X connect 6 2 3 0;
+#X connect 6 3 4 0;
+#X connect 6 4 5 0;
+#X connect 6 5 7 0;
+#X connect 7 0 8 5;
+#X connect 8 0 11 0;
+#X connect 9 0 6 0;
+#X connect 10 0 9 0;
+#X restore 102 285 pd \$0_gera_parametros;
+#N canvas 0 56 1920 985 \$0_gera_blocos_de_processamento 0;
+#X obj 86 39 inlet;
+#X msg 512 384 \; pd-equalizador~.pd obj \$1 \$2 2polos2zeros~ \$4
+\$3 \; pd-equalizador~.pd connect \$6 0 \$5 0 \; pd-equalizador~.pd
+connect 1 0 \$6 0 \; pd-equalizador~.pd connect \$7 0 \$5 1 \;;
+#X msg 79 143 \; pd-2polos2zeros~.pd loadbang;
+#X obj 79 92 t b l l l l, f 125;
+#X obj 514 344 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
 \, a[5] \, a[5] + 2 \, a[6]);
-#X text 458 850 Cria o objeto 2polos2zeros com o botimo e seu phi \,
-tambem o conecta com o objeto multiplicativo e recebe o inlet;
-#X msg 460 767 \; pd-equalizador~.pd obj \$1 \$2 2polos2zeros~
-\$4 \$3 \; pd-equalizador~.pd connect \$6 0 \$5 0 \; pd-equalizador~.pd
-connect 4 0 \$6 0 \; pd-equalizador~.pd connect \$7 0 \$5 1 \;
-;
-#X obj 460 659 ofelia f \; return ofTable(a[1]+500 \, a[2] \, a[3]
+#X msg 297 555 \; pd-equalizador~.pd obj \$1 \$2 2polos2zeros~ \$4
+\$3 \; pd-equalizador~.pd connect \$6 0 \$5 0 \; pd-equalizador~.pd
+connect 4 0 \$6 0 \; pd-equalizador~.pd connect \$7 0 \$5 1 \;;
+#X obj 297 488 ofelia f \; return ofTable(a[1]+500 \, a[2] \, a[3]
 \, a[4] \, a[5]+1 \, a[5] + 3 \, a[6]);
-#X msg 1061 93 \; pd-equalizador~.pd obj 12 253 inlet~ \; pd-equalizador~.pd
-obj 82 733 outlet~ \; pd-equalizador~.pd obj 600 733 outlet~ \;
-pd-equalizador~.pd obj 680 230 inlet~ \;;
+#X text 199 17 Recebe a lista de parametros e gera cada bloco de processamento
+de audio e faz suas conexões. Além disso \, também criamos os blocos
+de 2polos2zeros com os parametros b otimo e phi calculados anteriormente
+, f 86;
+#N canvas 0 56 1920 985 \$0_gera_multiplicadores_esquerdos 0;
+#X msg 59 116 \$1 \$2 \$5;
+#X obj 59 141 ofelia f \; return ofTable(a[1] - 30 \, a[2] + 50 \,
+a[3]);
+#X msg 55 187 \; pd-equalizador~.pd obj \$1 \$2 *~ 0 \; pd-equalizador~.pd
+connect \$3 0 2 0 \;;
+#X text 86 21 Cria os blocos *~ responsaveis pelo processamento no
+canal esquerdo de audio. Tambem conecta o *~ com o outlet esquerdo
+;
+#X obj 59 86 inlet;
+#X text 134 102 Dos parametros de criação \, apenas estamos interessados
+no x \, y e id. Fazemos a filtragem dos parametros nesse bloco de mensagem
+, f 77;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X connect 2 0 6 0;
-#X connect 3 0 26 0;
-#X connect 5 0 23 3;
-#X connect 6 0 3 0;
-#X connect 6 1 18 0;
-#X connect 6 1 19 0;
-#X connect 6 2 35 0;
-#X connect 7 0 23 1;
-#X connect 8 0 23 0;
-#X connect 9 0 23 2;
-#X connect 10 0 5 0;
-#X connect 11 0 23 4;
-#X connect 12 0 13 0;
-#X connect 13 0 25 0;
-#X connect 14 0 8 0;
-#X connect 14 1 7 0;
-#X connect 14 2 9 0;
-#X connect 14 3 10 0;
-#X connect 14 4 11 0;
-#X connect 14 5 15 0;
-#X connect 15 0 23 5;
-#X connect 18 0 16 0;
-#X connect 19 0 17 0;
-#X connect 23 0 27 0;
-#X connect 26 0 14 0;
-#X connect 27 0 24 0;
-#X connect 27 1 34 0;
-#X connect 27 2 31 0;
-#X connect 27 3 28 0;
-#X connect 27 4 12 0;
-#X connect 28 0 29 0;
-#X connect 29 0 30 0;
-#X connect 31 0 22 0;
-#X connect 34 0 33 0;
+#X connect 4 0 0 0;
+#X restore 949 136 pd \$0_gera_multiplicadores_esquerdos;
+#N canvas 0 56 1920 985 \$0_gera_multiplicadores_direitos 0;
+#X obj 59 86 inlet;
+#X text 102 35 Cria os blocos *~ responsaveis pelo processamento no
+canal direito de audio. Tambem conecta o *~ com o outlet direito;
+#X msg 59 128 \$1 \$2 \$5;
+#X obj 59 153 ofelia f \; return ofTable(a[1] + 500 \, a[2] + 50 \,
+a[3]+1);
+#X msg 59 199 \; pd-equalizador~.pd obj \$1 \$2 *~ 0 \; pd-equalizador~.pd
+connect \$3 0 3 0 \;;
+#X connect 0 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X restore 733 184 pd \$0_gera_multiplicadores_direitos;
+#X text 919 411 Cria o objeto 2polos2zeros responsavel pelo canal esquerdo
+\, com o botimo e seu phi \, tambem o conecta com o objeto multiplicativo
+e recebe o inlet esquerdo.;
+#X text 964 342 Somamos 2 no a[5] (id) pois antes de chegar nesse bloco
+\, ja criamos 2 blocos (os dois multiplicadores);
+#X text 681 586 Fazemos o mesmo com o canal direito de audio;
+#X text 87 196 Dispara o 2polos2zeros. Se não fizer isso \, meus filtros
+não eram aplicados.;
+#X connect 0 0 3 0;
+#X connect 3 0 2 0;
+#X connect 3 1 6 0;
+#X connect 3 2 4 0;
+#X connect 3 3 9 0;
+#X connect 3 4 8 0;
+#X connect 4 0 1 0;
+#X connect 6 0 5 0;
+#X restore 102 330 pd \$0_gera_blocos_de_processamento;
+#X obj 58 116 t b l l l b, f 26;
+#N canvas 0 56 450 300 \$0_gera_identificacao_do_aluno 0;
+#X obj 21 15 inlet;
+#X text 122 23 Esse subpatch apenas escreve meu nome e numero usp no
+patch principal :);
+#X msg 21 80 \; pd-equalizador~.pd text 90 7 Nome:Caio Tulio de Deus
+Andrade \; pd-equalizador~.pd text 337 5 NUSP:9797232;
+#X connect 0 0 2 0;
+#X restore 58 379 pd \$0_gera_identificacao_do_aluno;
+#X text 25 5 Nome:Caio Tulio de Deus Andrade;
+#X text 272 3 NUSP:9797232;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 9 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 9 0 10 0;
+#X connect 9 1 6 0;
+#X connect 9 2 5 0;
+#X connect 9 3 4 0;
+#X connect 9 4 3 0;
 #X restore 8 5 pd meta;
 #X coords 0 984 1 983 245 180 0;

@@ -31,7 +31,7 @@
 #X connect 6 0 0 0;
 #X restore 1454 584 pd \$0F_plota;
 #X obj 541 81 tgl 24 0 empty \$0F_liga_r LIGA 28 12 0 18 -262130 -1
--1 1 1;
+-1 0 1;
 #X obj 541 110 switch~;
 #N canvas 1166 297 533 342 \$0F_init 0;
 #X obj 36 108 loadbang;
@@ -65,7 +65,7 @@ atualiza), f 21;
 1;
 #X obj 782 311 noise~;
 #X obj 894 28 equalizador-orig~;
-#X obj 1353 340 equalizador~ 0 5512.5 11025 16537.5 22049;
+#X obj 1354 335 equalizador~ 0 5512.5 11025 16537.5 22049;
 #X obj 1352 179 tabplay~ \$0F_impulso;
 #X obj 1352 270 multiplex~;
 #X obj 1352 255 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
