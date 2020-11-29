@@ -64,7 +64,7 @@
 #X floatatom 1245 300 5 0 0 0 - - -;
 #X floatatom 1288 300 5 0 0 0 - - -;
 #X text 1062 301 Psis;
-#X obj 522 417 s \$0_b1, f 6;
+#X obj 596 495 s \$0_b1, f 6;
 #X obj 579 417 s \$0_b2;
 #X obj 627 413 s \$0_b3;
 #X obj 680 416 s \$0_b4;
@@ -85,7 +85,7 @@
 #X floatatom 301 725 5 0 0 0 psi_4 #0_p4 -;
 #X floatatom 327 772 5 0 0 0 psi_5 #0_p5 -;
 #X floatatom 110 589 5 0 0 0 b1 #0_b1 -;
-#X floatatom 215 283 5 0 0 0 b1 #0_b1 -;
+#X floatatom 296 173 5 0 0 0 b1 #0_b1 -;
 #X floatatom 150 641 5 0 0 0 b2 #0_b2 -;
 #X floatatom 180 685 5 0 0 0 b3 #0_b3 -;
 #X floatatom 220 728 5 0 0 0 b4 #0_b4 -;
@@ -129,6 +129,7 @@ float para atualizar o inlet quente do pack a cada atualização do
 inlet frio. Isso gerou efeitos inesperados na geração do meu sinal
 então optei pela solução menos elegante de enviar um bang ao args
 a cada 500ms para lidar com mudanças nos argumentos;
+#X obj 526 570 print primeiro-botimo;
 #X connect 0 0 12 0;
 #X connect 0 0 13 0;
 #X connect 0 0 14 0;
@@ -186,6 +187,7 @@ a cada 500ms para lidar com mudanças nos argumentos;
 #X connect 39 0 35 0;
 #X connect 40 0 33 0;
 #X connect 41 0 59 0;
+#X connect 41 0 100 0;
 #X connect 42 0 41 0;
 #X connect 43 0 47 0;
 #X connect 44 0 48 0;
@@ -217,6 +219,7 @@ a cada 500ms para lidar com mudanças nos argumentos;
 #X connect 78 0 39 2;
 #X connect 79 0 36 1;
 #X connect 80 0 12 1;
+#X connect 80 0 100 0;
 #X connect 81 0 37 1;
 #X connect 82 0 40 1;
 #X connect 83 0 38 1;
@@ -232,5 +235,4 @@ a cada 500ms para lidar com mudanças nos argumentos;
 #X connect 95 0 16 1;
 #X connect 96 0 14 1;
 #X connect 97 0 15 1;
-#X connect 98 0 18 0;
 #X coords 0 -1 1 1 180 180 1 50 50;

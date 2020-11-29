@@ -1,9 +1,8 @@
-#N canvas 0 56 1920 985 12;
-#N canvas 120 385 1920 985 meta 1;
+#N canvas 512 57 959 984 12;
+#N canvas 0 56 1920 985 meta 1;
 #X obj 317 29 loadbang;
 #X msg 316 55 args;
 #X obj 315 79 pdcontrol;
-#X obj 474 46 metro 500;
 #X obj 53 152 ofelia f \; phi = ofTable() \; for i=1 \, #a do \; phi[i]
 = 2 * math.pi * a[i]/ 44000 \; end \; return phi \;;
 #X text 311 218 Calcula psis;
@@ -15,23 +14,15 @@ obj 82 733 outlet~ \; pd-equalizador-auto.pd obj 163 733 outlet~ \;
 #X msg 89 823 \$2;
 #X msg 50 823 \$1;
 #X msg 129 825 \$4;
-#X msg 172 822 \$4 \$3;
-#X obj 428 646 t l l, f 61;
+#X msg 172 814 \$4 \$3;
 #X msg 230 821 \$5;
-#X msg 852 672 \$1 \$2 \$5;
-#X msg 852 736 \; pd-equalizador-auto.pd obj \$1 \$2 *~ \; pd-equalizador-auto.pd
-connect \$3 0 2 0 \; pd-equalizador-auto.pd connect \$3 0 3 0 \;;
-#X obj 852 697 ofelia f \; return ofTable(a[1] - 30 \, a[2] + 50 \,
+#X msg 1056 790 \$1 \$2 \$5;
+#X obj 1056 815 ofelia f \; return ofTable(a[1] - 30 \, a[2] + 50 \,
 a[3]);
 #X obj 67 762 t a a a a a a;
 #X msg 285 825 \$6;
-#X obj 96 947 pack 0 0 0 0 0 0;
-#X obj 428 669 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
+#X obj 630 802 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
 \, a[5] \, a[5] + 1 \, a[6]);
-#X msg 426 708 \; pd-equalizador-auto.pd obj \$1 \$2 2polos2zeros~
-\$4 \$3 \; pd-equalizador-auto.pd connect \$6 0 \$5 1 \; pd-equalizador-auto.pd
-connect 1 0 \$6 0 \; pd-equalizador-auto.pd connect \$7 0 \$5 0 \;
-;
 #X obj 45 272 ofelia f \; local media = 0 \; local succ = 0 \; local
 id = #a + 4 \; local vsl_id = 4 \; local x = 92 \; local y = 320 \;
 local o=ofOutlet(this) \; local tamanho = #a \; for i=1 \, #a do \;
@@ -48,37 +39,56 @@ succ = a[i-1] \; end end \; media = (a[i] + succ)/2 \; o:outletAnything(0
 #X obj 465 215 ofelia f \; return #a*35 + 70 \;;
 #X obj 1081 180 ofelia f \; local o=ofOutlet(this) \; local x = 101
 \; for i=1 \, #a do \; label = math.ceil(a[i]/1000) \; o:outletAnything(0
-\, ofTable(label \, x)) \; x = x + 55 \; end \;;
+\, ofTable(label \, x)) \; x = x + 35 \; end \;;
+#X text 1351 875 Cria o objeto *~ e conecta-o com cada outlet;
+#X text 602 920 Cria o objeto 2polos2zeros com o botimo e seu phi \,
+tambem o conecta com o objeto multiplicativo e recebe o inlet;
+#X msg 628 841 \; pd-equalizador-auto.pd obj \$1 \$2 2polos2zeros~
+\$4 \$3 \; pd-equalizador-auto.pd connect \$6 0 \$5 0 \; pd-equalizador-auto.pd
+connect 1 0 \$6 0 \; pd-equalizador-auto.pd connect \$7 0 \$5 1 \;
+;
+#X msg 1056 854 \; pd-equalizador-auto.pd obj \$1 \$2 *~ 1 \; pd-equalizador-auto.pd
+connect \$3 0 2 0 \; pd-equalizador-auto.pd connect \$3 0 3 0 \;;
+#X obj 506 721 t b l l, f 61;
+#X msg 502 756 pd-2polos2zeros~.pd loadbang;
+#X obj 96 947 pack f f f f f f;
+#X obj 286 919 pack;
+#X msg 311 892 \$2;
+#X obj 286 953 print botimo-phi;
 #X connect 0 0 1 0;
-#X connect 0 0 3 0;
 #X connect 1 0 2 0;
-#X connect 2 0 7 0;
-#X connect 4 0 23 0;
-#X connect 6 0 20 3;
-#X connect 7 0 4 0;
-#X connect 7 1 26 0;
-#X connect 7 1 27 0;
-#X connect 7 2 8 0;
-#X connect 9 0 20 1;
-#X connect 10 0 20 0;
-#X connect 11 0 20 2;
-#X connect 12 0 6 0;
-#X connect 13 0 21 0;
-#X connect 13 1 15 0;
-#X connect 14 0 20 4;
-#X connect 15 0 17 0;
-#X connect 17 0 16 0;
-#X connect 18 0 10 0;
-#X connect 18 1 9 0;
-#X connect 18 2 11 0;
-#X connect 18 3 12 0;
-#X connect 18 4 14 0;
-#X connect 18 5 19 0;
-#X connect 19 0 20 5;
-#X connect 20 0 13 0;
-#X connect 21 0 22 0;
-#X connect 23 0 18 0;
-#X connect 26 0 24 0;
-#X connect 27 0 25 0;
+#X connect 2 0 6 0;
+#X connect 3 0 18 0;
+#X connect 5 0 29 3;
+#X connect 5 0 30 0;
+#X connect 6 0 3 0;
+#X connect 6 1 21 0;
+#X connect 6 1 22 0;
+#X connect 6 2 7 0;
+#X connect 8 0 29 1;
+#X connect 9 0 29 0;
+#X connect 10 0 29 2;
+#X connect 11 0 5 0;
+#X connect 11 0 31 0;
+#X connect 12 0 29 4;
+#X connect 13 0 14 0;
+#X connect 14 0 26 0;
+#X connect 15 0 9 0;
+#X connect 15 1 8 0;
+#X connect 15 2 10 0;
+#X connect 15 3 11 0;
+#X connect 15 4 12 0;
+#X connect 15 5 16 0;
+#X connect 16 0 29 5;
+#X connect 17 0 25 0;
+#X connect 18 0 15 0;
+#X connect 21 0 19 0;
+#X connect 22 0 20 0;
+#X connect 27 0 28 0;
+#X connect 27 1 17 0;
+#X connect 27 2 13 0;
+#X connect 29 0 27 0;
+#X connect 30 0 32 0;
+#X connect 31 0 30 1;
 #X restore 8 5 pd meta;
-#X coords 0 985 1 984 245 180 0;
+#X coords 0 984 1 983 245 180 0;

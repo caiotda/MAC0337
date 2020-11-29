@@ -46,30 +46,33 @@ ofelia f;
 
 
 ofelia f;
-local media = 0;
-local succ = 0;
-local x = 300;
-local y = 400;
-local o=ofOutlet(this);
-local tamanho = #a;
-for i=1, #a do;
-    if i==1 and a[1] >= math.pi/2 then;
-        media = (a[1]/2);
-    end;
-    if a[i] < math.pi/2 then;
-        if i==tamanho then;
-            succ = math.pi
+    local media = 0;
+    local succ = 0;
+    local id = #a + 4;
+    local vsl_id = 4;
+    local x = 92;
+    local y = 320;
+    local o=ofOutlet(this);
+    local tamanho = #a;
+    for i=1, #a do;
+        if a[i] < math.pi/2 then;
+            if i==tamanho then;
+                succ = math.pi;
+            else;
+                succ = a[i+1];
+            end;
         else;
-            succ = a[i+1];
+            if i==1 then;
+                succ = 0;
+            else;
+                succ = a[i-1];
+            end
         end;
-    else;
-        if i==1 then;
-            succ = 0
-        else;
-            succ = a[i-1];
-        end
+        media = (a[i] + succ)/2;
+        o:outletAnything(0, ofTable(x, y, media, a[i], id, vsl_id));
+        x = x + 30;
+        y = y + 30;
+        id = id + 2;
+        vsl_id = vsl_id + 1;
     end;
-    media = (a[i] + succ)/2;
-    o:outletAnything(0, ofTable(x, y, media, a[i]));
-    x = x + 300;
-end;
+
