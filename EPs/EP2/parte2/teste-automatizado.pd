@@ -1,2 +1,2 @@
 #N canvas 961 56 959 984 12;
-#X obj 93 108 equalizador-auto 0 5512.5 11025 16537.5 22049;
+#X obj 93 108 equalizador~ 0 5512.5 11025 16537.5 22049;

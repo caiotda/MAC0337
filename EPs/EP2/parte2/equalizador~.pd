@@ -18,9 +18,9 @@
 a[3]);
 #X obj 67 762 t a a a a a a;
 #X msg 285 825 \$6;
-#X msg 465 262 \; pd-equalizador-auto.pd coords 0 -1 1 1 \$1 180 1
+#X msg 465 262 \; pd-equalizador~.pd coords 0 -1 1 1 \$1 180 1
 100 100 \;;
-#X msg 1081 331 \; pd-equalizador-auto.pd obj \$2 140 vsl 15 128 1e-05
+#X msg 1081 331 \; pd-equalizador~.pd obj \$2 140 vsl 15 128 1e-05
 1 0 0 empty empty \$1khz 0 -9 0 10 -262144 -1 -1 0 1 \;;
 #X obj 465 215 ofelia f \; return #a*35 + 70 \;;
 #X obj 1081 180 ofelia f \; local o=ofOutlet(this) \; local x = 101
@@ -29,13 +29,13 @@ a[3]);
 #X text 1398 626 Cria o objeto *~ e conecta-o com cada outlet;
 #X text 895 782 Cria o objeto 2polos2zeros com o botimo e seu phi \,
 tambem o conecta com o objeto multiplicativo e recebe o inlet;
-#X msg 897 699 \; pd-equalizador-auto.pd obj \$1 \$2 2polos2zeros~
-\$4 \$3 \; pd-equalizador-auto.pd connect \$6 0 \$5 0 \; pd-equalizador-auto.pd
-connect 1 0 \$6 0 \; pd-equalizador-auto.pd connect \$7 0 \$5 1 \;
+#X msg 897 699 \; pd-equalizador~.pd obj \$1 \$2 2polos2zeros~
+\$4 \$3 \; pd-equalizador~.pd connect \$6 0 \$5 0 \; pd-equalizador~.pd
+connect 1 0 \$6 0 \; pd-equalizador~.pd connect \$7 0 \$5 1 \;
 ;
 #X obj 96 947 pack f f f f f f;
 #X msg 468 456 \; pd-2polos2zeros~.pd loadbang;
-#X msg 1385 552 \; pd-equalizador-auto.pd obj \$1 \$2 *~ 0 \; pd-equalizador-auto.pd
+#X msg 1385 552 \; pd-equalizador~.pd obj \$1 \$2 *~ 0 \; pd-equalizador~.pd
 connect \$3 0 2 0 \;;
 #X obj 45 272 ofelia f \; local media = 0 \; local succ = 0 \; local
 id = #a + 5 \; local vsl_id = 5 \; local x = 92 \; local y = 320 \;
@@ -50,21 +50,21 @@ succ = a[i-1] \; end end \; media = (a[i] + succ)/2 \; o:outletAnything(0
 #X msg 1038 485 \$1 \$2 \$5;
 #X obj 1038 510 ofelia f \; return ofTable(a[1] + 500 \, a[2] + 50
 \, a[3]+1);
-#X msg 1038 556 \; pd-equalizador-auto.pd obj \$1 \$2 *~ 0 \; pd-equalizador-auto.pd
+#X msg 1038 556 \; pd-equalizador~.pd obj \$1 \$2 *~ 0 \; pd-equalizador~.pd
 connect \$3 0 3 0 \;;
 #X obj 899 660 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
 \, a[5] \, a[5] + 2 \, a[6]);
 #X text 458 850 Cria o objeto 2polos2zeros com o botimo e seu phi \,
 tambem o conecta com o objeto multiplicativo e recebe o inlet;
-#X msg 460 767 \; pd-equalizador-auto.pd obj \$1 \$2 2polos2zeros~
-\$4 \$3 \; pd-equalizador-auto.pd connect \$6 0 \$5 0 \; pd-equalizador-auto.pd
-connect 4 0 \$6 0 \; pd-equalizador-auto.pd connect \$7 0 \$5 1 \;
+#X msg 460 767 \; pd-equalizador~.pd obj \$1 \$2 2polos2zeros~
+\$4 \$3 \; pd-equalizador~.pd connect \$6 0 \$5 0 \; pd-equalizador~.pd
+connect 4 0 \$6 0 \; pd-equalizador~.pd connect \$7 0 \$5 1 \;
 ;
 #X obj 460 659 ofelia f \; return ofTable(a[1]+500 \, a[2] \, a[3]
 \, a[4] \, a[5]+1 \, a[5] + 3 \, a[6]);
-#X msg 1061 93 \; pd-equalizador-auto.pd obj 12 253 inlet~ \; pd-equalizador-auto.pd
-obj 82 733 outlet~ \; pd-equalizador-auto.pd obj 600 733 outlet~ \;
-pd-equalizador-auto.pd obj 680 230 inlet~ \;;
+#X msg 1061 93 \; pd-equalizador~.pd obj 12 253 inlet~ \; pd-equalizador~.pd
+obj 82 733 outlet~ \; pd-equalizador~.pd obj 600 733 outlet~ \;
+pd-equalizador~.pd obj 680 230 inlet~ \;;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 6 0;
