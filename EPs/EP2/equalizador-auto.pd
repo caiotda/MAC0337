@@ -1,5 +1,5 @@
 #N canvas 512 57 959 984 12;
-#N canvas 0 56 1920 985 meta 0;
+#N canvas 0 56 1920 985 meta 1;
 #X obj 317 29 loadbang;
 #X msg 316 55 args;
 #X obj 315 79 pdcontrol;
@@ -8,9 +8,6 @@
 #X text 311 218 Calcula psis;
 #X obj 172 847 Botimo;
 #X obj 340 110 t l l b;
-#X msg 1060 93 \; pd-equalizador-auto.pd obj 12 253 inlet~ \; pd-equalizador-auto.pd
-obj 82 733 outlet~ \; pd-equalizador-auto.pd obj 163 733 outlet~ \;
-;
 #X msg 89 823 \$2;
 #X msg 50 823 \$1;
 #X msg 129 825 \$4;
@@ -23,15 +20,6 @@ a[3]);
 #X msg 285 825 \$6;
 #X obj 630 802 ofelia f \; return ofTable(a[1] \, a[2] \, a[3] \, a[4]
 \, a[5] \, a[5] + 1 \, a[6]);
-#X obj 45 272 ofelia f \; local media = 0 \; local succ = 0 \; local
-id = #a + 4 \; local vsl_id = 4 \; local x = 92 \; local y = 320 \;
-local o=ofOutlet(this) \; local tamanho = #a \; for i=1 \, #a do \;
-if i==1 and a[1] >= math.pi/2 then \; media = (a[1]/2) \; end \; if
-a[i] < math.pi/2 then \; if i==tamanho then \; succ = math.pi else
-\; succ = a[i+1] \; end \; else \; if i==1 then \; succ = 0 else \;
-succ = a[i-1] \; end end \; media = (a[i] + succ)/2 \; o:outletAnything(0
-\, ofTable(x \, y \, media \, a[i] \, id \, vsl_id)) \; x = x + 30
-\; y = y + 30 \; id = id + 2 \; vsl_id = vsl_id + 1 \; end \;;
 #X msg 465 262 \; pd-equalizador-auto.pd coords 0 -1 1 1 \$1 180 1
 100 100 \;;
 #X msg 1081 331 \; pd-equalizador-auto.pd obj \$2 140 vsl 15 128 1e-05
@@ -53,42 +41,54 @@ connect 1 0 \$6 0 \; pd-equalizador-auto.pd connect \$7 0 \$5 1 \;
 #X msg 311 892 \$2;
 #X obj 286 953 print botimo-phi;
 #X msg 502 756 \; pd-2polos2zeros~.pd loadbang;
-#X msg 1056 855 \; pd-equalizador-auto.pd obj \$1 \$2 *~ 0 \; pd-equalizador-auto.pd
-connect \$3 0 2 0 \; pd-equalizador-auto.pd connect \$3 0 3 0 \;;
+#X msg 1052 861 \; pd-equalizador-auto.pd obj \$1 \$2 *~ 0 \; pd-equalizador-auto.pd
+connect \$3 0 2 0 \;;
+#X msg 1060 93 \; pd-equalizador-auto.pd obj 12 253 inlet~ \; pd-equalizador-auto.pd
+obj 82 733 outlet~ \; pd-equalizador-auto.pd obj 163 733 outlet~ \;
+pd-equalizador-auto.pd obj 502 253 inlet~ \;;
+#X obj 45 272 ofelia f \; local media = 0 \; local succ = 0 \; local
+id = #a + 5 \; local vsl_id = 5 \; local x = 92 \; local y = 320 \;
+local o=ofOutlet(this) \; local tamanho = #a \; for i=1 \, #a do \;
+if i==1 and a[1] >= math.pi/2 then \; media = (a[1]/2) \; end \; if
+a[i] < math.pi/2 then \; if i==tamanho then \; succ = math.pi else
+\; succ = a[i+1] \; end \; else \; if i==1 then \; succ = 0 else \;
+succ = a[i-1] \; end end \; media = (a[i] + succ)/2 \; o:outletAnything(0
+\, ofTable(x \, y \, media \, a[i] \, id \, vsl_id)) \; x = x + 30
+\; y = y + 30 \; id = id + 2 \; vsl_id = vsl_id + 1 \; end \;;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 6 0;
-#X connect 3 0 18 0;
-#X connect 5 0 27 3;
-#X connect 5 0 28 0;
+#X connect 3 0 32 0;
+#X connect 5 0 25 3;
+#X connect 5 0 26 0;
 #X connect 6 0 3 0;
-#X connect 6 1 21 0;
-#X connect 6 1 22 0;
-#X connect 6 2 7 0;
-#X connect 8 0 27 1;
-#X connect 9 0 27 0;
-#X connect 10 0 27 2;
-#X connect 11 0 5 0;
-#X connect 11 0 29 0;
-#X connect 12 0 27 4;
-#X connect 13 0 14 0;
-#X connect 14 0 32 0;
-#X connect 15 0 9 0;
-#X connect 15 1 8 0;
-#X connect 15 2 10 0;
-#X connect 15 3 11 0;
-#X connect 15 4 12 0;
-#X connect 15 5 16 0;
-#X connect 16 0 27 5;
-#X connect 17 0 25 0;
-#X connect 18 0 15 0;
-#X connect 21 0 19 0;
-#X connect 22 0 20 0;
-#X connect 26 0 31 0;
-#X connect 26 1 17 0;
-#X connect 26 2 13 0;
-#X connect 27 0 26 0;
-#X connect 28 0 30 0;
-#X connect 29 0 28 1;
+#X connect 6 1 19 0;
+#X connect 6 1 20 0;
+#X connect 6 2 31 0;
+#X connect 7 0 25 1;
+#X connect 8 0 25 0;
+#X connect 9 0 25 2;
+#X connect 10 0 5 0;
+#X connect 10 0 27 0;
+#X connect 11 0 25 4;
+#X connect 12 0 13 0;
+#X connect 13 0 30 0;
+#X connect 14 0 8 0;
+#X connect 14 1 7 0;
+#X connect 14 2 9 0;
+#X connect 14 3 10 0;
+#X connect 14 4 11 0;
+#X connect 14 5 15 0;
+#X connect 15 0 25 5;
+#X connect 16 0 23 0;
+#X connect 19 0 17 0;
+#X connect 20 0 18 0;
+#X connect 24 0 29 0;
+#X connect 24 1 16 0;
+#X connect 24 2 12 0;
+#X connect 25 0 24 0;
+#X connect 26 0 28 0;
+#X connect 27 0 26 1;
+#X connect 32 0 14 0;
 #X restore 8 5 pd meta;
 #X coords 0 984 1 983 245 180 0;
