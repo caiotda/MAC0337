@@ -11,6 +11,7 @@ function ofelia.list(a);
     M.output = ofTable()
     M.L = math.floor(R/F)
     M.ks = ofTable()
+    M.alpha = 1
     for j = 1, M.L do;
         M.ks[j] = 2*math.random() - 1;
     end;
@@ -21,12 +22,15 @@ end;
 function ofelia.perform();
     if M.blocks < M.duration then;
         for n=1, 64 do;
+            if M.blocks > M.duration - 10 then;
+                M.alpha = math.max(0, M.alpha - 0.1)
+            end;
             -- Etapa de construção da saida. --
             M.output[n] = M.ks[M.i];
-            -- Etapa de atualização da tabela. --
-            --M.ant = ; -- Armazena o x[n] antes de aplicar o filtro da media
+            -- Armazena o próximo valor que M.ant receberá
             aux = M.ks[M.i]
-            M.ks[M.i] =  (M.ks[M.i] + M.ant)/2;
+            -- Etapa de atualização da tabela. --
+            M.ks[M.i] =  M.alpha*(M.ks[M.i] + M.ant)/2;
             M.ant = aux
             M.i = M.i%M.L + 1;
             M.blocks = M.blocks + 1
