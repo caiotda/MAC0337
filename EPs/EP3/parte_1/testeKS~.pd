@@ -1,0 +1,42 @@
+#N canvas 155 89 888 557 10;
+#X obj 42 273 ofelia d -s11;
+#X msg 62 249 read -c karplusstrong~.lua;
+#X obj 62 226 loadbang;
+#X obj 42 22 key;
+#X obj 42 349 dac~;
+#X obj 42 118 mtof;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array sinal 220500 float 2;
+#X coords 0 1 220500 -1 800 140 1 0 0;
+#X restore 41 392 graph;
+#X obj 62 298 tabwrite~ sinal;
+#X obj 42 44 ofelia f \; --[[ aceita apenas teclas entre 'a'e 'z' ]]
+\; if a>=97 and a<=122 then \; return a-49 --[[ mapeia 'a' em MIDI
+60 ]] \; end;
+#X text 78 118 converte MIDI para frequência em Hz;
+#X text 71 22 recebe uma tecla;
+#X obj 42 324 *~ 1;
+#X obj 196 311 hsl 128 15 0.001 1 1 1 empty empty Volume -2 -8 0 10
+-262144 -1 -1 5400 1;
+#X text 93 144 começa a registrar o sinal e repassa a frequência
+;
+#X text 147 174 gera parâmetros de ataque aleatoriamente:;
+#X obj 81 173 random 20;
+#X obj 42 144 t f b b;
+#X obj 42 202 pack f 5 f;
+#X text 111 203 cria mensagem | F D A < com duração fixa D=5;
+#X connect 0 0 11 0;
+#X connect 0 0 7 0;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 8 0;
+#X connect 5 0 16 0;
+#X connect 8 0 5 0;
+#X connect 11 0 4 0;
+#X connect 11 0 4 1;
+#X connect 12 0 11 1;
+#X connect 15 0 17 2;
+#X connect 16 0 17 0;
+#X connect 16 1 7 0;
+#X connect 16 2 15 0;
+#X connect 17 0 0 0;
