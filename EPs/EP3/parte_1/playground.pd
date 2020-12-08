@@ -1,8 +1,8 @@
-#N canvas 948 481 450 300 12;
+#N canvas 0 576 959 463 12;
 #X obj 34 162 loadbang;
 #X obj 133 186 karplusstrong~;
-#X obj 133 211 outlet~;
-#X msg 133 156 440 0.2;
+#X msg 134 120 440 0.2;
+#X obj 133 211 dac~;
 #X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X connect 3 0 1 0;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
