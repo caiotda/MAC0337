@@ -1,46 +1,65 @@
-#N canvas 0 787 959 984 12;
-#X obj 86 48 inlet~;
-#X obj 86 73 rfft~;
-#X obj 86 98 cyclone/cartopol~;
-#X obj 83 195 tabsend~ magnitude;
-#X obj 201 133 tabsend~ fase;
-#N canvas 0 56 450 250 (subpatch) 0;
-#X array magnitude 1 float 3;
-#A 0 0;
-#X coords 0 1 1 -1 200 140 1 0 0;
-#X restore 59 266 graph;
+#N canvas 951 56 959 984 12;
+#X obj 74 -3126 inlet~;
+#X obj 74 -3101 rfft~;
+#X obj 74 -3076 cyclone/cartopol~;
+#X obj 71 -2979 tabsend~ magnitude;
+#X obj 189 -3041 tabsend~ fase;
+#X obj 358 -3106 block~ \$1;
+#X obj 550 -3117 loadbang;
+#X obj 549 -3092 \$1;
+#X obj 547 -3070 max 64;
+#X msg 565 -3024 \; magnitude resize \$1 \; fase resize \$1 \;;
+#X obj 134 -2641 array max magnitude;
+#X floatatom 134 -2616 5 0 0 0 - - -;
+#X floatatom 267 -2618 5 0 0 1 indice - -;
+#X text 40 -2614 valor;
+#X floatatom 385 -2535 5 0 0 0 - - -;
+#X text 525 -2551 Converte pra frequência;
+#X text 440 -2524 Obtém a frequência fundamental;
+#X obj 385 -2560 expr $f1*44100/$f2;
 #N canvas 0 50 450 250 (subpatch) 0;
-#X array fase 1 float 3;
-#A 0 0;
-#X coords 0 1 1 -1 200 140 1;
-#X restore 315 267 graph;
-#X obj 370 68 block~ \$1;
-#X obj 561 57 loadbang;
-#X obj 561 82 \$1;
-#X obj 561 107 max 64;
-#X msg 561 132 \; magnitude resize \$1 \; fase resize \$1 \;;
-#X obj 146 533 array max magnitude;
-#X obj 146 498 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X array magnitude 64 float 3;
+#A 0 13.8844 26.4264 15.4161 4.22676 2.09135 1.26456 0.850255 0.61115
+0.459998 0.358098 0.286037 0.233094 0.193015 0.161922 0.137232 0.117308
+0.100906 0.0872893 0.0757911 0.0659685 0.0574877 0.0500825 0.0435593
+0.037786 0.0324139 0.0277148 0.0233405 0.0194944 0.0158124 0.0124794
+0.0095849 0.00738847 0.00650808 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0;
+#X coords 0 1 64 -1 200 140 1;
+#X restore 25 -2864 graph;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array fase 64 float 3;
+#A 0 0 0.0536098 -3.03435 -2.98067 -2.92693 -2.8731 -2.81915 -2.76506
+-2.71077 -2.65628 -2.60157 -2.54653 -2.49118 -2.4352 -2.37892 -2.32197
+-2.26443 -2.20591 -2.14631 -2.08549 -2.02301 -1.95839 -1.89126 -1.82095
+-1.74355 -1.6617 -1.56837 -1.46568 -1.33429 -1.1631 -0.91764 -0.539393
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+#X coords 0 1 64 -1 200 140 1;
+#X restore 249 -2873 graph;
+#X obj 131 -2682 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 146 558 5 0 0 0 - - -;
-#X floatatom 273 558 5 0 0 1 indice - -;
-#X text 52 560 valor;
-#X obj 273 582 expr $f1*44100/\$1;
-#X floatatom 273 607 5 0 0 0 - - -;
-#X text 409 582 Converte pra frequência;
-#X text 324 609 Obtém a frequência fundamental;
-#X msg 566 308 \$1;
-#X obj 566 333 print;
+#X obj 115 -2174 print \$1;
+#X obj 495 -3023 v N;
+#X floatatom 260 -2214 5 0 0 0 - - -;
+#X obj 262 -2441 ofelia f \; local F = ofArray("magnitude") \; local
+out = ofTable() \; local k = a \; local N = ofValue("N"):get() \; print(k)
+\; print(N) \; if k > 0 and k < N/2 then \; A = (F[k+1] - 2 * F[k]
++ F[k-1])/2 \; B = (F[k+1] - F[k-1])/2 \; C = F[k] \; maximo = k -
+B/(2*A) \; maximo = maximo * 44100 / N \; end \; return maximo;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
+#X connect 1 1 2 1;
 #X connect 2 0 3 0;
 #X connect 2 1 4 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
 #X connect 8 0 9 0;
-#X connect 9 0 10 0;
+#X connect 8 0 17 1;
+#X connect 8 0 22 0;
 #X connect 10 0 11 0;
-#X connect 12 0 14 0;
-#X connect 12 1 15 0;
-#X connect 13 0 12 0;
-#X connect 15 0 17 0;
-#X connect 17 0 18 0;
-#X connect 21 0 22 0;
+#X connect 10 1 12 0;
+#X connect 12 0 17 0;
+#X connect 12 0 24 0;
+#X connect 17 0 14 0;
+#X connect 20 0 10 0;
+#X connect 24 0 23 0;
