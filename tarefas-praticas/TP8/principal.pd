@@ -1,4 +1,4 @@
-#N canvas 0 55 1920 985 12;
-#X obj 167 91 rastreiaF0~ 64;
+#N canvas 0 56 1920 985 12;
+#X obj 172 112 rastreiaF0~ 64;
 #X obj 173 61 osc~ 1000;
 #X connect 1 0 0 0;
