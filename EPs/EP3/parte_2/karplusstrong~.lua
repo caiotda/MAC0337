@@ -18,6 +18,30 @@ function ofelia.list(a);
     -- Variavel utilizada para iterarmos pela tabela ks
     M.i = 1
 
+    g_0 = math.cos(math.pi * F/R)
+    g_1 = 10^(-3/(F * D))
+    if g_0 >= g_1 then;
+        M.ro = g_1/g_0
+        M.s = 0.5
+    else
+        M.ro = 1
+        cos_arg = 2 * math.cos(2 * math.pi * F/R)
+        A =  2 - cos_arg
+        B = cos_arg - 2
+        C = (1 - g_1)^2
+
+        delta = B^2 - 4 * a * c
+        x1 = -B + math.sqrt(delta)/ 2 * A
+        x2 = -B - math.sqrt(delta)/ 2 * A
+        if x1 >= 0 and x1 <= 0.5 then
+            m.s = x1
+        end
+
+        if x2 >= 0 and x2 <= 0.5 then
+            m.s = x2
+        end
+    end;
+
     -- Numero de blocos processados
     M.blocks = 0
     M.output = ofTable()
@@ -64,7 +88,7 @@ function ofelia.perform();
             -- Armazena o próximo valor que M.ant receberá
             aux = M.ks[M.i]
             -- Etapa de atualização da tabela. --
-            M.ks[M.i] =  M.alpha*(M.ks[M.i] + M.ant)/2;
+            M.ks[M.i] =  M.ro * M.alpha * ((1 - M.s) * M.ks[M.i] + M.s * M.ant);
             M.ant = aux
             M.i = M.i%M.L + 1;
             M.blocks = M.blocks + 1
