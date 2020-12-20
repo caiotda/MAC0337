@@ -1,0 +1,128 @@
+#N canvas 321 89 852 707 10;
+#X obj 42 533 ofelia d -s11;
+#X msg 62 509 read -c karplusstrong~.lua;
+#X obj 62 486 loadbang;
+#X obj 42 687 dac~;
+#X obj 42 378 mtof;
+#X text 78 378 converte MIDI para frequência em Hz;
+#X obj 42 662 *~ 1;
+#X obj 196 649 hsl 128 15 0.001 1 1 1 empty empty Volume -2 -8 0 10
+-262144 -1 -1 5600 1;
+#X text 92 404 começa a registrar o sinal e repassa a frequência
+;
+#X obj 42 48 cyclone/seq;
+#X msg 144 16 start;
+#X obj 42 96 cyclone/counter 1 3;
+#X obj 42 147 route 1 2 3;
+#X obj 42 71 t b f;
+#X obj 42 121 pack f f;
+#X obj 84 172 t b f;
+#X obj 42 197 pack 0 f f f;
+#X obj 42 353 spigot;
+#X text 121 49 produz eventos MIDI (canal \, nota \, velocity);
+#X text 175 196 empacota e desempacota para garantir a ordem de chegada
+(velocity \, nota \, canal), f 28;
+#X text 90 71 organiza os eventos em listas:;
+#X text 174 97 prefixa cada número por um contador (1=canal \, 2=nota
+\, 3=velocity), f 36;
+#X text 175 137 encaminha cada valor para a posição correspondente
+na lista \, e dispara a produção da lista após a chegada do velocity.
+, f 33;
+#X obj 42 616 *~ 1;
+#X text 80 616 ajusta ao velocity do evento MIDI;
+#X obj 63 566 sel 0;
+#X obj 63 589 / 127;
+#X obj 111 320 t f f;
+#X text 90 352 só deixa passar notas com velocity>0;
+#X text 154 319 usa velocity para controle de volume e de passagem
+de notas, f 37;
+#X obj 42 221 list split 1;
+#X obj 78 243 print EVENTO MIDI;
+#X obj 452 533 ofelia d -s11;
+#X msg 472 509 read -c karplusstrong~.lua;
+#X obj 472 486 loadbang;
+#X obj 452 378 mtof;
+#X text 488 378 converte MIDI para frequência em Hz;
+#X obj 452 662 *~ 1;
+#X obj 606 649 hsl 128 15 0.001 1 1 1 empty empty Volume -2 -8 0 10
+-262144 -1 -1 5800 1;
+#X text 502 404 começa a registrar o sinal e repassa a frequência
+;
+#X obj 452 353 spigot;
+#X obj 452 616 *~ 1;
+#X text 490 616 ajusta ao velocity do evento MIDI;
+#X obj 473 566 sel 0;
+#X obj 473 589 / 127;
+#X obj 521 320 t f f;
+#X text 500 352 só deixa passar notas com velocity>0;
+#X text 564 319 usa velocity para controle de volume e de passagem
+de notas, f 37;
+#X obj 42 270 route 144 145;
+#X obj 42 295 unpack f f;
+#X obj 452 295 unpack f f;
+#X msg 42 16 read bach.midi;
+#X text 132 269 encaminha cada canal do arquivo bach.midi para um sintetizador
+separado, f 74;
+#X text 148 433 gera parâmetros de ataque aleatoriamente:;
+#X obj 81 432 random 20;
+#X obj 42 404 t f b b;
+#X obj 452 404 t f b b;
+#X obj 491 432 random 20;
+#X text 558 433 gera parâmetros de ataque aleatoriamente:;
+#X obj 42 462 pack f 5 f;
+#X obj 452 462 pack f 5 f;
+#X text 111 463 cria mensagem | F D A < com duração fixa D=5;
+#X text 521 463 cria mensagem | F D A < com duração fixa D=5;
+#X connect 0 0 23 0;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 4 0 55 0;
+#X connect 6 0 3 0;
+#X connect 7 0 6 1;
+#X connect 9 0 13 0;
+#X connect 10 0 9 0;
+#X connect 11 0 14 0;
+#X connect 12 0 16 1;
+#X connect 12 1 16 2;
+#X connect 12 2 15 0;
+#X connect 13 0 11 0;
+#X connect 13 1 14 1;
+#X connect 14 0 12 0;
+#X connect 15 0 16 0;
+#X connect 15 1 16 3;
+#X connect 16 0 30 0;
+#X connect 17 0 4 0;
+#X connect 23 0 6 0;
+#X connect 25 1 26 0;
+#X connect 26 0 23 1;
+#X connect 27 0 17 1;
+#X connect 27 1 25 0;
+#X connect 30 1 31 0;
+#X connect 30 1 48 0;
+#X connect 32 0 41 0;
+#X connect 33 0 32 0;
+#X connect 34 0 33 0;
+#X connect 35 0 56 0;
+#X connect 37 0 3 1;
+#X connect 38 0 37 1;
+#X connect 40 0 35 0;
+#X connect 41 0 37 0;
+#X connect 43 1 44 0;
+#X connect 44 0 41 1;
+#X connect 45 0 40 1;
+#X connect 45 1 43 0;
+#X connect 48 0 49 0;
+#X connect 48 1 50 0;
+#X connect 49 0 17 0;
+#X connect 49 1 27 0;
+#X connect 50 0 40 0;
+#X connect 50 1 45 0;
+#X connect 51 0 9 0;
+#X connect 54 0 59 2;
+#X connect 55 0 59 0;
+#X connect 55 2 54 0;
+#X connect 56 0 60 0;
+#X connect 56 2 57 0;
+#X connect 57 0 60 2;
+#X connect 59 0 0 0;
+#X connect 60 0 32 0;
