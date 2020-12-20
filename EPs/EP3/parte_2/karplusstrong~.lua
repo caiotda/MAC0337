@@ -10,6 +10,9 @@ function ofelia.list(a);
     F = a[1]
     -- Duração da nota, em segundos
     D = a[2]
+    -- Duração, em blocos, do ataque.
+    ataque = a[3]
+    print(ataque)
 
     M.duration = math.floor(D*R + 0.5)
     -- Variavel utilizada para iterarmos pela tabela ks
@@ -21,6 +24,10 @@ function ofelia.list(a);
 
     -- Tamanho da tabela ks
     M.L = math.floor(R/F)
+    if ataque == nil then
+        ataque = 0
+    end
+    count = M.L * ataque
     M.ks = ofTable()
 
     -- Fator de decaimentos das ultimas dez notas. Sera decrescido num fator de
@@ -33,6 +40,16 @@ function ofelia.list(a);
     end;
 
     M.ant = M.ks[(-1)%M.L + 1]
+    ant = M.ant
+    i = 1
+    for j=1, count do;
+        -- Armazena o próximo valor que M.ant receberá
+        aux = M.ks[i]
+        -- Etapa de atualização da tabela. --
+        M.ks[i] =  (M.ks[i] + ant)/2;
+        ant = aux
+        i = i%M.L + 1
+    end
     return M.ks
 end;
 
