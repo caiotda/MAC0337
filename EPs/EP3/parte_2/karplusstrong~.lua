@@ -30,24 +30,28 @@ function ofelia.list(a);
         B = cos_arg - 2
         C = (1 - g_1)^2
 
-        delta = B^2 - 4 * a * c
-        x1 = -B + math.sqrt(delta)/ 2 * A
-        x2 = -B - math.sqrt(delta)/ 2 * A
+        delta_eq = B^2 - 4 * a * c
+        x1 = -B + math.sqrt(delta_eq)/ 2 * A
+        x2 = -B - math.sqrt(delta_eq)/ 2 * A
         if x1 >= 0 and x1 <= 0.5 then
-            m.s = x1
+            M.s = x1
         end
 
         if x2 >= 0 and x2 <= 0.5 then
-            m.s = x2
+            M.s = x2
         end
     end;
+
 
     -- Numero de blocos processados
     M.blocks = 0
     M.output = ofTable()
 
     -- Tamanho da tabela ks
-    M.L = math.floor(R/F)
+    M.L = math.floor(R/F - M.s)
+
+    delta = R/F - (M.L + M.s)
+    M.C = (1 - delta)/(1 + delta )
     if ataque == nil then
         ataque = 0
     end
@@ -61,9 +65,12 @@ function ofelia.list(a);
     -- Inicialização da tabela ks com valores aleatórios
     for j = 1, M.L do;
         M.ks[j] = 2*math.random() - 1;
+        -- Inicializa o output para fazer o filtro passa tudo --
+        M.output[j] = M.ks[j]
     end;
 
     M.ant = M.ks[(-1)%M.L + 1]
+    M.ant_output = M.output[(-1)%M.L + 1]
     ant = M.ant
     i = 1
     for j=1, count do;
@@ -83,8 +90,10 @@ function ofelia.perform();
             if M.blocks > M.duration - 10 then;
                 M.alpha = math.max(0, M.alpha - 0.1)
             end;
-            -- Etapa de construção da saida. --
-            M.output[n] = M.ks[M.i];
+            -- Aplica o filtro passa tudo. --
+            M.output[n] = M.C * M.ks[M.i] + M.ant - M.C*M.ant_output
+            M.ant_output = M.output[n]
+            --M.ks[M.ant] - M.C * M.output[M.ant];
             -- Armazena o próximo valor que M.ant receberá
             aux = M.ks[M.i]
             -- Etapa de atualização da tabela. --
